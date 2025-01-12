@@ -1,0 +1,160 @@
+
+{
+  "code": 200,
+  "message": "Operation successful",
+  "id": 99,
+  "form": {
+    "title": "A Sample Form",
+    "children" : [
+    ],
+    "components": [
+      {
+        "label": "Service Name",
+        "id": 1,
+        "type": "textField",
+        "mandatory": {
+          "type": "ALWAYS",
+          "ids": [
+            2
+          ]
+        },
+        "schema": {
+          "regex": "^[A-Za-z0-9_.]+$"
+        }
+      },
+      {
+        "label": "Urgent Delivery Within",
+        "id": 63,
+        "type": "date",
+        "mandatory": {
+          "type": "NEVER"
+        },
+        "schema": {
+          "format": "dd MMM, yyyy",
+          "minDate": "17 May, 2022",
+          "maxDate": "17 Jun, 2022"
+        }
+      },
+      {
+        "label": "Your Profile Picture",
+        "id": 63,
+        "type": "file",
+        "mandatory": {
+          "type": "ALWAYS"
+        },
+        "schema": {
+          "isMultiple": true,
+          "allowedTypes":[
+            "*/*",
+            "applicaiton/text",
+            "applicaiton/png"
+          ],
+          "maxSize": 10
+        }
+      },
+      {
+        "label": "Service Type",
+        "id": 2,
+        "type": "dropdown",
+
+        "schema": {
+          "values": [
+            {
+              "value": "Laptop",
+              "components": null
+            },
+            {
+              "value": "Mobile",
+              "components": null
+            },
+            {
+              "value": "Other",
+              "components": [
+                {
+                  "label": "Name",
+                  "id": 9,
+                  "type": "textField",
+                  "mandatory": {
+                    "type": "ALWAYS"
+                  },
+                  "schema": {
+                    "regex": "^[A-Za-z0-9_.]+$"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "label": "Additional Gadgets",
+        "id": 27,
+        "type": "checkBox",
+
+        "schema": {
+          "values": [
+            {
+              "value": "USB hubs",
+              "components": [
+                {
+                  "label": "How many hub you may need?",
+                  "id": 212,
+                  "type": "radioButton",
+
+                  "schema": {
+                    "values": [
+                      {
+                        "value": "3",
+                        "components": null
+                      },
+                      {
+                        "value": "4",
+                        "components": null
+                      },
+                      {
+                        "value": "5",
+                        "components": null
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "value": "Webcam",
+              "components": [
+                {
+                  "label": "Preferred Brand",
+                  "id": 90,
+                  "type": "textField",
+                  "mandatory": {
+                    "type": "NEVER"
+                  },
+                  "schema": {
+                    "regex": "^[A-Za-z0-9_.]+$"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "SSD",
+              "components": [
+                {
+                  "label": "Size in Gigabytes",
+                  "id": 94,
+                  "type": "textField",
+                  "mandatory": {
+                    "type": "ALWAYS"
+                  },
+                  "schema": {
+                    "regex": "^[0-9.]+$"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

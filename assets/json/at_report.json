@@ -1,0 +1,106 @@
+{
+
+  "code": 200,
+
+  "message": "Operation Successful",
+
+  "previousRecords": [
+
+    {
+
+      "clockIn": "10:00:46",
+
+      "clockOut": null,
+
+      "date": "2022-04-26"
+
+    },
+    {
+
+      "clockIn": "10:00:46",
+
+      "clockOut": null,
+
+      "date": "2022-04-26"
+
+    },{
+
+      "clockIn": "10:00:46",
+
+      "clockOut": null,
+
+      "date": "2022-04-26"
+
+    },
+    {
+
+      "clockIn": "10:00:46",
+
+      "clockOut": null,
+
+      "date": "2022-04-26"
+
+    },{
+
+      "clockIn": "10:00:46",
+
+      "clockOut": null,
+
+      "date": "2022-04-26"
+
+    },{
+
+      "clockIn": "10:00:46",
+
+      "clockOut": null,
+
+      "date": "2022-04-26"
+
+    },
+
+
+
+
+    {
+
+      "clockIn": "09:13:21",
+
+      "clockOut": "18:57:21",
+
+      "date": "2022-04-24"
+
+    },
+
+    {
+
+      "clockIn": null,
+
+      "clockOut": "04:35:06",
+
+      "date": null
+
+    },
+
+    {
+
+      "clockIn": "09:34:06",
+
+      "clockOut": null,
+
+      "date": "2022-04-21"
+
+    },
+
+    {
+
+      "clockIn": "09:15:23",
+
+      "clockOut": "17:07:02",
+
+      "date": "2022-04-20"
+
+    }
+
+  ]
+
+}

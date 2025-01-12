@@ -1,0 +1,16 @@
+{
+  "code": 200,
+  "message": "Operation successful",
+  "services": [
+    {
+      "id": 1,
+      "name": "ID Card",
+      "description": "The form is mandatory for your Exabyting ID Card"
+    },
+    {
+      "id": 2,
+      "name": "Laptop Request",
+      "description": "string"
+    }
+  ]
+}
