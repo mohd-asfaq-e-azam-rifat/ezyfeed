@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const colorPrimary = Color(0xFF0077C0);
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
-const colorBackground1 = Color(0xFFF7F7F7);
+const colorBackground1 = Color(0xFF023D45);
 const colorBackground2 = Color(0xFFEBF7FF);
 const colorBackground3 = Color(0xFFF3F3F3);
 const colorBackground4 = Color(0xFFE8F6FF);

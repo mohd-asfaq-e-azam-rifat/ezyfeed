@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
 import 'package:ezyfeed/base/app_config/app_config_event.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
-import 'package:ezyfeed/base/navigation/navigation.dart';
-import 'package:ezyfeed/base/state/basic/basic_state.dart';
-import 'package:ezyfeed/routes/routes.dart';
+import 'package:ezyfeed/base/widget/loader/base_data_loader.dart';
+import 'package:ezyfeed/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -21,44 +19,49 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appBarTheme = Theme.of(context).appBarTheme;
+
     return BlocProvider.value(
       value: _getBloc(context),
-      child: BlocConsumer<AppConfigBloc, AppConfigState>(
+      child: BlocListener<AppConfigBloc, AppConfigState>(
         listener: (context, state) {
-          context.to(Routes.home, clearBackstack: true);
+          // TODO: navigate to the next page
+          // context.to(Routes.home, clearBackstack: true);
         },
-        builder: (context, state) {
-          return Scaffold(
-            body: SafeArea(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.red,
-                child: Text(
-                  "Hello",
-                ),
-              ),
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: colorBackground1,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            shape: const Border(),
+            toolbarHeight: 0.0,
+            backgroundColor: colorBackground1,
+            elevation: 0.0,
+            systemOverlayStyle: appBarTheme.systemOverlayStyle?.copyWith(
+              systemNavigationBarColor: colorBackground1,
             ),
-          );
-        },
+          ),
+          body: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 48.0,
+              children: [
+                SvgPicture.asset(
+                  "assets/icons/ic_logo.svg",
+                  width: 56.0,
+                  height: 41.0,
+                  fit: BoxFit.cover,
+                ),
+                BaseDataLoader(
+                  customColor: colorWhite,
+                  strokeWidth: 3.0,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
-
-// void navigateLazyToNextPage() {
-//   context.to(Routes.home, clearBackstack: true);
-//   return;
-//   final appAuthState = context.read<AppConfigBloc>().state.authState;
-//
-//   Timer(
-//     const Duration(seconds: 1),
-//     () {
-//       if (appAuthState.isAuthenticated) {
-//         context.to(Routes.home, clearBackstack: true);
-//       } else {
-//         context.to(Routes.login, clearBackstack: true);
-//       }
-//     },
-//   );
-// }
 }

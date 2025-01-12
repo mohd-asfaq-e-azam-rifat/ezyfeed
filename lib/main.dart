@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
             navigatorKey: AppConfigState.appKey,
             initialRoute: Routes.initialRoute,
             onGenerateRoute: onGenerateRoute,
-            debugShowCheckedModeBanner: true,
+            debugShowCheckedModeBanner: false,
             theme: lightTheme,
           );
         },
