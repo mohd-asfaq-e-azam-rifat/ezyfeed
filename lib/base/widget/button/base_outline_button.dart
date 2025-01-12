@@ -56,7 +56,7 @@ class BaseOutlineButton extends StatelessWidget {
           ),
           textStyle: MaterialStateProperty.all<TextStyle?>(
             TextStyle(
-              fontFamily: fontFamilyRoboto,
+              fontFamily: fontFamilyFigtree,
               fontWeight: FontWeight.w700,
               fontSize: fontSize,
               height: 1.172,

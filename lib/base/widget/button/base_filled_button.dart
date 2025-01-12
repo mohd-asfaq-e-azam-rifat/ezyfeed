@@ -59,31 +59,30 @@ class BaseFilledButton extends StatelessWidget {
                     }
                   : null,
               style: buttonStyle?.copyWith(
-                foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
+                foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.disabled)) {
                       return colorDisabled2;
                     } else {
                       return textColor;
                     }
                   },
                 ),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.disabled)) {
                       return colorDisabled1;
                     } else {
                       return backgroundColor;
                     }
                   },
                 ),
-                textStyle: MaterialStateProperty.all<TextStyle?>(
+                textStyle: WidgetStateProperty.all<TextStyle?>(
                   TextStyle(
-                    fontFamily: fontFamilyRoboto,
-                    fontWeight: FontWeight.w700,
+                    fontFamily: fontFamilyFigtree,
+                    fontWeight: FontWeight.w600,
                     fontSize: fontSize,
                     height: 1.172,
-                    letterSpacing: 0.12,
                   ),
                 ),
               ),

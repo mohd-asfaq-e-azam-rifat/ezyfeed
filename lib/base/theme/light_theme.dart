@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 final lightTheme = ThemeData(
-  fontFamily: "Roboto",
+  fontFamily: fontFamilyFigtree,
   primaryColor: colorPrimary,
   appBarTheme: _appBarTheme,
   scaffoldBackgroundColor: Colors.white,
@@ -31,6 +31,7 @@ const _appBarTheme = AppBarTheme(
 
 const _textSelectionTheme = TextSelectionThemeData(
   selectionHandleColor: Colors.transparent,
+  cursorColor: colorPrimary,
 );
 
 final _elevatedButtonThemeData = ElevatedButtonThemeData(
@@ -42,7 +43,7 @@ final _elevatedButtonThemeData = ElevatedButtonThemeData(
     ),
     shape: MaterialStateProperty.all<OutlinedBorder>(
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
     ),
   ),
@@ -70,7 +71,7 @@ final _outlinedButtonThemeData = OutlinedButtonThemeData(
     ),
     shape: MaterialStateProperty.all<OutlinedBorder>(
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
     ),
   ),
@@ -110,56 +111,56 @@ const _dialogThemeData = DialogTheme(
 
 const _textTheme = TextTheme(
   displayLarge: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w700,
     fontSize: 57.0,
     height: 1.1228,
   ),
   displayMedium: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w700,
     fontSize: 45.0,
     height: 1.1555,
   ),
   displaySmall: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 36.0,
     height: 1.2222,
   ),
   headlineLarge: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 32.0,
     height: 1.25,
   ),
   headlineMedium: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w400,
     fontSize: 28.0,
     height: 1.29,
   ),
   headlineSmall: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w400,
     height: 1.33,
     fontSize: 24.0,
   ),
   titleLarge: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w400,
     fontSize: 22.0,
     height: 1.2727,
   ),
   titleMedium: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 16.0,
@@ -167,7 +168,7 @@ const _textTheme = TextTheme(
     letterSpacing: 0.15,
   ),
   titleSmall: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 14.0,
@@ -175,7 +176,7 @@ const _textTheme = TextTheme(
     letterSpacing: 0.1,
   ),
   labelLarge: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 14.0,
@@ -183,7 +184,7 @@ const _textTheme = TextTheme(
     letterSpacing: 0.1,
   ),
   labelMedium: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 12.0,
@@ -191,14 +192,14 @@ const _textTheme = TextTheme(
     letterSpacing: 0.5,
   ),
   labelSmall: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w600,
     fontSize: 11.0,
     height: 1.4545,
   ),
   bodyLarge: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w400,
     fontSize: 16.0,
@@ -206,7 +207,7 @@ const _textTheme = TextTheme(
     letterSpacing: 0.5,
   ),
   bodyMedium: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w400,
     fontSize: 14.0,
@@ -214,7 +215,7 @@ const _textTheme = TextTheme(
     letterSpacing: 0.25,
   ),
   bodySmall: TextStyle(
-    fontFamily: fontFamilyRoboto,
+    fontFamily: fontFamilyFigtree,
     color: colorText1,
     fontWeight: FontWeight.w400,
     fontSize: 12.0,

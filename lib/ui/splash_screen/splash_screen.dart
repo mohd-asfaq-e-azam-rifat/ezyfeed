@@ -1,8 +1,10 @@
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
 import 'package:ezyfeed/base/app_config/app_config_event.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
+import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/widget/loader/base_data_loader.dart';
 import 'package:ezyfeed/constants.dart';
+import 'package:ezyfeed/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,8 +27,7 @@ class SplashScreen extends StatelessWidget {
       value: _getBloc(context),
       child: BlocListener<AppConfigBloc, AppConfigState>(
         listener: (context, state) {
-          // TODO: navigate to the next page
-          // context.to(Routes.home, clearBackstack: true);
+          context.to(Routes.login, clearBackstack: true);
         },
         child: Scaffold(
           extendBodyBehindAppBar: true,
@@ -48,7 +49,7 @@ class SplashScreen extends StatelessWidget {
               spacing: 48.0,
               children: [
                 SvgPicture.asset(
-                  "assets/icons/ic_logo.svg",
+                  "assets/icons/ic_short_logo.svg",
                   width: 56.0,
                   height: 41.0,
                   fit: BoxFit.cover,

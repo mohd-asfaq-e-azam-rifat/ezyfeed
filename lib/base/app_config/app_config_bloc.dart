@@ -46,12 +46,7 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
       await _commonRepository.storeThemeMode(state.themeMode);
     }
 
-    await delayWithAction(
-      milliseconds: 2000,
-      action: () {
-        print("2 Seconds has been completed.");
-      },
-    );
+    await delay(milliseconds: 1000);
 
     emit(
       state.copyWith(

@@ -74,37 +74,40 @@ flutter:
     - assets/icons/
 
   fonts:
-    - family: Roboto
+    - family: Figtree
       fonts:
-        - asset: assets/fonts/roboto_thin.ttf
-          weight: 100
-        - asset: assets/fonts/roboto_thin_italic.ttf
-          style: italic
-          weight: 100
-        - asset: assets/fonts/roboto_thin_italic.ttf
-          weight: 100
-        - asset: assets/fonts/roboto_light.ttf
+        - asset: assets/fonts/figtree_light.ttf
           weight: 300
-        - asset: assets/fonts/roboto_light_italic.ttf
+        - asset: assets/fonts/figtree_light_italic.ttf
           style: italic
           weight: 300
-        - asset: assets/fonts/roboto_regular.ttf
+        - asset: assets/fonts/figtree_regular.ttf
           weight: 400
-        - asset: assets/fonts/roboto_italic.ttf
+        - asset: assets/fonts/figtree_italic.ttf
           style: italic
           weight: 400
-        - asset: assets/fonts/roboto_medium.ttf
+        - asset: assets/fonts/figtree_medium.ttf
           weight: 500
-        - asset: assets/fonts/roboto_medium_italic.ttf
+        - asset: assets/fonts/figtree_medium_italic.ttf
           style: italic
           weight: 500
-        - asset: assets/fonts/roboto_bold.ttf
+        - asset: assets/fonts/figtree_semi_bold.ttf
+          weight: 600
+        - asset: assets/fonts/figtree_semi_bold_italic.ttf
+          style: italic
+          weight: 600
+        - asset: assets/fonts/figtree_bold.ttf
           weight: 700
-        - asset: assets/fonts/roboto_bold_italic.ttf
+        - asset: assets/fonts/figtree_bold_italic.ttf
           style: italic
           weight: 700
-        - asset: assets/fonts/roboto_black.ttf
+        - asset: assets/fonts/figtree_extra_bold.ttf
+          weight: 800
+        - asset: assets/fonts/figtree_extra_bold_italic.ttf
+          style: italic
+          weight: 800
+        - asset: assets/fonts/figtree_black.ttf
           weight: 900
-        - asset: assets/fonts/roboto_black_italic.ttf
+        - asset: assets/fonts/figtree_black_italic.ttf
           style: italic
           weight: 900

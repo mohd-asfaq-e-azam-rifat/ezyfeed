@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 // Colors
-const colorPrimary = Color(0xFF0077C0);
+const colorPrimary = Color(0xFF023D45);
+const colorAccent = Color(0xFFFFFFFF);
+const colorAccentSecondary = Color(0xFFE8F54A);
+const colorText1 = Color(0xFFF5F5FF);
+const colorText2 = Color(0xFF095661);
+const colorBorder1 = Color(0xFFD0D5DD);
+
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
 const colorBackground1 = Color(0xFF023D45);
@@ -30,8 +36,6 @@ const colorGray700 = Color(0xFF394150);
 const colorGray8 = Color(0xFF292D32);
 const colorGray9 = Color(0xFF676767);
 const colorBlack = Color(0xFF111113);
-const colorText1 = Color(0xFF040C22);
-const colorText2 = Color(0xFF3F3F4E);
 const colorText3 = Color(0xFF212121);
 const colorText4 = Color(0xFF56607A);
 const colorShadow1 = Color(0xFF646466);
@@ -49,11 +53,11 @@ const colorOrange2 = Color(0xFFFFD8B4);
 const colorYellow1 = Color(0xFFF2C94C);
 
 // Font-family
-const fontFamilyRoboto = "RobotoFull";
+const fontFamilyFigtree = "Figtree";
 
 // Regular Text Styles
 const textStyleAppBarTitle = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorWhite,
   fontWeight: FontWeight.w500,
   fontSize: 20.0,
@@ -61,7 +65,7 @@ const textStyleAppBarTitle = TextStyle(
 );
 
 const textStyleVerySmallBody = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray1,
   fontWeight: FontWeight.w400,
   fontSize: 10.0,
@@ -69,7 +73,7 @@ const textStyleVerySmallBody = TextStyle(
 );
 
 const textStyleSmallBody = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray1,
   fontWeight: FontWeight.w400,
   fontSize: 12.0,
@@ -77,31 +81,54 @@ const textStyleSmallBody = TextStyle(
 );
 
 const textStyleRegularBody = TextStyle(
-  fontFamily: fontFamilyRoboto,
-  color: colorGray1,
+  fontFamily: fontFamilyFigtree,
+  color: colorAccent,
   fontWeight: FontWeight.w400,
-  fontSize: 14.0,
-  height: 1.172,
+  fontSize: 18.0,
+  height: 1.2,
 );
 
 const textStyleTabLabel = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   fontSize: 14.0,
   fontWeight: FontWeight.w400,
   height: 1.4285,
 );
 
-const textStyleSectionHeader = TextStyle(
-  fontFamily: fontFamilyRoboto,
-  color: colorText1,
+const textStyleSectionSubtitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorAccentSecondary,
   fontWeight: FontWeight.w600,
-  fontSize: 16.0,
-  height: 1.172,
+  fontSize: 19.0,
+  height: 1.47,
+);
+
+const textStyleSectionHeader = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorAccent,
+  fontWeight: FontWeight.w600,
+  fontSize: 38.0,
+  height: 1.2,
+);
+
+const textStyleFormTitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText1,
+  fontWeight: FontWeight.w500,
+  fontSize: 17.06,
+  height: 1.43,
+);
+
+const textStyleFormText = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText1,
+  fontWeight: FontWeight.w400,
+  fontSize: 19.5,
 );
 
 // Calendar Text Styles
 const textStyleHeader = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray1,
   fontWeight: FontWeight.w500,
   fontSize: 16.0,
@@ -109,7 +136,7 @@ const textStyleHeader = TextStyle(
 );
 
 const textStyleWeekday = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray1,
   fontWeight: FontWeight.w400,
   fontSize: 14.0,
@@ -117,7 +144,7 @@ const textStyleWeekday = TextStyle(
 );
 
 const textStyleWorkingDates = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray1,
   fontWeight: FontWeight.w500,
   fontSize: 14.0,
@@ -125,7 +152,7 @@ const textStyleWorkingDates = TextStyle(
 );
 
 const textStyleSelectedDates = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray6,
   fontWeight: FontWeight.w400,
   fontSize: 14.0,
@@ -133,7 +160,7 @@ const textStyleSelectedDates = TextStyle(
 );
 
 const textStyleDisabledDates = TextStyle(
-  fontFamily: fontFamilyRoboto,
+  fontFamily: fontFamilyFigtree,
   color: colorGray4,
   fontWeight: FontWeight.w500,
   fontSize: 14.0,
