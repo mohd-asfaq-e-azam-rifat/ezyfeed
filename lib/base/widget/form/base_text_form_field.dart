@@ -32,7 +32,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
   @override
   void initState() {
     _textLength = 0;
-    _isPasswordObscure = false;
+    _isPasswordObscure = true;
     textFieldFocusNode = FocusNode();
     super.initState();
   }

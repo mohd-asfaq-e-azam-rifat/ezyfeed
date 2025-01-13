@@ -38,35 +38,19 @@ class LoginPage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           SafeArea(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: SizedBox(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.maxFinite,
-                      height: MediaQuery.of(context).size.height * 0.33,
-                      child: Center(
-                        child: BrandingWidget(),
-                      ),
-                    ),
-                    SignInWidget(),
-                    // Expanded(
-                    //   child: Center(
-                    //     child: BrandingWidget(),
-                    //   ),
-                    // ),
-                    // Expanded(
-                    //   child: SizedBox.shrink(),
-                    // ),
-                    // Expanded(
-                    //   child: SignInWidget(),
-                    // ),
-                  ],
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Center(
+                    child: BrandingWidget(),
+                  ),
                 ),
-              ),
+                Expanded(
+                  flex: 3,
+                  child: SignInWidget(),
+                ),
+              ],
             ),
           ),
         ],
@@ -108,7 +92,6 @@ class _SignInWidgetState extends State<SignInWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      height: MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.1),
         borderRadius: BorderRadius.only(
@@ -124,11 +107,12 @@ class _SignInWidgetState extends State<SignInWidget> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 32.0,
+          top: 24.0,
           left: 24.0,
           right: 24.0,
         ),
         child: Column(
+          spacing: 24.0,
           children: [
             Text(
               "Sign In",
@@ -136,62 +120,71 @@ class _SignInWidgetState extends State<SignInWidget> {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
-            SizedBox(height: 36.0),
-            BaseTextFormField(
-              title: "Email",
-              controller: _emailController,
-              textInputType: TextInputType.emailAddress,
-              maxLength: 320,
-            ),
-            SizedBox(height: 24.0),
-            BaseTextFormField(
-              title: "Password",
-              controller: _passwordController,
-              textInputType: TextInputType.visiblePassword,
-              maxLength: 50,
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              spacing: 6.0,
-              children: [
-                SizedBox(
-                  width: 24.0,
-                  height: 24.0,
-                  child: Checkbox(
-                    value: _shouldRemember,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        if (value != null) {
-                          _shouldRemember = value;
-                        }
-                      });
-                    },
-                    activeColor: colorPrimary,
-                    checkColor: Colors.white,
-                    side: BorderSide(
-                      color: colorBorder1,
-                      width: 1.0,
+            Expanded(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    BaseTextFormField(
+                      title: "Email",
+                      controller: _emailController,
+                      textInputType: TextInputType.emailAddress,
+                      maxLength: 320,
                     ),
-                    //activeColor: Colors.white,
-                  ),
+                    SizedBox(height: 24.0),
+                    BaseTextFormField(
+                      title: "Password",
+                      controller: _passwordController,
+                      textInputType: TextInputType.visiblePassword,
+                      maxLength: 50,
+                    ),
+                    SizedBox(height: 16.0),
+                    Row(
+                      spacing: 6.0,
+                      children: [
+                        SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: Checkbox(
+                            value: _shouldRemember,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                if (value != null) {
+                                  _shouldRemember = value;
+                                }
+                              });
+                            },
+                            activeColor: colorPrimary,
+                            checkColor: Colors.white,
+                            side: BorderSide(
+                              color: colorBorder1,
+                              width: 1.0,
+                            ),
+                            //activeColor: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Remember me",
+                          style: textStyleRegularBody,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24.0),
+                    BaseFilledButton(
+                      title: "Login",
+                      onPressed: () {},
+                      buttonHeight: 60.0,
+                      buttonWidth: double.maxFinite,
+                      backgroundColor: colorAccentSecondary,
+                      textColor: colorText2,
+                      fontSize: 18.0,
+                    ),
+                    SizedBox(height: 32.0),
+                  ],
                 ),
-                Text(
-                  "Remember me",
-                  style: textStyleRegularBody,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-            SizedBox(height: 24.0),
-            BaseFilledButton(
-              title: "Login",
-              onPressed: () {},
-              buttonHeight: 60.0,
-              buttonWidth: double.maxFinite,
-              backgroundColor: colorAccentSecondary,
-              textColor: colorText2,
-              fontSize: 18.0,
+              ),
             ),
           ],
         ),
