@@ -1,19 +1,19 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:ezyfeed/base/di/app_module.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:ezyfeed/data/model/local/exception/exceptions.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 @lazySingleton
-class AuthRemoteProvider {
+class AuthRemoteService {
   final Dio _client;
 
-  AuthRemoteProvider(this._client);
+  AuthRemoteService(this._client);
 
   Future<ApiResponse<void>?> requestForGoogleAuth(
     String googleSignInToken,

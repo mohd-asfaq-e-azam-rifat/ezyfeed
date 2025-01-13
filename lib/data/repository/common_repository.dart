@@ -1,48 +1,48 @@
-import 'package:ezyfeed/data/provider/local/common_local_provider.dart';
-import 'package:ezyfeed/data/provider/remote/common_remote_provider.dart';
+import 'package:ezyfeed/data/service/local/common_local_service.dart';
+import 'package:ezyfeed/data/service/remote/common_remote_service.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 @singleton
 class CommonRepository {
-  final CommonLocalProvider _localProvider;
-  final CommonRemoteProvider _remoteProvider;
+  final CommonLocalService _localService;
+  final CommonRemoteService _remoteService;
 
-  CommonRepository(this._localProvider, this._remoteProvider);
+  CommonRepository(this._localService, this._remoteService);
 
   Future<bool> isFirstTimeUser() async {
-    final bool flag = _localProvider.isFirstTimeUser();
+    final bool flag = _localService.isFirstTimeUser();
     if (flag == true) {
-      await _localProvider.flagOldUser();
+      await _localService.flagOldUser();
     }
 
     return flag;
   }
 
   Future<void> storeLanguage(Locale locale) {
-    return _localProvider.storeLanguage(locale);
+    return _localService.storeLanguage(locale);
   }
 
   Locale? getLanguage() {
-    return _localProvider.getLanguage();
+    return _localService.getLanguage();
   }
 
   Future<void> storeThemeMode(ThemeMode themeMode) {
-    return _localProvider.storeThemeMode(themeMode);
+    return _localService.storeThemeMode(themeMode);
   }
 
   ThemeMode? getThemeMode() {
-    return _localProvider.getThemeMode();
+    return _localService.getThemeMode();
   }
 
   Future<void> storeDestinationAfterLogin(String destinationAfterLogin) {
-    return _localProvider.storeDestinationAfterLogin(destinationAfterLogin);
+    return _localService.storeDestinationAfterLogin(destinationAfterLogin);
   }
 
   Future<String?> getDestinationAfterLogin() async {
-    final destination = _localProvider.getDestinationAfterLogin();
-    await _localProvider.clearDestinationAfterLogin();
+    final destination = _localService.getDestinationAfterLogin();
+    await _localService.clearDestinationAfterLogin();
     return destination;
   }
 }

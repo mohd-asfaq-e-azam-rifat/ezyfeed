@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 @singleton
-class CommonLocalProvider {
+class CommonLocalService {
   // keys
   static const _keyThemeMode = "theme_mode";
   static const _keyLanguage = "language";
@@ -14,7 +14,7 @@ class CommonLocalProvider {
 
   final GetStorage _box;
 
-  CommonLocalProvider(this._box);
+  CommonLocalService(this._box);
 
   Future<void> storeLanguage(Locale locale) {
     return _box.writeStringSecured(

@@ -2,23 +2,22 @@ import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
 import 'package:ezyfeed/data/model/remote/response/leave/leave.dart';
-import 'package:ezyfeed/data/provider/local/leave_local_provider.dart';
-import 'package:ezyfeed/data/provider/remote/leave_remote_provider.dart';
+import 'package:ezyfeed/data/service/local/leave_local_service.dart';
+import 'package:ezyfeed/data/service/remote/leave_remote_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 @lazySingleton
 class LeaveRepository {
-  final LeaveLocalProvider _localProvider;
-  final LeaveRemoteProvider _remoteProvider;
+  final LeaveLocalService _localService;
+  final LeaveRemoteService _remoteService;
 
-  LeaveRepository(
-    this._localProvider,
-    this._remoteProvider,
+  LeaveRepository(this._localService,
+      this._remoteService,
   );
 
   Future<ApiResponse<LeaveSummary?>?> getMyLeaveSummary() async {
-    return _remoteProvider.getMyLeaveSummary();
+    return _remoteService.getMyLeaveSummary();
   }
 
   Future<ApiResponse<LeaveList?>?> getMyLeaveRequests({
@@ -31,7 +30,7 @@ class LeaveRepository {
     DateTime? startDate,
     DateTime? endDate,
   }) {
-    return _remoteProvider.getMyLeaveRequests(
+    return _remoteService.getMyLeaveRequests(
       page: page,
       size: size,
       sortBy: sortBy,
@@ -49,7 +48,7 @@ class LeaveRepository {
     required DateTime startDate,
     required DateTime endDate,
   }) {
-    return _remoteProvider.requestLeaveForMe(
+    return _remoteService.requestLeaveForMe(
       leaveType: leaveType,
       reason: reason,
       startDate: startDate.toYearMonthDayFormat(),
@@ -61,7 +60,7 @@ class LeaveRepository {
     required int leaveId,
     required String statusChangeReason,
   }) {
-    return _remoteProvider.cancelMyLeave(
+    return _remoteService.cancelMyLeave(
       leaveId: leaveId,
       statusChangeReason: statusChangeReason,
     );
@@ -72,7 +71,7 @@ class LeaveRepository {
     required DateTime startDate,
     required DateTime endDate,
   }) {
-    return _remoteProvider.getMyTeamLeaves(
+    return _remoteService.getMyTeamLeaves(
       page: page,
       startDate: startDate.toYearMonthDayFormat(),
       endDate: endDate.toYearMonthDayFormat(),
@@ -87,7 +86,7 @@ class LeaveRepository {
     required DateTime startDate,
     required DateTime endDate,
   }) {
-    return _remoteProvider.getAwaitingLeaves(
+    return _remoteService.getAwaitingLeaves(
       page: page,
       size: size,
       leaveStatus: leaveStatus,
@@ -102,7 +101,7 @@ class LeaveRepository {
     required LeaveStatus leaveStatus,
     String? statusChangeReason,
   }) {
-    return _remoteProvider.processAwaitingLeave(
+    return _remoteService.processAwaitingLeave(
       leaveId: leaveId,
       leaveStatus: leaveStatus,
       statusChangeReason: statusChangeReason,

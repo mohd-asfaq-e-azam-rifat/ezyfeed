@@ -1,16 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
 import 'package:ezyfeed/data/model/remote/response/leave/leave.dart';
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 @lazySingleton
-class LeaveRemoteProvider {
+class LeaveRemoteService {
   final Dio _client;
 
-  LeaveRemoteProvider(this._client);
+  LeaveRemoteService(this._client);
 
   Future<ApiResponse<LeaveSummary?>?> getMyLeaveSummary() async {
     Response? response;

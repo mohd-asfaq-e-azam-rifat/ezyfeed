@@ -2,4 +2,4 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 @singleton
-class CommonRemoteProvider {}
+class CommonRemoteService {}

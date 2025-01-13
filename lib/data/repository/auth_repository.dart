@@ -5,8 +5,8 @@ import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/data/model/local/user/user.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
-import 'package:ezyfeed/data/provider/local/auth_local_provider.dart';
-import 'package:ezyfeed/data/provider/remote/auth_remote_provider.dart';
+import 'package:ezyfeed/data/service/local/auth_local_service.dart';
+import 'package:ezyfeed/data/service/remote/auth_remote_service.dart';
 import 'package:ezyfeed/routes/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -14,12 +14,11 @@ import 'package:injectable/injectable.dart';
 @injectable
 @lazySingleton
 class AuthRepository {
-  final AuthLocalProvider _localProvider;
-  final AuthRemoteProvider _remoteProvider;
+  final AuthLocalService _localService;
+  final AuthRemoteService _remoteService;
 
-  AuthRepository(
-    this._localProvider,
-    this._remoteProvider,
+  AuthRepository(this._localService,
+      this._remoteService,
   );
 
   Future<ApiResponse<void>?> requestForGoogleAuth() async {
@@ -42,11 +41,11 @@ class AuthRepository {
   }
 
   Future<void> setCurrentUser(User user) {
-    return _localProvider.setCurrentUser(user);
+    return _localService.setCurrentUser(user);
   }
 
   User? getCurrentUser() {
-    return _localProvider.getCurrentUser();
+    return _localService.getCurrentUser();
   }
 
   String? getEmployeeId() {
@@ -54,13 +53,13 @@ class AuthRepository {
   }
 
   Future<void> clearLocalSession() async {
-    await _localProvider.clearAuthToken();
-    await _localProvider.clearCurrentUser();
-    await _localProvider.clearLastLoginTimestamp();
+    await _localService.clearAuthToken();
+    await _localService.clearCurrentUser();
+    await _localService.clearLastLoginTimestamp();
   }
 
   bool isLoggedIn() {
-    return _localProvider.getAuthToken() != null;
+    return _localService.getAuthToken() != null;
   }
 
   UserAuthState getUserAuthState() {

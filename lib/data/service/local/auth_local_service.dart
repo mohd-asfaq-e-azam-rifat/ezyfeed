@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 @lazySingleton
-class AuthLocalProvider {
+class AuthLocalService {
   // keys
   static const _keyAuthToken = "auth_token";
   static const _keyLastLoginTimestamp = "last_login_timestamp";
@@ -15,7 +15,7 @@ class AuthLocalProvider {
 
   final GetStorage _box;
 
-  AuthLocalProvider(this._box);
+  AuthLocalService(this._box);
 
   Future<void> setAuthToken(String token) {
     return _box.writeStringSecured(

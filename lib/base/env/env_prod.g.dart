@@ -11,7 +11,7 @@ part of 'env_prod.dart';
 final class _EnvProd {
   static const String apiKey = '';
 
-  static const String baseUrl = 'https://www.aladin.exabyting.com';
+  static const String baseUrl = 'https://www.example.com';
 
   static const String encryptionKey = 'ZdWAoOsN9D8GhlEKiqEjvw==';
 
