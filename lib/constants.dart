@@ -16,6 +16,8 @@ const colorDialogPositiveAction = Color(0xFF5D5BE9);
 const colorDialogNegativeAction = Color(0xFF686868);
 final colorBackgroundDim = Color(0xFF101828).withValues(alpha: 0.6);
 const colorDialogDivider = Color(0xFFBCBCBC);
+const colorPageBackground = Color(0xFFF3F3F3);
+const colorAppBarBackground = Color(0xFF115C67);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
@@ -67,9 +69,17 @@ const fontFamilyFigtree = "Figtree";
 // Regular Text Styles
 const textStyleAppBarTitle = TextStyle(
   fontFamily: fontFamilyFigtree,
-  color: colorWhite,
+  color: colorAccent,
+  fontWeight: FontWeight.w600,
+  fontSize: 18.0,
+  height: 1.2,
+);
+
+final textStyleAppBarSubtitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorAccent.withValues(alpha: 0.7),
   fontWeight: FontWeight.w500,
-  fontSize: 20.0,
+  fontSize: 14.0,
   height: 1.2,
 );
 
