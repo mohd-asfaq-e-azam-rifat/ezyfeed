@@ -85,15 +85,17 @@ class LogoutDialog extends StatelessWidget {
                     color: colorDialogDivider,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          context.read<AuthBloc>().add(LogOutRequested());
-                        },
-                        child: Text(
-                          "Yes",
-                          style: textStyleDialogAction,
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(LogOutRequested());
+                          },
+                          child: Text(
+                            "Yes",
+                            style: textStyleDialogAction,
+                          ),
                         ),
                       ),
                       Container(
@@ -101,14 +103,16 @@ class LogoutDialog extends StatelessWidget {
                         height: 56.0,
                         color: colorDialogDivider,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          context.back();
-                        },
-                        child: Text(
-                          "No",
-                          style: textStyleDialogAction.copyWith(
-                            color: colorDialogNegativeAction,
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            context.back();
+                          },
+                          child: Text(
+                            "No",
+                            style: textStyleDialogAction.copyWith(
+                              color: colorDialogNegativeAction,
+                            ),
                           ),
                         ),
                       ),
