@@ -8,7 +8,7 @@ class BaseDataLoader extends StatelessWidget {
   const BaseDataLoader({
     super.key,
     this.customColor,
-    this.strokeWidth = 4.0,
+    this.strokeWidth = 3.0,
   });
 
   @override

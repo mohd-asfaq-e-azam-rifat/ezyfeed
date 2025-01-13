@@ -53,13 +53,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       emit(state.copyWith(uiState: UiState.loading));
-      await _authRepository.logOut();
 
-      emit(
-        state.copyWith(
-          uiState: UiState.successful,
-        ),
-      );
+      await _authRepository.logOut();
+      emit(LoggedOutSuccessfully());
     } on Exception catch (e) {
       emit(
         state.copyWith(

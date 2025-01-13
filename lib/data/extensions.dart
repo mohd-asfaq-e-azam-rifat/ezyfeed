@@ -234,11 +234,8 @@ extension DioX on Dio {
   }
 
   void _handleException(Exception? err, StackTrace stackTrace) {
-    // todo: we will update the custom error logging in future
-
     if (err != null && err is DioException) {
       if (err.error is SocketException) {
-        // todo: optimize strings
         const message = "Please check your network connectivity and try again.";
         final ex = AppException(message);
 
@@ -251,7 +248,6 @@ extension DioX on Dio {
 
         throw ex;
       } else if (err.type == DioExceptionType.receiveTimeout) {
-        // todo: optimize strings
         const message = "It's taking more than usual."
             "\nCheck if your internet connection is stable!";
         final ex = AppException(message);
@@ -261,7 +257,6 @@ extension DioX on Dio {
         // TODO: [auth] fix force log out
         getIt<AuthRepository>().logOut();
 
-        // todo: optimize strings
         const message = "Logging out forcefully.";
         final ex = AppException(message);
 
@@ -309,7 +304,6 @@ extension DioX on Dio {
           }
         }
 
-        // todo: optimize strings
         const message = "Service unavailable.";
         final ex = AppException(message, apiResponse);
         throw ex;

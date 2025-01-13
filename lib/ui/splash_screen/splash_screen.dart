@@ -47,10 +47,7 @@ class SplashScreen extends StatelessWidget {
                 height: 41.0,
                 fit: BoxFit.cover,
               ),
-              BaseDataLoader(
-                customColor: colorWhite,
-                strokeWidth: 3.0,
-              ),
+              BaseDataLoader(customColor: colorWhite),
             ],
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:ezyfeed/base/app_config/app_config_event.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
 import 'package:ezyfeed/base/helper/async.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
-import 'package:ezyfeed/data/model/local/user/user.dart';
 import 'package:ezyfeed/data/repository/auth_repository.dart';
 import 'package:ezyfeed/data/repository/common_repository.dart';
 import 'package:ezyfeed/injection.dart';
@@ -86,10 +85,6 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
         authState: getUserAuthState(),
       ),
     );
-  }
-
-  User? getCurrentUser() {
-    return _authRepository.getCurrentUser();
   }
 
   UserAuthState getUserAuthState() {

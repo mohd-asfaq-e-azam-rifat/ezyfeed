@@ -1,14 +1,7 @@
-import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
-import 'package:ezyfeed/base/app_config/app_config_event.dart';
-import 'package:ezyfeed/base/app_config/app_config_state.dart';
-import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
-import 'package:ezyfeed/data/model/local/user/user.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
 import 'package:ezyfeed/data/service/local/auth_local_service.dart';
 import 'package:ezyfeed/data/service/remote/auth_remote_service.dart';
-import 'package:ezyfeed/routes/routes.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -22,7 +15,7 @@ class AuthRepository {
     this._remoteService,
   );
 
-  Future<ApiResponse<Null>?> logIn({
+  Future<ApiResponse<void>?> logIn({
     required String email,
     required String password,
   }) async {
@@ -33,41 +26,23 @@ class AuthRepository {
 
     if (response?.type != null && response?.token != null) {
       _localService.setAuthToken("${response!.type!} ${response.token!}");
+      _localService.setLastLoginTimestamp(DateTime.now());
     }
 
     return response;
   }
 
-  Future<void> logOut() async {
-    // TODO: [auth] fix logging out from remote
-    //final response = await _remoteProvider.logOut();
+  Future<ApiResponse<void>?> logOut() async {
+    final response = await _remoteService.logOut();
 
     // clear local state
     await clearLocalSession();
 
-    // log out from 3rd parties
-
-    // update app states and navigation
-    final context = AppConfigState.appKey.currentContext;
-    context?.read<AppConfigBloc>().add(UserAuthStateUpdated());
-    context?.to(Routes.root, clearBackstack: true);
-  }
-
-  Future<void> setCurrentUser(User user) {
-    return _localService.setCurrentUser(user);
-  }
-
-  User? getCurrentUser() {
-    return _localService.getCurrentUser();
-  }
-
-  String? getEmployeeId() {
-    return getCurrentUser()?.employeeId;
+    return response;
   }
 
   Future<void> clearLocalSession() async {
     await _localService.clearAuthToken();
-    await _localService.clearCurrentUser();
     await _localService.clearLastLoginTimestamp();
   }
 

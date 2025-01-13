@@ -40,7 +40,7 @@ class BaseInterceptor extends Interceptor {
         HttpHeaders.userAgentHeader: appInfo.userAgent ?? "",
         HttpHeaders.acceptLanguageHeader: language,
         if (requiresAuth == true && accessToken != null)
-          CustomHttpHeader.token: accessToken,
+          CustomHttpHeader.authorization: accessToken,
       },
     );
     super.onRequest(options, handler);

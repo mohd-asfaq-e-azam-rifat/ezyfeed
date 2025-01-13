@@ -7,6 +7,15 @@ const colorAccentSecondary = Color(0xFFE8F54A);
 const colorText1 = Color(0xFFF5F5FF);
 const colorText2 = Color(0xFF095661);
 const colorBorder1 = Color(0xFFD0D5DD);
+const colorBottomBarBackground = Color(0xFFF2F4F7);
+const colorBottomBarSelected = Color(0xFF004852);
+const colorBottomBarNotSelected = Color(0xFF101828);
+const colorDialogTitle = Color(0xFF1A1336);
+const colorDialogSubtitle = Color(0xFF28243C);
+const colorDialogPositiveAction = Color(0xFF5D5BE9);
+const colorDialogNegativeAction = Color(0xFF686868);
+final colorBackgroundDim = Color(0xFF101828).withValues(alpha: 0.6);
+const colorDialogDivider = Color(0xFFBCBCBC);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
@@ -126,45 +135,44 @@ const textStyleFormText = TextStyle(
   fontSize: 19.5,
 );
 
-// Calendar Text Styles
-const textStyleHeader = TextStyle(
+const textStyleBottomBarItemSelected = TextStyle(
   fontFamily: fontFamilyFigtree,
-  color: colorGray1,
+  color: colorBottomBarSelected,
+  fontWeight: FontWeight.w700,
+  fontSize: 12.0,
+  height: 1.2,
+);
+
+const textStyleBottomBarItemNotSelected = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorBottomBarNotSelected,
+  fontWeight: FontWeight.w600,
+  fontSize: 12.0,
+  height: 1.2,
+);
+
+const textStyleDialogTitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorDialogTitle,
+  fontWeight: FontWeight.w700,
+  fontSize: 26.0,
+  height: 1.2,
+);
+
+const textStyleDialogSubtitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorDialogSubtitle,
   fontWeight: FontWeight.w500,
-  fontSize: 16.0,
-  height: 1.172,
+  fontSize: 20.0,
+  height: 1.2,
 );
 
-const textStyleWeekday = TextStyle(
+const textStyleDialogAction = TextStyle(
   fontFamily: fontFamilyFigtree,
-  color: colorGray1,
-  fontWeight: FontWeight.w400,
-  fontSize: 14.0,
-  height: 1.172,
-);
-
-const textStyleWorkingDates = TextStyle(
-  fontFamily: fontFamilyFigtree,
-  color: colorGray1,
+  color: colorDialogPositiveAction,
   fontWeight: FontWeight.w500,
-  fontSize: 14.0,
-  height: 1.172,
-);
-
-const textStyleSelectedDates = TextStyle(
-  fontFamily: fontFamilyFigtree,
-  color: colorGray6,
-  fontWeight: FontWeight.w400,
-  fontSize: 14.0,
-  height: 1.172,
-);
-
-const textStyleDisabledDates = TextStyle(
-  fontFamily: fontFamilyFigtree,
-  color: colorGray4,
-  fontWeight: FontWeight.w500,
-  fontSize: 14.0,
-  height: 1.172,
+  fontSize: 20.0,
+  height: 1.2,
 );
 
 abstract class CustomHttpHeader {
@@ -174,6 +182,7 @@ abstract class CustomHttpHeader {
   static const settingsHash = "x-settings-hash";
   static const token = "token";
   static const requiresAuth = "requires-auth";
+  static const authorization = "Authorization";
 }
 
 abstract class CustomHttpHeaderValue {

@@ -68,24 +68,4 @@ class AuthLocalService {
   Future<void> clearCurrentUser() {
     return _box.remove(_keyCurrentUser);
   }
-
-/*  Future<void> storeLoginDetails(LoginResponse details) {
-    return _box.writeStringSecured(
-      _keyLoginDetails,
-      jsonEncode(details.toJson()),
-    );
-  }
-
-  LoginResponse? getLoginDetails() {
-    final details = _box.readStringSecured(_keyLoginDetails);
-    return details != null
-        ? LoginResponse.fromJson(
-            jsonDecode(details),
-          )
-        : null;
-  }
-
-  Future<void> clearLoginDetails() {
-    return _box.remove(_keyLoginDetails);
-  }*/
 }

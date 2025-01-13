@@ -15,6 +15,7 @@ final lightTheme = ThemeData(
   bottomSheetTheme: _bottomSheetThemeData,
   dialogTheme: _dialogThemeData,
   useMaterial3: false,
+  navigationBarTheme: _navigationBarThemeData,
 );
 
 const _appBarTheme = AppBarTheme(
@@ -26,6 +27,7 @@ const _appBarTheme = AppBarTheme(
     statusBarBrightness: Brightness.dark,
     systemNavigationBarColor: Colors.black,
     systemNavigationBarIconBrightness: Brightness.light,
+    systemNavigationBarDividerColor: Colors.transparent,
   ),
 );
 
@@ -60,21 +62,35 @@ final _outlinedButtonThemeData = OutlinedButtonThemeData(
         }
       },
     ),
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-    overlayColor: MaterialStateProperty.all<Color>(
+    backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+    overlayColor: WidgetStateProperty.all<Color>(
       colorPrimary.withOpacity(0.1),
     ),
-    side: MaterialStateProperty.all<BorderSide>(
+    side: WidgetStateProperty.all<BorderSide>(
       const BorderSide(
         color: colorGray6,
       ),
     ),
-    shape: MaterialStateProperty.all<OutlinedBorder>(
+    shape: WidgetStateProperty.all<OutlinedBorder>(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
     ),
   ),
+);
+
+final _navigationBarThemeData = NavigationBarThemeData(
+  labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
+    (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return textStyleBottomBarItemSelected;
+      } else {
+        return textStyleBottomBarItemNotSelected;
+      }
+    },
+  ),
+  backgroundColor: colorBottomBarBackground,
+  indicatorColor: Colors.transparent,
 );
 
 final _textButtonThemeData = TextButtonThemeData(
