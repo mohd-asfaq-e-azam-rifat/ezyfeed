@@ -1,8 +1,18 @@
+import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
+import 'package:ezyfeed/base/app_config/app_config_event.dart';
+import 'package:ezyfeed/base/helper/debouncer.dart';
+import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/base/widget/button/base_filled_button.dart';
 import 'package:ezyfeed/base/widget/form/base_text_form_field.dart';
+import 'package:ezyfeed/base/widget/toast/toast.dart';
 import 'package:ezyfeed/constants.dart';
+import 'package:ezyfeed/injection.dart';
+import 'package:ezyfeed/ui/authentication/auth_bloc.dart';
+import 'package:ezyfeed/ui/authentication/auth_event.dart';
+import 'package:ezyfeed/ui/authentication/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
@@ -12,48 +22,67 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: colorBackground1,
-      body: Stack(
-        alignment: AlignmentDirectional.topStart,
-        children: [
-          Container(
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF004852), // First color
-                  Color(0xFF156A76), // Second color
-                  Color(0xFF014852), // Third color
-                ],
-                begin: Alignment.topLeft, // From top-left corner
-                end: Alignment.bottomRight, // To bottom-right corner
-                stops: [0.0, 0.5, 1.0], // Percentages for each color
-              ),
-            ),
-          ),
-          SvgPicture.asset(
-            "assets/icons/ic_background_bubbles.svg",
-            fit: BoxFit.cover,
-          ),
-          SafeArea(
-            child: Column(
+    return BlocProvider(
+      create: (context) => getIt<AuthBloc>(),
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.uiState.isError == true) {
+            if (state.message?.trim().isNotEmpty == true) {
+              showToast(message: state.message!.trim());
+            }
+          }
+
+          if (state is LoggedInSuccessfully) {
+            final globalBloc = context.read<AppConfigBloc>();
+            globalBloc.add(UserAuthStateUpdated());
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: colorBackground1,
+            body: Stack(
+              alignment: AlignmentDirectional.topStart,
               children: [
-                Expanded(
-                  flex: 2,
-                  child: Center(
-                    child: BrandingWidget(),
+                Container(
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF004852), // First color
+                        Color(0xFF156A76), // Second color
+                        Color(0xFF014852), // Third color
+                      ],
+                      begin: Alignment.topLeft, // From top-left corner
+                      end: Alignment.bottomRight, // To bottom-right corner
+                      stops: [0.0, 0.5, 1.0], // Percentages for each color
+                    ),
                   ),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: SignInWidget(),
+                SvgPicture.asset(
+                  "assets/icons/ic_background_bubbles.svg",
+                  fit: BoxFit.cover,
+                ),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: Center(
+                          child: BrandingWidget(),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: SignInWidget(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -69,23 +98,83 @@ class SignInWidget extends StatefulWidget {
 }
 
 class _SignInWidgetState extends State<SignInWidget> {
+  // Email
   late TextEditingController _emailController;
+  late Debouncer _emailDebouncer;
+
+  // Password
   late TextEditingController _passwordController;
+  late Debouncer _passwordDebouncer;
+
   late bool _shouldRemember;
+  late bool _isActiveButton;
 
   @override
   void initState() {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    // Email
+    _emailController = TextEditingController(text: "soniamalik@gmail.com");
+    _emailController.addListener(_onEmailChanged);
+    _emailDebouncer = getIt<Debouncer>();
+
+    // Password
+    _passwordController = TextEditingController(text: "7654321");
+    _passwordController.addListener(_onPasswordChanged);
+    _passwordDebouncer = getIt<Debouncer>();
+
     _shouldRemember = false;
+    _isActiveButton = false;
+
     super.initState();
   }
 
   @override
   void dispose() {
+    // Email
+    _emailController.removeListener(_onEmailChanged);
     _emailController.dispose();
+    _emailDebouncer.dispose();
+
+    // Password
+    _passwordController.removeListener(_onPasswordChanged);
     _passwordController.dispose();
+    _passwordDebouncer.dispose();
+
     super.dispose();
+  }
+
+  void _onEmailChanged() {
+    _emailDebouncer.run(
+      () {
+        setState(() {
+          _isActiveButton = _validateForm();
+        });
+      },
+      milliseconds: 700,
+    );
+  }
+
+  void _onPasswordChanged() {
+    _passwordDebouncer.run(
+      () {
+        setState(() {
+          _isActiveButton = _validateForm();
+        });
+      },
+      milliseconds: 700,
+    );
+  }
+
+  bool _validateForm() {
+    final email = _emailController.text.trim();
+    final regexEmail = RegExp(Regex.emailAddressRegex);
+    final validEmail = email.isNotEmpty && regexEmail.hasMatch(email);
+
+    final password = _passwordController.text.trim();
+    final regexPassword = RegExp(Regex.passwordRegex);
+    final validPassword =
+        password.isNotEmpty && regexPassword.hasMatch(password);
+
+    return validEmail && validPassword;
   }
 
   @override
@@ -172,14 +261,24 @@ class _SignInWidgetState extends State<SignInWidget> {
                       ],
                     ),
                     SizedBox(height: 24.0),
-                    BaseFilledButton(
-                      title: "Login",
-                      onPressed: () {},
-                      buttonHeight: 60.0,
-                      buttonWidth: double.maxFinite,
-                      backgroundColor: colorAccentSecondary,
-                      textColor: colorText2,
-                      fontSize: 18.0,
+                    BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        return BaseFilledButton(
+                          title: "Login",
+                          onPressed: _isActiveButton == true
+                              ? () {
+                                  _logIn(context);
+                                }
+                              : null,
+                          buttonHeight: 60.0,
+                          buttonWidth: double.maxFinite,
+                          backgroundColor: colorAccentSecondary,
+                          progressColor: colorPrimary,
+                          textColor: colorText2,
+                          fontSize: 18.0,
+                          isLoading: state.uiState.isLoading,
+                        );
+                      },
                     ),
                     SizedBox(height: 32.0),
                   ],
@@ -189,6 +288,16 @@ class _SignInWidgetState extends State<SignInWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  void _logIn(BuildContext context) {
+    final bloc = context.read<AuthBloc>();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    bloc.add(
+      LoginRequested(email: email, password: password),
     );
   }
 }

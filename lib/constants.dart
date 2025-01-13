@@ -228,6 +228,8 @@ abstract class ApiKey {
   static const reference = "reference";
   static const credential = "credential";
   static const email = "email";
+  static const password = "password";
+  static const appToken = "app_token";
   static const mobileNumber = "mobile_number";
   static const operator = "operator";
   static const amount = "amount";
@@ -278,6 +280,7 @@ abstract class Regex {
   static const mobileNumberRegex = r"(^(\\+88)?(01)[2-9][0-9]{8,8}$)";
   static const emailAddressRegex =
       r'^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$';
+  static const passwordRegex = r"(^[a-zA-Z0-9]{4,}$)";
   static const websiteUrlRegex =
       "(http|ftp|https)://[\\w-]+(\\.[\\w-]+)+([\\w.,@?^=%&amp;:/~+#-]*[\\w@?^=%&amp;/~+#-])?";
 }
@@ -298,8 +301,8 @@ const maxRangeOfLeave = 90;
 
 // API End-points
 // Auth
-const urlLogin = "/auth/login";
-const urlLogOut = "/auth/logout";
+const urlLogin = "/student/auth/login";
+const urlLogOut = "/student/auth/logout";
 // Leave
 const urlMyLeaveList = "/api/leave/list";
 const urlMyLeaveSummary = "/api/leave/summary";

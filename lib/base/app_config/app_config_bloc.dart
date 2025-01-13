@@ -46,14 +46,14 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
       await _commonRepository.storeThemeMode(state.themeMode);
     }
 
-    await delay(milliseconds: 1000);
+    await delay(milliseconds: 1500);
 
     emit(
       state.copyWith(
         uiState: UiState.successful,
         themeMode: themeMode,
         locale: savedLocale,
-        authState: _authRepository.getUserAuthState(),
+        authState: getUserAuthState(),
       ),
     );
   }
@@ -83,12 +83,16 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
   ) async {
     emit(
       state.copyWith(
-        authState: _authRepository.getUserAuthState(),
+        authState: getUserAuthState(),
       ),
     );
   }
 
   User? getCurrentUser() {
     return _authRepository.getCurrentUser();
+  }
+
+  UserAuthState getUserAuthState() {
+    return _authRepository.getUserAuthState();
   }
 }

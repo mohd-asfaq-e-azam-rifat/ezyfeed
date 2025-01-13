@@ -8,6 +8,7 @@ class BaseFilledButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color textColor;
   final Color backgroundColor;
+  final Color progressColor;
   final bool isLoading;
   final double? buttonWidth;
   final double? buttonHeight;
@@ -19,6 +20,7 @@ class BaseFilledButton extends StatelessWidget {
     required this.onPressed,
     this.textColor = Colors.white,
     this.backgroundColor = colorPrimary,
+    this.progressColor = colorAccent,
     this.isLoading = false,
     this.buttonWidth,
     this.buttonHeight,
@@ -35,14 +37,14 @@ class BaseFilledButton extends StatelessWidget {
             height: buttonHeight,
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 width: 20.0,
                 height: 20.0,
                 child: BaseDataLoader(
-                  customColor: Colors.white,
+                  customColor: progressColor,
                   strokeWidth: 2.5,
                 ),
               ),

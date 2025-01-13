@@ -9,9 +9,9 @@ part 'api_response.g.dart';
 class ApiResponse<T> {
   // common
   @JsonKey(defaultValue: null)
-  late int? code;
+  late String? code;
 
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: null, name: "msg")
   late String? message;
 
   // data
@@ -21,9 +21,12 @@ class ApiResponse<T> {
   @JsonKey(defaultValue: null)
   late Meta? meta;
 
-  // auth // TODO: optimize the response
+  // auth
   @JsonKey(defaultValue: null)
   late String? token;
+
+  @JsonKey(defaultValue: null)
+  late String? type;
 
   // custom error
   @JsonKey(defaultValue: null)
@@ -49,14 +52,14 @@ class ApiResponse<T> {
 
   factory ApiResponse.fromJson(
     Map<String, dynamic> json,
-    T Function(Object? json) fromJsonT,
-  ) =>
-      _$ApiResponseFromJson(json, fromJsonT);
+    T Function(Object? json) fromJsonT,) {
+    return _$ApiResponseFromJson(json, fromJsonT);
+  }
 
   Map<String, dynamic> toJson(
-    Object? Function(T value) toJsonT,
-  ) =>
-      _$ApiResponseToJson(this, toJsonT);
+    Object? Function(T value) toJsonT,) {
+    return _$ApiResponseToJson(this, toJsonT);
+  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

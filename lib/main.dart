@@ -1,5 +1,8 @@
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
+import 'package:ezyfeed/base/di/app_module.dart';
+import 'package:ezyfeed/base/navigation/navigation.dart';
+import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/base/theme/light_theme.dart';
 import 'package:ezyfeed/injection.dart';
 import 'package:ezyfeed/routes/routes.dart';
@@ -50,7 +53,14 @@ class _MyAppState extends State<MyApp> {
           create: (_) => getIt<AppConfigBloc>(),
         ),
       ],
-      child: BlocBuilder<AppConfigBloc, AppConfigState>(
+      child: BlocConsumer<AppConfigBloc, AppConfigState>(
+        listener: (context, state) {
+          if (state.authState.isAuthenticated == true) {
+            appContext?.to(Routes.home, clearBackstack: true);
+          } else {
+            appContext?.to(Routes.login, clearBackstack: true);
+          }
+        },
         builder: (context, state) {
           return MaterialApp(
             navigatorKey: AppConfigState.appKey,

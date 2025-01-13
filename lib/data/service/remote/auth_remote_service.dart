@@ -51,6 +51,29 @@ class AuthRemoteService {
         : null;
   }
 
+  Future<ApiResponse<Null>?> logIn({
+    required String email,
+    required String password,
+  }) async {
+    Response? response;
+
+    response = await _client.postRequest(
+      endPoint: urlLogin,
+      data: {
+        ApiKey.email: email,
+        ApiKey.password: password,
+        ApiKey.appToken: "",
+      },
+    );
+
+    return response?.data != null
+        ? ApiResponse.fromJson(
+            response?.data,
+            (json) => null,
+          )
+        : null;
+  }
+
   Future<ApiResponse<void>?> logOut() async {
     final response = await _client.postRequest(
       endPoint: urlLogOut,

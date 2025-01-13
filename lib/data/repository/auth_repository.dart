@@ -17,12 +17,25 @@ class AuthRepository {
   final AuthLocalService _localService;
   final AuthRemoteService _remoteService;
 
-  AuthRepository(this._localService,
-      this._remoteService,
+  AuthRepository(
+    this._localService,
+    this._remoteService,
   );
 
-  Future<ApiResponse<void>?> requestForGoogleAuth() async {
-    return null;
+  Future<ApiResponse<Null>?> logIn({
+    required String email,
+    required String password,
+  }) async {
+    final response = await _remoteService.logIn(
+      email: email,
+      password: password,
+    );
+
+    if (response?.type != null && response?.token != null) {
+      _localService.setAuthToken("${response!.type!} ${response.token!}");
+    }
+
+    return response;
   }
 
   Future<void> logOut() async {

@@ -12,8 +12,9 @@ class LeaveRepository {
   final LeaveLocalService _localService;
   final LeaveRemoteService _remoteService;
 
-  LeaveRepository(this._localService,
-      this._remoteService,
+  LeaveRepository(
+    this._localService,
+    this._remoteService,
   );
 
   Future<ApiResponse<LeaveSummary?>?> getMyLeaveSummary() async {
