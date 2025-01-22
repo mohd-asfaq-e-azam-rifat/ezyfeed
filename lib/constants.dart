@@ -6,6 +6,9 @@ const colorAccent = Color(0xFFFFFFFF);
 const colorAccentSecondary = Color(0xFFE8F54A);
 const colorText1 = Color(0xFFF5F5FF);
 const colorText2 = Color(0xFF095661);
+const colorText3 = Color(0xFF040810);
+const colorText4 = Color(0xFF667085);
+const colorText5 = Color(0xFF98A2B3);
 const colorBorder1 = Color(0xFFD0D5DD);
 const colorBottomBarBackground = Color(0xFFF2F4F7);
 const colorBottomBarSelected = Color(0xFF004852);
@@ -18,6 +21,8 @@ final colorBackgroundDim = Color(0xFF101828).withValues(alpha: 0.6);
 const colorDialogDivider = Color(0xFFBCBCBC);
 const colorPageBackground = Color(0xFFF3F3F3);
 const colorAppBarBackground = Color(0xFF115C67);
+const colorFeedItemMoreIcon = Color(0xFF232A37);
+const colorWriteForFeedBorder = Color(0x33004852);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
@@ -47,8 +52,6 @@ const colorGray700 = Color(0xFF394150);
 const colorGray8 = Color(0xFF292D32);
 const colorGray9 = Color(0xFF676767);
 const colorBlack = Color(0xFF111113);
-const colorText3 = Color(0xFF212121);
-const colorText4 = Color(0xFF56607A);
 const colorShadow1 = Color(0xFF646466);
 const colorGreen1 = Color(0xFF219653);
 const colorGreen2 = Color(0xFF3CC35A);
@@ -185,6 +188,36 @@ const textStyleDialogAction = TextStyle(
   height: 1.2,
 );
 
+const textStyleFeedItemTitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText3,
+  fontWeight: FontWeight.w600,
+  fontSize: 16.0,
+);
+
+const textStyleFeedItemSubtitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText4,
+  fontWeight: FontWeight.w400,
+  fontSize: 14.0,
+);
+
+const textStyleFeedItemBody = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorBottomBarNotSelected,
+  fontWeight: FontWeight.w400,
+  fontSize: 14.0,
+  height: 1.643,
+);
+
+const textStyleWriteForFeedTitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText5,
+  fontWeight: FontWeight.w400,
+  fontSize: 18.0,
+  height: 1.2,
+);
+
 abstract class CustomHttpHeader {
   static const serviceName = "x-service-name";
   static const uuid = "x-request-uuid";
@@ -200,90 +233,10 @@ abstract class CustomHttpHeaderValue {
   static const app = "app";
 }
 
-abstract class PageIndex {
-  static const dashboard = 0;
-  static const attendance = 1;
-  static const leave = 2;
-  static const profile = 3;
-}
-
-abstract class PageSubIndex {
-  static const myAttendance = 0;
-  static const contactDirectory = 1;
-  static const leadAwaiting = 0;
-  static const leadMyTeam = 1;
-  static const leadMyRequests = 2;
-  static const regularMyTeam = 0;
-  static const regularMyRequests = 1;
-}
-
-abstract class LocalKey {
-  static const medium = "medium";
-  static const authProcess = "auth-process";
-  static const authProvider = "auth-provider";
-  static const shouldShowLeading = "should-show-leading";
-  static const appBarTitle = "app-bar-title";
-  static const url = "url";
-  static const otp = "otp";
-  static const index = "index";
-  static const subIndex = "sub_index";
-  static const hash = "hash";
-  static const secret = "secret";
-}
-
-abstract class RemoteKey {
-  static const status = "status";
-}
-
-abstract class RemoteValue {
-  static const accepted = "ACCEPTED";
-  static const rejected = "REJECTED";
-}
-
 abstract class ApiKey {
-  static const provider = "provider";
-  static const type = "type";
-  static const methods = "methods";
-  static const reference = "reference";
-  static const credential = "credential";
   static const email = "email";
   static const password = "password";
   static const appToken = "app_token";
-  static const mobileNumber = "mobile_number";
-  static const operator = "operator";
-  static const amount = "amount";
-  static const telType = "tel_type";
-  static const newPassword = "new_password";
-  static const page = "page";
-  static const limit = "limit";
-  static const code = "code";
-  static const hash = "hash";
-  static const token = "token";
-  static const fcmToken = "fcmToken";
-  static const deviceId = "deviceId";
-  static const loginType = "loginType";
-  static const appPlatform = "appPlatform";
-  static const sortBy = "sort_by";
-  static const direction = "direction";
-  static const status = "status";
-  static const startFrom = "startFrom";
-  static const endAt = "endAt";
-  static const reason = "reason";
-  static const leaveId = "leaveId";
-  static const statusChangeReason = "statusChangeReason";
-  static const size = "size";
-  static const createdOnStartFrom = "createdOnStartFrom";
-  static const createdOnEndAT = "createdOnEndAT";
-  static const lastUpdatedOnStartFrom = "lastUpdatedOnStartFrom";
-  static const lastUpdatedOnEndAt = "lastUpdatedOnEndAt";
-}
-
-abstract class DatabaseKey {
-  static const startFrom = "startFrom";
-  static const endAt = "endAt";
-  static const createdOn = "createdOn";
-  static const lastUpdatedOn = "lastUpdatedOn";
-  static const durationInDays = "durationInDays";
 }
 
 abstract class LocalKeys {
@@ -295,47 +248,13 @@ abstract class LocalValues {
   static const prod = "prod";
 }
 
-abstract class NotificationAction {
-  static const attendance = "attendance";
-  static const leaveRequest = "leave-request";
-  static const leaveApproved = "leave-approved";
-  static const leaveDeclined = "leave-declined";
-  static const leaveNotice = "leave-notice";
-  static const contactDirectory = "contact-directory";
-}
-
 abstract class Regex {
-  static const mobileNumberRegex = r"(^(\\+88)?(01)[2-9][0-9]{8,8}$)";
   static const emailAddressRegex =
       r'^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$';
   static const passwordRegex = r"(^[a-zA-Z0-9]{4,}$)";
-  static const websiteUrlRegex =
-      "(http|ftp|https)://[\\w-]+(\\.[\\w-]+)+([\\w.,@?^=%&amp;:/~+#-]*[\\w@?^=%&amp;/~+#-])?";
 }
-
-// Pagination
-const paginationRatio = 0.75;
-
-// Notification
-const notificationChannelId = "exabyting_aladin";
-const notificationChannelName = "Aladin";
-const notificationIcon = "@drawable/ic_notification";
-
-// Contact
-const maxLimitOfSelfContacts = 3;
-
-// Leave
-const maxRangeOfLeave = 90;
 
 // API End-points
 // Auth
 const urlLogin = "/student/auth/login";
 const urlLogOut = "/student/auth/logout";
-// Leave
-const urlMyLeaveList = "/api/leave/list";
-const urlMyLeaveSummary = "/api/leave/summary";
-const urlRequestMyLeave = "/api/leave/request";
-const urlCancelMyLeave = "/api/leave/request/cancel";
-const urlMyTeamLeaves = "/api/leave/approved/team-members/list";
-const urlAwaitingLeaves = "/api/leave/lead/list";
-const urlActionToLeaveOfJunior = "/api/leave/lead/action";

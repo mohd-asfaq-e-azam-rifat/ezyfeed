@@ -6,7 +6,7 @@ final lightTheme = ThemeData(
   fontFamily: fontFamilyFigtree,
   primaryColor: colorPrimary,
   appBarTheme: _appBarTheme,
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: colorPageBackground,
   textSelectionTheme: _textSelectionTheme,
   elevatedButtonTheme: _elevatedButtonThemeData,
   outlinedButtonTheme: _outlinedButtonThemeData,
