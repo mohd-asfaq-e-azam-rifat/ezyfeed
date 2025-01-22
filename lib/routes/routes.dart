@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 class Routes {
   static String initialRoute = Routes.root;
 
-  static const root = "ezyfeedapp://";
-  static const login = "ezyfeedapp://login";
-  static const home = "ezyfeedapp://home";
+  static const root = "ezyfeed://";
+  static const login = "ezyfeed://login";
+  static const home = "ezyfeed://home";
 }
 
 List<String> get routes {

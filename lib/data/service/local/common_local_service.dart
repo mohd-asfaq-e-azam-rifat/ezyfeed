@@ -63,7 +63,7 @@ class CommonLocalService {
     return _box.remove(_keyDestinationAfterLogin);
   }
 
-  Future<void> clearSession() {
+  Future<void> clearWholeSession() {
     return _box.erase();
   }
 }

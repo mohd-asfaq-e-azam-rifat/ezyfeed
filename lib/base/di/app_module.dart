@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
 import 'package:ezyfeed/base/env/env.dart';
+import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/helper/network/interceptors.dart';
 import 'package:ezyfeed/data/model/local/app_info/app_info.dart';
 import 'package:ezyfeed/injection.dart';
@@ -28,14 +29,17 @@ abstract class AppModule {
   @preResolve
   @injectable
   @singleton
+  Future<AndroidDeviceInfo> get androidInfo async {
+    return DeviceInfoPlugin().androidInfo;
+  }
+
+  @preResolve
+  @injectable
+  @singleton
   Future<AppInfo> get appInfo async {
     final deviceInfoPlugin = DeviceInfoPlugin();
 
-    final appFlavor = AppFlavor.values.firstWhereOrNull(
-      (element) {
-        return element.value == const String.fromEnvironment('flavor');
-      },
-    );
+    final appFlavor = AppFlavor.development;
 
     final platform = defaultTargetPlatform;
 
@@ -115,13 +119,14 @@ AppInfo get appInfo {
 }
 
 String get appFlavor {
-  return const String.fromEnvironment('flavor');
+  return String.fromEnvironment(LocalKeys.flavor);
 }
 
 bool get isDevFlavor {
-  return appFlavor == "dev";
+  // We're going to return true always as this is a "development only" app
+  return true;
 }
 
 bool get isProdFlavor {
-  return appFlavor == "prod";
+  return appFlavor == LocalValues.prod;
 }

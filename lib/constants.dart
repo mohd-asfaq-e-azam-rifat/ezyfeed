@@ -286,6 +286,15 @@ abstract class DatabaseKey {
   static const durationInDays = "durationInDays";
 }
 
+abstract class LocalKeys {
+  static const flavor = "flavor";
+}
+
+abstract class LocalValues {
+  static const dev = "dev";
+  static const prod = "prod";
+}
+
 abstract class NotificationAction {
   static const attendance = "attendance";
   static const leaveRequest = "leave-request";

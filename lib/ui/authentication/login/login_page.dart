@@ -1,6 +1,6 @@
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
 import 'package:ezyfeed/base/app_config/app_config_event.dart';
-import 'package:ezyfeed/base/helper/debouncer.dart';
+import 'package:ezyfeed/base/helper/debounce.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/base/widget/button/base_filled_button.dart';
 import 'package:ezyfeed/base/widget/form/base_text_form_field.dart';
@@ -100,11 +100,11 @@ class SignInWidget extends StatefulWidget {
 class _SignInWidgetState extends State<SignInWidget> {
   // Email
   late TextEditingController _emailController;
-  late Debouncer _emailDebouncer;
+  late DebounceHelper _emailDebounceHelper;
 
   // Password
   late TextEditingController _passwordController;
-  late Debouncer _passwordDebouncer;
+  late DebounceHelper _passwordDebounceHelper;
 
   late bool _shouldRemember;
   late bool _isActiveButton;
@@ -114,12 +114,12 @@ class _SignInWidgetState extends State<SignInWidget> {
     // Email
     _emailController = TextEditingController(text: "soniamalik@gmail.com");
     _emailController.addListener(_onEmailChanged);
-    _emailDebouncer = getIt<Debouncer>();
+    _emailDebounceHelper = getIt<DebounceHelper>();
 
     // Password
     _passwordController = TextEditingController(text: "7654321");
     _passwordController.addListener(_onPasswordChanged);
-    _passwordDebouncer = getIt<Debouncer>();
+    _passwordDebounceHelper = getIt<DebounceHelper>();
 
     _shouldRemember = false;
     _isActiveButton = false;
@@ -132,18 +132,18 @@ class _SignInWidgetState extends State<SignInWidget> {
     // Email
     _emailController.removeListener(_onEmailChanged);
     _emailController.dispose();
-    _emailDebouncer.dispose();
+    _emailDebounceHelper.dispose();
 
     // Password
     _passwordController.removeListener(_onPasswordChanged);
     _passwordController.dispose();
-    _passwordDebouncer.dispose();
+    _passwordDebounceHelper.dispose();
 
     super.dispose();
   }
 
   void _onEmailChanged() {
-    _emailDebouncer.run(
+    _emailDebounceHelper.run(
       () {
         setState(() {
           _isActiveButton = _validateForm();
@@ -154,7 +154,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   }
 
   void _onPasswordChanged() {
-    _passwordDebouncer.run(
+    _passwordDebounceHelper.run(
       () {
         setState(() {
           _isActiveButton = _validateForm();

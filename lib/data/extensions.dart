@@ -7,7 +7,6 @@ import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/helper/encryption/encryption_helper.dart';
 import 'package:ezyfeed/data/model/local/exception/exceptions.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
-import 'package:ezyfeed/data/model/remote/response/leave/leave.dart';
 import 'package:ezyfeed/data/repository/auth_repository.dart';
 import 'package:ezyfeed/injection.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,9 +18,9 @@ extension StringX on String {
   }
 
   String appendParamIntoPostfix(
-    String key,
-    String? value,
-  ) {
+      String key,
+      String? value,
+      ) {
     if (value != null) {
       final url = Uri.tryParse(this);
       if (url != null && url.hasQuery == false) {
@@ -41,7 +40,7 @@ extension StringX on String {
 
     final words = split(" ");
     final capitalizedWords = words.map(
-      (word) {
+          (word) {
         final firstLetter = word.substring(0, 1).toUpperCase();
         final restLetters = word.substring(1).toLowerCase();
         return "$firstLetter$restLetters";
@@ -57,24 +56,24 @@ extension StringX on String {
 }
 
 extension DateTimeX on DateTime {
-  String toMonthDayYearFormat() {
-    return DateFormat("MMM dd, yyyy").format(this);
-  }
-
-  String toYearMonthDayFormat() {
-    return DateFormat("yyyy-MM-dd").format(this);
-  }
-
   String toDayMonthFormat() {
     return DateFormat("d MMM").format(this);
+  }
+
+  String toDayShortMonthYearFormat() {
+    return DateFormat("dd MMM, yyyy").format(this);
   }
 
   String toDayFullMonthYearFormat() {
     return DateFormat("dd MMMM, yyyy").format(this);
   }
 
-  String toDayShortMonthYearFormat() {
-    return DateFormat("dd MMM, yyyy").format(this);
+  String toMonthDayYearFormat() {
+    return DateFormat("MMM dd, yyyy").format(this);
+  }
+
+  String toYearMonthDayFormat() {
+    return DateFormat("yyyy-MM-dd").format(this);
   }
 }
 
@@ -97,34 +96,6 @@ extension IntX on int {
   }
 }
 
-extension ListLeaveTypeX on List<LeaveType> {
-  String concatItems() {
-    if (isEmpty == true) {
-      return "";
-    } else {
-      if (length == 1) {
-        return first.toJson() ?? "";
-      } else {
-        return map((e) => e.toJson() ?? "").toList().join(":");
-      }
-    }
-  }
-}
-
-extension ListLeaveStatusX on List<LeaveStatus> {
-  String concatItems() {
-    if (isEmpty == true) {
-      return "";
-    } else {
-      if (length == 1) {
-        return first.toJson() ?? "";
-      } else {
-        return map((e) => e.toJson() ?? "").toList().join(":");
-      }
-    }
-  }
-}
-
 extension MapX on Map<String, dynamic> {
   Map<String, dynamic> addData(String key, dynamic value) {
     if (value != null) {
@@ -134,8 +105,6 @@ extension MapX on Map<String, dynamic> {
     return this;
   }
 }
-
-// todo: plan to add caches regarding API responses
 extension DioX on Dio {
   Future<Response<T>?> getRequest<T>({
     required String endPoint,
@@ -241,7 +210,6 @@ extension DioX on Dio {
 
         throw ex;
       } else if (err.type == DioExceptionType.connectionTimeout) {
-        // todo: optimize strings
         const message = "We’re having difficulty connecting to the server."
             " Verify server accessibility and retry.";
         final ex = AppException(message);
@@ -254,7 +222,6 @@ extension DioX on Dio {
 
         throw ex;
       } else if (err.response?.statusCode == HttpStatus.forbidden) {
-        // TODO: [auth] fix force log out
         getIt<AuthRepository>().logOut();
 
         const message = "Logging out forcefully.";

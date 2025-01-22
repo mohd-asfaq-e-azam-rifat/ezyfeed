@@ -6,13 +6,13 @@ import 'package:injectable/injectable.dart';
 const defaultDebounceTime = 300;
 
 @injectable
-class Debouncer {
+class DebounceHelper {
   Timer? _timer;
 
   void run(
-    VoidCallback action, {
-    int milliseconds = defaultDebounceTime,
-  }) {
+      VoidCallback action, {
+        int milliseconds = defaultDebounceTime,
+      }) {
     if (_timer?.isActive == true) {
       _timer?.cancel();
     }

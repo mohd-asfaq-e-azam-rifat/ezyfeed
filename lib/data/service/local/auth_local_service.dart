@@ -1,7 +1,6 @@
 import 'dart:convert' as json_converter;
 
 import 'package:ezyfeed/data/extensions.dart';
-import 'package:ezyfeed/data/model/local/user/user.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,7 +10,6 @@ class AuthLocalService {
   // keys
   static const _keyAuthToken = "auth_token";
   static const _keyLastLoginTimestamp = "last_login_timestamp";
-  static const _keyCurrentUser = "current_user";
 
   final GetStorage _box;
 
@@ -47,25 +45,5 @@ class AuthLocalService {
 
   Future<void> clearLastLoginTimestamp() {
     return _box.remove(_keyLastLoginTimestamp);
-  }
-
-  Future<void> setCurrentUser(User user) {
-    return _box.writeStringSecured(
-      _keyCurrentUser,
-      json_converter.jsonEncode(user.toJson()),
-    );
-  }
-
-  User? getCurrentUser() {
-    final jsonString = _box.readStringSecured(_keyCurrentUser);
-    return jsonString?.trim().isNotEmpty == true
-        ? User.fromJson(
-            json_converter.jsonDecode(jsonString!),
-          )
-        : null;
-  }
-
-  Future<void> clearCurrentUser() {
-    return _box.remove(_keyCurrentUser);
   }
 }
