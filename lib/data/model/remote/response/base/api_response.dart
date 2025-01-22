@@ -18,9 +18,6 @@ class ApiResponse<T> {
   @JsonKey(defaultValue: null)
   late T? data;
 
-  @JsonKey(defaultValue: null)
-  late Meta? meta;
-
   // auth
   @JsonKey(defaultValue: null)
   late String? token;
@@ -91,37 +88,4 @@ class Error {
   factory Error.fromJson(Map<String, dynamic> json) => _$ErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$ErrorToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.none)
-class Meta {
-  @JsonKey(defaultValue: null)
-  late int? pageNo;
-
-  @JsonKey(defaultValue: null)
-  late int? pageSize;
-
-  @JsonKey(defaultValue: null)
-  late int? totalPages;
-
-  @JsonKey(defaultValue: null)
-  late int? totalElements;
-
-  @JsonKey(defaultValue: null)
-  late bool? sorted;
-
-  @JsonKey(defaultValue: null)
-  late String? sortOrder;
-
-  @JsonKey(defaultValue: null)
-  late String? sortBy;
-
-  @JsonKey(defaultValue: null)
-  late bool? hasMore;
-
-  Meta();
-
-  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MetaToJson(this);
 }

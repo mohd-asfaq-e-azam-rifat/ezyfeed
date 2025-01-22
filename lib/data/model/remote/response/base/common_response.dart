@@ -75,17 +75,14 @@ class Token {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class RangeLimit {
+class Meta {
   @JsonKey(defaultValue: null)
-  late int? min;
+  late int? views;
 
-  @JsonKey(defaultValue: null)
-  late int? max;
+  Meta();
 
-  RangeLimit();
+  factory Meta.fromJson(Map<String, dynamic> json) =>
+      _$MetaFromJson(json);
 
-  factory RangeLimit.fromJson(Map<String, dynamic> json) =>
-      _$RangeLimitFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RangeLimitToJson(this);
+  Map<String, dynamic> toJson() => _$MetaToJson(this);
 }

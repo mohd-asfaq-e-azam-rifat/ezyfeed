@@ -55,12 +55,9 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'expire': instance.expire,
     };
 
-RangeLimit _$RangeLimitFromJson(Map<String, dynamic> json) => RangeLimit()
-  ..min = (json['min'] as num?)?.toInt()
-  ..max = (json['max'] as num?)?.toInt();
+Meta _$MetaFromJson(Map<String, dynamic> json) =>
+    Meta()..views = (json['views'] as num?)?.toInt();
 
-Map<String, dynamic> _$RangeLimitToJson(RangeLimit instance) =>
-    <String, dynamic>{
-      'min': instance.min,
-      'max': instance.max,
+Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
+      'views': instance.views,
     };
