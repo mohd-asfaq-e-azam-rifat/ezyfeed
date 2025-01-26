@@ -9,6 +9,8 @@ const colorText2 = Color(0xFF095661);
 const colorText3 = Color(0xFF040810);
 const colorText4 = Color(0xFF667085);
 const colorText5 = Color(0xFF98A2B3);
+const colorText6 = Color(0xFF6662FF);
+const colorText7 = Color(0xFF333741);
 const colorBorder1 = Color(0xFFD0D5DD);
 const colorBottomBarBackground = Color(0xFFF2F4F7);
 const colorBottomBarSelected = Color(0xFF004852);
@@ -202,12 +204,21 @@ const textStyleFeedItemSubtitle = TextStyle(
   fontSize: 14.0,
 );
 
-const textStyleFeedItemBody = TextStyle(
+const textStyleFeedItemBodyRegular = TextStyle(
   fontFamily: fontFamilyFigtree,
   color: colorBottomBarNotSelected,
   fontWeight: FontWeight.w400,
   fontSize: 14.0,
   height: 1.643,
+);
+
+const textStyleFeedItemBodyLink = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText6,
+  fontWeight: FontWeight.w500,
+  fontSize: 14.0,
+  height: 1.643,
+  decoration: TextDecoration.underline,
 );
 
 const textStyleWriteForFeedTitle = TextStyle(
@@ -216,6 +227,13 @@ const textStyleWriteForFeedTitle = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 18.0,
   height: 1.2,
+);
+
+const textStyleFeedItemCommentCount = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText7,
+  fontWeight: FontWeight.w600,
+  fontSize: 14.0,
 );
 
 abstract class CustomHttpHeader {
@@ -252,6 +270,7 @@ abstract class Regex {
   static const emailAddressRegex =
       r'^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$';
   static const passwordRegex = r"(^[a-zA-Z0-9]{4,}$)";
+  static const linkRegex = r'((https?|ftp):\/\/[^\s/$.?#].[^\s]*)';
 }
 
 // API End-points

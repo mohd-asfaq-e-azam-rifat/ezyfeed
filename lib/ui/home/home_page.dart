@@ -1,4 +1,5 @@
 import 'package:ezyfeed/constants.dart';
+import 'package:ezyfeed/ui/community/community_page.dart';
 import 'package:ezyfeed/ui/home/logout_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: <Widget>[
-        Container(color: colorPageBackground),
+        CommunityPage(),
       ][_pageIndex],
       bottomNavigationBar: NavigationBar(
         elevation: 12.0,
