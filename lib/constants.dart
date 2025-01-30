@@ -11,6 +11,8 @@ const colorText4 = Color(0xFF667085);
 const colorText5 = Color(0xFF98A2B3);
 const colorText6 = Color(0xFF6662FF);
 const colorText7 = Color(0xFF333741);
+const colorText8 = Colors.black;
+const colorText9 = Color(0xFF181534);
 const colorBorder1 = Color(0xFFD0D5DD);
 const colorBottomBarBackground = Color(0xFFF2F4F7);
 const colorBottomBarSelected = Color(0xFF004852);
@@ -25,6 +27,7 @@ const colorPageBackground = Color(0xFFF3F3F3);
 const colorAppBarBackground = Color(0xFF115C67);
 const colorFeedItemMoreIcon = Color(0xFF232A37);
 const colorWriteForFeedBorder = Color(0x33004852);
+const colorCreatePostFormBorder = Color(0xFFE1E1E1);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
@@ -72,7 +75,7 @@ const colorYellow1 = Color(0xFFF2C94C);
 const fontFamilyFigtree = "Figtree";
 
 // Regular Text Styles
-const textStyleAppBarTitle = TextStyle(
+const textStyleHomeAppBarTitle = TextStyle(
   fontFamily: fontFamilyFigtree,
   color: colorAccent,
   fontWeight: FontWeight.w600,
@@ -80,7 +83,7 @@ const textStyleAppBarTitle = TextStyle(
   height: 1.2,
 );
 
-final textStyleAppBarSubtitle = TextStyle(
+final textStyleHomeAppBarSubtitle = TextStyle(
   fontFamily: fontFamilyFigtree,
   color: colorAccent.withValues(alpha: 0.7),
   fontWeight: FontWeight.w500,
@@ -234,6 +237,30 @@ const textStyleFeedItemCommentCount = TextStyle(
   color: colorText7,
   fontWeight: FontWeight.w600,
   fontSize: 14.0,
+);
+
+const textStyleCreatePostAppBarTitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText8,
+  fontWeight: FontWeight.w500,
+  fontSize: 18.0,
+  height: 1.2,
+);
+
+const textStyleCreatePostAppBarLeading = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorFeedItemMoreIcon,
+  fontWeight: FontWeight.w400,
+  fontSize: 18.0,
+  height: 1.2,
+);
+
+const textStyleCreatePostAppBarAction = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText6,
+  fontWeight: FontWeight.w500,
+  fontSize: 18.0,
+  height: 1.2,
 );
 
 abstract class CustomHttpHeader {

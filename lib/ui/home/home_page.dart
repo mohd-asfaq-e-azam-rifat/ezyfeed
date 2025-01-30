@@ -52,11 +52,11 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Python Developer Community",
-                    style: textStyleAppBarTitle,
+                    style: textStyleHomeAppBarTitle,
                   ),
                   Text(
                     "#General",
-                    style: textStyleAppBarSubtitle,
+                    style: textStyleHomeAppBarSubtitle,
                   ),
                 ],
               ),

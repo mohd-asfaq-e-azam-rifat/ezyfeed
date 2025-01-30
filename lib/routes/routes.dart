@@ -1,5 +1,7 @@
 import 'dart:core';
+
 import 'package:ezyfeed/ui/authentication/login/login_page.dart';
+import 'package:ezyfeed/ui/create_post/create_post_page.dart';
 import 'package:ezyfeed/ui/home/home_page.dart';
 import 'package:ezyfeed/ui/splash_screen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,7 @@ class Routes {
   static const root = "ezyfeed://";
   static const login = "ezyfeed://login";
   static const home = "ezyfeed://home";
+  static const createPost = "ezyfeed://home/create-post";
 }
 
 List<String> get routes {
@@ -18,6 +21,7 @@ List<String> get routes {
     Routes.root,
     Routes.login,
     Routes.home,
+    Routes.createPost,
   ];
 }
 
@@ -61,6 +65,11 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case Routes.home:
       return buildRoute(
         builder: (_) => const HomePage(),
+      );
+
+    case Routes.createPost:
+      return buildRoute(
+        builder: (_) => const CreatePostPage(),
       );
 
     default:

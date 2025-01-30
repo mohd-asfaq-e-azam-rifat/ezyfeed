@@ -1,5 +1,7 @@
+import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/widget/button/base_filled_button.dart';
 import 'package:ezyfeed/constants.dart';
+import 'package:ezyfeed/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class WriteForFeedWidget extends StatelessWidget {
@@ -11,7 +13,7 @@ class WriteForFeedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // TODO: navigate to create post screen
+        context.to(Routes.createPost);
       },
       child: Container(
         margin: const EdgeInsets.only(
@@ -61,7 +63,7 @@ class WriteForFeedWidget extends StatelessWidget {
             BaseFilledButton(
               title: "Post",
               onPressed: () {
-                // TODO: navigate to create post screen
+                context.to(Routes.createPost);
               },
             ),
           ],
