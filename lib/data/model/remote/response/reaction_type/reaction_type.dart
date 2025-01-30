@@ -1,19 +1,14 @@
-import 'package:ezyfeed/data/model/remote/response/base/common_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'reaction_type.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ReactionType {
-
   @JsonKey(defaultValue: null)
-  late String? reactionType;
+  late Reaction? reactionType;
 
   @JsonKey(defaultValue: null)
   late int? feedId;
-
-  @JsonKey(defaultValue: null)
-  late Meta? meta;
 
   ReactionType();
 
@@ -21,4 +16,19 @@ class ReactionType {
       _$ReactionTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReactionTypeToJson(this);
+}
+
+enum Reaction {
+  @JsonValue("LIKE")
+  like,
+  @JsonValue("LOVE")
+  love,
+  @JsonValue("CARE")
+  care,
+  @JsonValue("WOW")
+  wow,
+  @JsonValue("SAD")
+  sad,
+  @JsonValue("ANGRY")
+  angry;
 }

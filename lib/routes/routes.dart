@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:ezyfeed/ui/authentication/login/login_page.dart';
-import 'package:ezyfeed/ui/create_post/create_post_page.dart';
+import 'package:ezyfeed/ui/feed/create_post/create_post_page.dart';
 import 'package:ezyfeed/ui/home/home_page.dart';
 import 'package:ezyfeed/ui/splash_screen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';

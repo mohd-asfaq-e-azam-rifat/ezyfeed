@@ -17,10 +17,8 @@ extension StringX on String {
     return value != null ? "${trim()}/$value" : trim();
   }
 
-  String appendParamIntoPostfix(
-      String key,
-      String? value,
-      ) {
+  String appendParamIntoPostfix(String key,
+      String? value,) {
     if (value != null) {
       final url = Uri.tryParse(this);
       if (url != null && url.hasQuery == false) {

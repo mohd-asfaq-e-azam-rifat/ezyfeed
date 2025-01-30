@@ -1,4 +1,4 @@
-import 'package:ezyfeed/data/model/remote/response/base/common_response.dart';
+import 'package:ezyfeed/data/model/remote/response/reaction_type/reaction_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'like.g.dart';
@@ -15,19 +15,13 @@ class Like {
   late int? userId;
 
   @JsonKey(defaultValue: null)
-  late String? reactionType;
+  late Reaction? reactionType;
 
   @JsonKey(defaultValue: null)
   late String? createdAt;
 
   @JsonKey(defaultValue: null)
   late String? updatedAt;
-
-  @JsonKey(defaultValue: null)
-  late int? isAnonymous;
-
-  @JsonKey(defaultValue: null)
-  late Meta? meta;
 
   Like();
 

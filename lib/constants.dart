@@ -282,6 +282,24 @@ abstract class ApiKey {
   static const email = "email";
   static const password = "password";
   static const appToken = "app_token";
+  static const feedText = "feed_txt";
+  static const communityId = "community_id";
+  static const spaceId = "space_id";
+  static const uploadType = "uploadType";
+  static const activityType = "activity_type";
+  static const hasBackground = "is_background";
+  static const backgroundColor = "bg_color";
+  static const status = "status";
+  static const more = "more";
+}
+
+abstract class ApiValue {
+  static const defaultCommunityId = 2914;
+  static const defaultSpaceId = 5883;
+  static const defaultUploadType = "text";
+  static const defaultActivityType = "group";
+  static const defaultHasBackgroundValue = 1;
+  static const feed = "feed";
 }
 
 abstract class LocalKeys {
@@ -304,3 +322,5 @@ abstract class Regex {
 // Auth
 const urlLogin = "/student/auth/login";
 const urlLogOut = "/student/auth/logout";
+const urlToCreatePost = "/teacher/community/createFeedWithUpload";
+const urlToGetFeed = "/teacher/community/getFeed";

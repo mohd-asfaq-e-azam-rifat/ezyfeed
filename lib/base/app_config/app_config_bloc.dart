@@ -25,7 +25,6 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
           ),
         ) {
     on<UserAuthStateUpdated>(_onUserAuthStateUpdated);
-    on<AppConfigDataRequested>(_onAppConfigDataRequested);
     on<AppInitialDataRequested>(_onAppInitialDataRequested);
   }
 
@@ -55,25 +54,6 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
         authState: getUserAuthState(),
       ),
     );
-  }
-
-  Future<void> _onAppConfigDataRequested(
-    AppConfigEvent event,
-    Emitter<AppConfigState> emit,
-  ) async {
-    final savedLocale = _commonRepository.getLanguage();
-    if (savedLocale == null) {
-      await _commonRepository.storeLanguage(state.locale);
-    } else {
-      emit(state.copyWith(locale: savedLocale));
-    }
-
-    final themeMode = _commonRepository.getThemeMode();
-    if (themeMode == null) {
-      await _commonRepository.storeThemeMode(state.themeMode);
-    } else {
-      emit(state.copyWith(themeMode: themeMode));
-    }
   }
 
   Future<void> _onUserAuthStateUpdated(
