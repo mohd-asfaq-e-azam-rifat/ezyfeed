@@ -2,8 +2,10 @@ abstract class FeedEvent {}
 
 class FeedItemsRequested extends FeedEvent {
   final int? lastFeedId;
+  final bool shouldShowLoading;
 
   FeedItemsRequested({
+    this.shouldShowLoading = true,
     this.lastFeedId,
   });
 }

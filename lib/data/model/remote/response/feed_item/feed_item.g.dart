@@ -46,5 +46,6 @@ Map<String, dynamic> _$FeedItemToJson(FeedItem instance) => <String, dynamic>{
 const _$FileTypeEnumMap = {
   FileType.text: 'text',
   FileType.photo: 'photos',
+  FileType.audio: 'audio',
   FileType.file: 'File',
 };

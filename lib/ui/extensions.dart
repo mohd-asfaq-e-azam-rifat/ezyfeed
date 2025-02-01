@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/helper/date_time/date_time_helper.dart';
+import 'package:ezyfeed/data/model/local/pagination_data/pagination_data.dart';
 import 'package:ezyfeed/injection.dart';
 import 'package:flutter/material.dart';
 
@@ -196,4 +198,34 @@ extension DoubleX on double {
   }
 
   double degreesToRadians() => this * math.pi / 180.0;
+}
+
+extension ScrollNotificationX on ScrollNotification? {
+  bool onPaginatedScroll({
+    required bool isLoadingData,
+    required PaginationData? metaData,
+    required void Function(
+      BuildContext context,
+      int nextPageData,
+    ) onPaginated,
+  }) {
+    if (this == null || metaData == null) {
+      return false;
+    }
+
+    final currentScroll = this!.metrics.pixels;
+    final maxScroll = this!.metrics.maxScrollExtent;
+    final viewportDimension = this!.metrics.viewportDimension;
+
+    if (this is ScrollEndNotification &&
+        currentScroll >= maxScroll - (viewportDimension * paginationRatio) &&
+        metaData.isLastPage != true &&
+        isLoadingData == false &&
+        metaData.lastId != null &&
+        this!.context != null) {
+      onPaginated.call(this!.context!, metaData.lastId!);
+    }
+
+    return false;
+  }
 }

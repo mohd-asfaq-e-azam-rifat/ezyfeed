@@ -63,6 +63,8 @@ enum FileType {
   text,
   @JsonValue("photos")
   photo,
+  @JsonValue("audio")
+  audio,
   @JsonValue("File")
   file;
 }

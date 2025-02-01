@@ -319,6 +319,9 @@ abstract class Regex {
   static const linkRegex = r'((https?|ftp):\/\/[^\s/$.?#].[^\s]*)';
 }
 
+// Pagination
+const paginationRatio = 0.75;
+
 // API End-points
 // Auth
 const urlLogin = "/student/auth/login";

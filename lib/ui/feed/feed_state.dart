@@ -29,12 +29,14 @@ class FeedState extends Equatable {
 }
 
 class GetFeedState extends FeedState {
-  final List<FeedItem>? feedItems;
+  final List<FeedItem> feedItems;
+  final bool isLastPage;
 
   const GetFeedState({
     super.uiState = UiState.initial,
     super.message,
-    this.feedItems,
+    this.feedItems = const [],
+    this.isLastPage = false,
   });
 
   @override
@@ -42,11 +44,29 @@ class GetFeedState extends FeedState {
     UiState? uiState,
     String? message,
     List<FeedItem>? feedItems,
+    bool? isLastPage,
   }) {
     return GetFeedState(
       uiState: uiState ?? this.uiState,
       message: message ?? this.message,
       feedItems: feedItems ?? this.feedItems,
+      isLastPage: isLastPage ?? this.isLastPage,
+    );
+  }
+
+  GetFeedState addWith({
+    UiState? uiState,
+    String? message,
+    List<FeedItem>? feedItems,
+    bool? isLastPage,
+  }) {
+    return GetFeedState(
+      uiState: uiState ?? this.uiState,
+      message: message ?? this.message,
+      feedItems: feedItems != null
+          ? (List.of(this.feedItems)..addAll(feedItems))
+          : this.feedItems,
+      isLastPage: isLastPage ?? this.isLastPage,
     );
   }
 
@@ -55,6 +75,7 @@ class GetFeedState extends FeedState {
         uiState,
         message,
         feedItems,
+        isLastPage,
       ];
 }
 

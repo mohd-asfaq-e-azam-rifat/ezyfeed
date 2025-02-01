@@ -20,21 +20,38 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     Emitter<FeedState> emit,
   ) async {
     try {
-      emit(
-        GetFeedState(uiState: UiState.loading),
-      );
+      if (event.shouldShowLoading == true) {
+        emit(
+          GetFeedState(
+            uiState: UiState.loading,
+          ),
+        );
+      }
 
       final result = await _feedRepository.getFeed(
         lastFeedId: event.lastFeedId,
       );
 
       if (result != null) {
-        emit(
-          (state as GetFeedState).copyWith(
-            uiState: UiState.successful,
-            feedItems: result,
-          ),
-        );
+        if (event.lastFeedId != null &&
+            state is GetFeedState &&
+            (state as GetFeedState).feedItems.isNotEmpty == true) {
+          emit(
+            (state as GetFeedState).addWith(
+              uiState: UiState.successful,
+              feedItems: result,
+              isLastPage: result.length < 15,
+            ),
+          );
+        } else {
+          emit(
+            (state as GetFeedState).copyWith(
+              uiState: UiState.successful,
+              feedItems: result,
+              isLastPage: result.length < 15,
+            ),
+          );
+        }
       } else {
         emit(
           state.copyWith(
