@@ -16,69 +16,14 @@ class CreatePostPage extends StatefulWidget {
 }
 
 class _CreatePostPageState extends State<CreatePostPage> {
-  // Gradients
-  static const List _backgroundGradients = [
-    LinearGradient(
-      begin: Alignment(-1.0, 0.0),
-      end: Alignment(1.0, 0.0),
-      transform: GradientRotation(90),
-      colors: [
-        Color(0xFFFFFFFF),
-        Color(0xFFFFFFFF),
-      ],
-    ),
-    LinearGradient(
-      begin: Alignment(-1.0, 0.0),
-      end: Alignment(1.0, 0.0),
-      transform: GradientRotation(90),
-      colors: [
-        Color(0xFFff00ea),
-        Color(0xFFff7300),
-      ],
-    ),
-    LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      transform: GradientRotation(-135),
-      colors: [
-        Color.fromRGBO(72, 229, 169, 1),
-        Color.fromRGBO(143, 199, 173, 1),
-      ],
-    ),
-    LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Color.fromRGBO(116, 167, 126, 1),
-        Color.fromRGBO(24, 175, 78, 1),
-      ],
-    ),
-    LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Color(0xFFff7f11),
-        Color(0xFFff7f11),
-      ],
-    ),
-    LinearGradient(
-      begin: Alignment(-1.0, 0.0),
-      end: Alignment(1.0, 0.0),
-      transform: GradientRotation(90),
-      colors: [
-        Color(0xFF00ffe1),
-        Color(0xFFe9ff42),
-      ],
-    )
-  ];
 
   static const _backgroundGradientValues = [
     "{\"backgroundImage\": \"linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255))\"}",
-    "{\"backgroundImage\": \"linear-gradient(90deg, rgb(255, 0, 234), rgb(255, 115, 0))\"}",
-    "{\"backgroundImage\": \"linear-gradient(-135deg, rgb(72, 229, 169), rgb(143, 199, 173))\"}",
+    "{\"backgroundImage\": \"linear-gradient(45deg, rgb(255, 115, 0), rgb(255, 0, 234))\"}",
+    "{\"backgroundImage\": \"linear-gradient(135deg, rgb(143, 199, 173), rgb(72, 229, 169))\"}",
     "{\"backgroundImage\": \"linear-gradient(135deg, rgb(116, 167, 126), rgb(24, 175, 78))\"}",
-    "{\"backgroundImage\": \"linear-gradient(135deg, rgb(255, 127, 17), rgb(255, 127, 17))\"}",
-    "{\"backgroundImage\": \"linear-gradient(90deg, rgb(0, 255, 225), rgb(233, 255, 66))\"}",
+    "{\"backgroundImage\": \"linear-gradient(45deg, rgb(255, 127, 17), rgb(255, 127, 17))\"}",
+    "{\"backgroundImage\": \"linear-gradient(45deg, rgb(233, 255, 66), rgb(0, 255, 225))\"}",
   ];
 
   late int _gradientIndex;
@@ -212,7 +157,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 border: Border.fromBorderSide(
                   BorderSide(color: colorCreatePostFormBorder),
                 ),
-                gradient: _backgroundGradients[_gradientIndex],
+                gradient: _backgroundGradientValues[_gradientIndex]
+                    .backgroundCssStyleToLinearGradient(),
               ),
               height: 170.0,
               margin: const EdgeInsets.only(
@@ -292,9 +238,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         ? ListView.separated(
                             scrollDirection: Axis.horizontal,
                             physics: BouncingScrollPhysics(),
-                            itemCount: _backgroundGradients.length,
+                            itemCount: _backgroundGradientValues.length,
                             itemBuilder: (context, index) {
-                              final item = _backgroundGradients[index];
+                              final item = _backgroundGradientValues[index]
+                                  .backgroundCssStyleToLinearGradient();
                               return GestureDetector(
                                 onTap: () {
                                   setState(() {

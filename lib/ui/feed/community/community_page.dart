@@ -1,10 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/base/widget/loader/base_data_loader.dart';
 import 'package:ezyfeed/base/widget/toast/toast.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
+import 'package:ezyfeed/data/helper/date_time/date_time_helper.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
+import 'package:ezyfeed/injection.dart';
+import 'package:ezyfeed/ui/extensions.dart';
 import 'package:ezyfeed/ui/feed/community/write_for_feed_widget.dart';
 import 'package:ezyfeed/ui/feed/feed_bloc.dart';
 import 'package:ezyfeed/ui/feed/feed_event.dart';
@@ -68,6 +72,12 @@ class CommunityPage extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0) {
                   return WriteForFeedWidget();
+                } else if (index == items.length) {
+                  final adjustedIndex = index - 1;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: FeedItemWidget(item: items[adjustedIndex]),
+                  );
                 } else {
                   final adjustedIndex = index - 1;
                   return FeedItemWidget(item: items[adjustedIndex]);
@@ -96,18 +106,23 @@ class CommunityPage extends StatelessWidget {
 }
 
 class FeedItemWidget extends StatelessWidget {
-  // TODO: Remove the following
-  final _sampleText =
-      "Hello everyone, this is a post from app to see if attached link"
-      " is working or not. Here is a link https://picsum.photos/1280/720"
-      " But I think this is not working. This should work but not working!!!!";
-
   final FeedItem item;
 
   const FeedItemWidget({
     super.key,
     required this.item,
   });
+
+  String _prepareFeedPostDateTime(String dateTimeAsText) {
+    final helper = getIt<DateTimeHelper>();
+    final dateTime = helper.toDateTime(dateTimeAsText);
+
+    if (dateTime == null) {
+      return "";
+    }
+
+    return helper.toTimeAgo(dateTime);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +137,17 @@ class FeedItemWidget extends StatelessWidget {
             spacing: 8.0,
             children: [
               ClipOval(
-                child: Image.asset(
-                  "assets/icons/ic_user_avatar.webp",
-                  fit: BoxFit.contain,
+                child: CachedNetworkImage(
+                  imageUrl: item.user?.profilePicture ?? "",
                   width: 34.0,
                   height: 34.0,
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => Container(
+                    color: colorDisabled2.withValues(alpha: 0.5),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: colorDisabled2.withValues(alpha: 0.5),
+                  ),
                 ),
               ),
               Expanded(
@@ -140,9 +161,8 @@ class FeedItemWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    // TODO: mechanism to convert date-time to display text
                     Text(
-                      "2 days ago",
+                      _prepareFeedPostDateTime(item.createdAt ?? ""),
                       style: textStyleFeedItemSubtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -162,31 +182,44 @@ class FeedItemWidget extends StatelessWidget {
             height: 0.64,
             color: colorBorder1,
           ),
-          RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: _linkifyText(context, item.feedText ?? ""),
-            maxLines: 4,
-            textAlign: TextAlign.start,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (item.fileType != FileType.text)
-            Image.network(
-              "https://picsum.photos/1280/720",
-              fit: BoxFit.cover,
-              width: double.maxFinite,
-              height: 162.0,
-            ),
+          item.backgroundColor != null
+              ? Container(
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    gradient: _getBackgroundGradient(),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
+                  ),
+                  child: RichText(
+                    textScaler: MediaQuery.of(context).textScaler,
+                    text: _linkifyText(context, item.feedText ?? ""),
+                    textAlign: TextAlign.start,
+                  ),
+                )
+              : RichText(
+                  textScaler: MediaQuery.of(context).textScaler,
+                  text: _linkifyText(context, item.feedText ?? ""),
+                  textAlign: TextAlign.start,
+                ),
           Row(
             spacing: 32.0,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // TODO: replace the widget with reactions
-              Container(
-                color: Colors.transparent,
-                width: 100.0,
-                height: 20.0,
-              ),
+              item.likeCount != null && item.likeCount! > 0
+                  ? Text(
+                      "${item.likeCount}",
+                      style: textStyleFeedItemCommentCount,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : Container(
+                      color: Colors.transparent,
+                      width: 100.0,
+                      height: 20.0,
+                    ),
               if (item.commentCount != null && item.commentCount! > 0)
                 Row(
                   spacing: 6.0,
@@ -208,9 +241,57 @@ class FeedItemWidget extends StatelessWidget {
                 ),
             ],
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              spacing: 32.0,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  color: Colors.transparent,
+                  width: 100.0,
+                  height: 20.0,
+                ),
+                Row(
+                  spacing: 4.0,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/icons/ic_comment_dark.svg",
+                      width: 20.0,
+                      height: 20.0,
+                    ),
+                    Text(
+                      "Comment",
+                      style: textStyleFeedItemCommentCount.copyWith(
+                        color: colorCreatePostCommentIcon,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  LinearGradient _getBackgroundGradient() {
+    final defaultBackground = LinearGradient(
+      begin: Alignment(-1.0, 0.0),
+      end: Alignment(1.0, 0.0),
+      transform: GradientRotation(90),
+      colors: [
+        Color(0xFFFFFFFF),
+        Color(0xFFFFFFFF),
+      ],
+    );
+
+    var background = item.backgroundColor?.backgroundCssStyleToLinearGradient();
+    return background ?? defaultBackground;
   }
 
   TextSpan _linkifyText(BuildContext context, String text) {

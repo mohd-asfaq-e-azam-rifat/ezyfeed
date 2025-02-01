@@ -28,6 +28,7 @@ const colorAppBarBackground = Color(0xFF115C67);
 const colorFeedItemMoreIcon = Color(0xFF232A37);
 const colorWriteForFeedBorder = Color(0x33004852);
 const colorCreatePostFormBorder = Color(0xFFE1E1E1);
+const colorCreatePostCommentIcon = Color(0xFF1B1B35);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
