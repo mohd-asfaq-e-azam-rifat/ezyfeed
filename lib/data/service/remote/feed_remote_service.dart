@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:dio/dio.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
@@ -31,15 +29,11 @@ class FeedRemoteService {
       },
     );
 
-    return Isolate.run<List<FeedItem>?>(
-      () {
-        return response?.data != null
-            ? (response?.data as List<dynamic>?)
-                ?.map((e) => FeedItem.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : null;
-      },
-    );
+    return response?.data != null
+        ? (response?.data as List<dynamic>?)
+            ?.map((e) => FeedItem.fromJson(e as Map<String, dynamic>))
+            .toList()
+        : null;
   }
 
   Future<FeedItem?> createPost({

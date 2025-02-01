@@ -111,9 +111,8 @@ class _SignInWidgetState extends State<SignInWidget> {
 
   @override
   void initState() {
-    // TODO: remove sample credentials
     // Email
-    _emailController = TextEditingController(text: "soniamalik@gmail.com");
+    _emailController = TextEditingController(text: "mannywill@gmail.com");
     _emailController.addListener(_onEmailChanged);
     _emailDebounceHelper = getIt<DebounceHelper>();
 

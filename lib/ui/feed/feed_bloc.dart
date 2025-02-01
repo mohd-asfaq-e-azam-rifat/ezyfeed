@@ -12,6 +12,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   FeedBloc(this._feedRepository) : super(const FeedState()) {
     on<FeedItemsRequested>(_onFeedItemsRequested);
+    on<PostCreationRequested>(_onPostCreationRequested);
   }
 
   Future<void> _onFeedItemsRequested(
@@ -39,6 +40,42 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           state.copyWith(
             uiState: UiState.error,
             message: "No feed items found",
+          ),
+        );
+      }
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          uiState: UiState.error,
+          message: e.getErrorMessage(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onPostCreationRequested(
+    PostCreationRequested event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      final result = await _feedRepository.createPost(
+        text: event.text,
+        backgroundColor: event.backgroundColor,
+      );
+
+      if (result != null) {
+        emit(
+          CreatePostState(
+            uiState: UiState.successful,
+            feedItem: result,
+            message: "Post created successfully",
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            uiState: UiState.error,
+            message: "No new feed item found",
           ),
         );
       }

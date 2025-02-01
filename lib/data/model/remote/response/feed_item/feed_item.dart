@@ -61,6 +61,8 @@ class FeedItem {
 enum FileType {
   @JsonValue("text")
   text,
+  @JsonValue("photos")
+  photo,
   @JsonValue("File")
   file;
 }

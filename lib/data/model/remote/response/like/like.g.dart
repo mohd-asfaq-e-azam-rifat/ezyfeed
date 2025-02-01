@@ -10,7 +10,7 @@ Like _$LikeFromJson(Map<String, dynamic> json) => Like()
   ..id = (json['id'] as num?)?.toInt()
   ..feedId = (json['feed_id'] as num?)?.toInt()
   ..userId = (json['user_id'] as num?)?.toInt()
-  ..reactionType = $enumDecodeNullable(_$ReactionEnumMap, json['reaction_type'])
+  ..reactionType = json['reaction_type'] as String?
   ..createdAt = json['created_at'] as String?
   ..updatedAt = json['updated_at'] as String?;
 
@@ -18,16 +18,7 @@ Map<String, dynamic> _$LikeToJson(Like instance) => <String, dynamic>{
       'id': instance.id,
       'feed_id': instance.feedId,
       'user_id': instance.userId,
-      'reaction_type': _$ReactionEnumMap[instance.reactionType],
+      'reaction_type': instance.reactionType,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
     };
-
-const _$ReactionEnumMap = {
-  Reaction.like: 'LIKE',
-  Reaction.love: 'LOVE',
-  Reaction.care: 'CARE',
-  Reaction.wow: 'WOW',
-  Reaction.sad: 'SAD',
-  Reaction.angry: 'ANGRY',
-};

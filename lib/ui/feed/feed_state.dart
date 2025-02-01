@@ -57,3 +57,33 @@ class GetFeedState extends FeedState {
         feedItems,
       ];
 }
+
+class CreatePostState extends FeedState {
+  final FeedItem? feedItem;
+
+  const CreatePostState({
+    super.uiState = UiState.initial,
+    super.message,
+    this.feedItem,
+  });
+
+  @override
+  CreatePostState copyWith({
+    UiState? uiState,
+    String? message,
+    FeedItem? feedItem,
+  }) {
+    return CreatePostState(
+      uiState: uiState ?? this.uiState,
+      message: message ?? this.message,
+      feedItem: feedItem ?? this.feedItem,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        uiState,
+        message,
+        feedItem,
+      ];
+}

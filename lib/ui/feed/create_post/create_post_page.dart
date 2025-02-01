@@ -1,8 +1,12 @@
 import 'package:ezyfeed/base/helper/debounce.dart';
-import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/ui/extensions.dart';
+import 'package:ezyfeed/ui/feed/feed_bloc.dart';
+import 'package:ezyfeed/ui/feed/feed_event.dart';
+import 'package:ezyfeed/ui/feed/feed_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CreatePostPage extends StatefulWidget {
   const CreatePostPage({super.key});
@@ -12,10 +16,6 @@ class CreatePostPage extends StatefulWidget {
 }
 
 class _CreatePostPageState extends State<CreatePostPage> {
-  // TODO: remove the following
-  // Sample text
-  static const String _text = "Hi, How you doing?";
-
   // Gradients
   static const List _backgroundGradients = [
     LinearGradient(
@@ -100,6 +100,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
     _isActiveButton = false;
     _gradientIndex = 0; // first gradient by default
     _isGradientsExpanded = true; // show gradients by default
+
     super.initState();
   }
 
@@ -140,7 +141,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         leadingWidth: 96.0,
         leading: GestureDetector(
           onTap: () {
-            context.back();
+            context.pop();
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -154,23 +155,35 @@ class _CreatePostPageState extends State<CreatePostPage> {
           ),
         ),
         actions: [
-          GestureDetector(
-            onTap: _isActiveButton == true
-                ? () {
-                    // TODO: integrate post creation API
-                  }
-                : null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Center(
-                child: Text(
-                  "Create",
-                  style: textStyleCreatePostAppBarAction.copyWith(
-                    color: _isActiveButton ? colorText6 : colorDisabled1,
+          BlocBuilder<FeedBloc, FeedState>(
+            builder: (context, state) {
+              return GestureDetector(
+                onTap: _isActiveButton == true
+                    ? () {
+                        context.read<FeedBloc>().add(
+                              PostCreationRequested(
+                                text: _postController.text.trim(),
+                                backgroundColor:
+                                    _backgroundGradientValues[_gradientIndex],
+                              ),
+                            );
+
+                        context.pop();
+                      }
+                    : null,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Center(
+                    child: Text(
+                      "Create",
+                      style: textStyleCreatePostAppBarAction.copyWith(
+                        color: _isActiveButton ? colorText6 : colorDisabled1,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
         titleTextStyle: textStyleCreatePostAppBarTitle,
@@ -187,131 +200,131 @@ class _CreatePostPageState extends State<CreatePostPage> {
         ),
         elevation: 0.0,
       ),
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: colorAccent,
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: colorAccent,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                border: Border.fromBorderSide(
+                  BorderSide(color: colorCreatePostFormBorder),
+                ),
+                gradient: _backgroundGradients[_gradientIndex],
               ),
-              border: Border.fromBorderSide(
-                BorderSide(color: colorCreatePostFormBorder),
+              height: 170.0,
+              margin: const EdgeInsets.only(
+                top: 8.0,
+                left: 24.0,
+                right: 24.0,
+                bottom: 16.0,
               ),
-              gradient: _backgroundGradients[_gradientIndex],
-            ),
-            height: 200.0,
-            margin: const EdgeInsets.only(
-              top: 8.0,
-              left: 24.0,
-              right: 24.0,
-              bottom: 16.0,
-            ),
-            child: TextFormField(
-              keyboardType: TextInputType.multiline,
-              style: textStyleFormText.copyWith(
-                fontSize: 16.0,
-                color: colorText9,
-                height: 1.5,
-              ),
-              minLines: 1,
-              maxLines: null,
-              controller: _postController,
-              onTapOutside: (event) {
-                context.hideKeyboard();
-              },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                hintText: "What's on your mind?",
-                counterText: "",
-                contentPadding: const EdgeInsets.all(20.0),
-                hintStyle: textStyleFormText.copyWith(
+              child: TextFormField(
+                keyboardType: TextInputType.multiline,
+                style: textStyleFormText.copyWith(
                   fontSize: 16.0,
-                  color: colorText9.withValues(alpha: 0.3),
+                  color: colorText9,
                   height: 1.5,
                 ),
+                minLines: 1,
+                maxLines: null,
+                controller: _postController,
+                onTapOutside: (event) {
+                  context.hideKeyboard();
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  hintText: "What's on your mind?",
+                  counterText: "",
+                  contentPadding: const EdgeInsets.all(20.0),
+                  hintStyle: textStyleFormText.copyWith(
+                    fontSize: 16.0,
+                    color: colorText9.withValues(alpha: 0.3),
+                    height: 1.5,
+                  ),
+                ),
               ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-              top: 8.0,
-              left: 24.0,
-              right: 24.0,
-              bottom: 16.0,
-            ),
-            width: double.maxFinite,
-            height: 26.0,
-            child: Row(
-              spacing: 6.0,
-              children: [
-                GestureDetector(
-                  child: Container(
-                    width: 26.0,
-                    height: 26.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(3.0),
+            Container(
+              margin: const EdgeInsets.only(
+                top: 8.0,
+                left: 24.0,
+                right: 24.0,
+                bottom: 16.0,
+              ),
+              width: double.maxFinite,
+              height: 26.0,
+              child: Row(
+                spacing: 6.0,
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      width: 26.0,
+                      height: 26.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(3.0),
+                        ),
+                      ),
+                      child: Icon(
+                        _isGradientsExpanded
+                            ? Icons.arrow_back_ios_outlined
+                            : Icons.arrow_forward_ios_outlined,
+                        size: 16.0,
                       ),
                     ),
-                    child: Icon(
-                      _isGradientsExpanded
-                          ? Icons.arrow_back_ios_outlined
-                          : Icons.arrow_forward_ios_outlined,
-                      size: 16.0,
-                    ),
+                    onTap: () {
+                      // Toggle the expansion
+                      setState(() {
+                        _isGradientsExpanded = !_isGradientsExpanded;
+                      });
+                    },
                   ),
-                  onTap: () {
-                    // Toggle the expansion
-                    setState(() {
-                      _isGradientsExpanded = !_isGradientsExpanded;
-                    });
-                  },
-                ),
-                Expanded(
-                  child: _isGradientsExpanded
-                      ? ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: _backgroundGradients.length,
-                          itemBuilder: (context, index) {
-                            final item = _backgroundGradients[index];
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _gradientIndex = index;
-                                });
-                              },
-                              child: Container(
-                                width: 26.0,
-                                height: 26.0,
-                                decoration: BoxDecoration(
-                                  gradient: item,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(3.0),
+                  Expanded(
+                    child: _isGradientsExpanded
+                        ? ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            itemCount: _backgroundGradients.length,
+                            itemBuilder: (context, index) {
+                              final item = _backgroundGradients[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _gradientIndex = index;
+                                  });
+                                },
+                                child: Container(
+                                  width: 26.0,
+                                  height: 26.0,
+                                  decoration: BoxDecoration(
+                                    gradient: item,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(3.0),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const SizedBox(width: 6.0);
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                ),
-              ],
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(width: 6.0);
+                            },
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: const SizedBox.expand(),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

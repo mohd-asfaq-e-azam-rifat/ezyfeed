@@ -5,7 +5,6 @@ import 'package:ezyfeed/base/widget/toast/toast.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
-import 'package:ezyfeed/injection.dart';
 import 'package:ezyfeed/ui/feed/community/write_for_feed_widget.dart';
 import 'package:ezyfeed/ui/feed/feed_bloc.dart';
 import 'package:ezyfeed/ui/feed/feed_event.dart';
@@ -19,7 +18,7 @@ class CommunityPage extends StatelessWidget {
   const CommunityPage({super.key});
 
   FeedBloc _getBloc(BuildContext context) {
-    final bloc = getIt<FeedBloc>();
+    final bloc = context.read<FeedBloc>();
     bloc.add(FeedItemsRequested());
 
     return bloc;
@@ -27,8 +26,8 @@ class CommunityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _getBloc(context),
+    return BlocProvider<FeedBloc>.value(
+      value: _getBloc(context),
       child: BlocConsumer<FeedBloc, FeedState>(
         listener: (context, state) {
           if (state.uiState.isError == true) {
@@ -36,9 +35,18 @@ class CommunityPage extends StatelessWidget {
               showToast(message: state.message!.trim());
             }
           }
+
+          if (state is CreatePostState && state.uiState.isSuccessful == true) {
+            if (state.message?.trim().isNotEmpty == true) {
+              showToast(message: state.message!.trim());
+            }
+
+            final bloc = context.read<FeedBloc>();
+            bloc.add(FeedItemsRequested());
+          }
         },
         builder: (context, state) {
-          if (state.uiState.isLoading == true) {
+          if (state is GetFeedState && state.uiState.isLoading == true) {
             return Column(
               spacing: 24.0,
               children: [
@@ -50,8 +58,9 @@ class CommunityPage extends StatelessWidget {
                 ),
               ],
             );
-          } else if (state.uiState.isSuccessful == true &&
-              (state as GetFeedState).feedItems?.isNotEmpty == true) {
+          } else if (state is GetFeedState &&
+              state.uiState.isSuccessful == true &&
+              state.feedItems?.isNotEmpty == true) {
             final items = state.feedItems!;
 
             return ListView.separated(
