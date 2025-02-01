@@ -87,11 +87,52 @@ extension StringX on String {
         );
       }
     } catch (e) {
-      print(e);
       // Do nothing
     }
 
     return null;
+  }
+
+  String getReactionIcon() {
+    switch (this) {
+      case "LIKE":
+      case "Like":
+      case "like":
+        return "assets/icons/ic_circular_like.svg";
+
+      case "LOVE":
+      case "Love":
+      case "love":
+        return "assets/icons/ic_circular_love.svg";
+
+      case "CARE":
+      case "Care":
+      case "care":
+        return "assets/icons/ic_circular_care.svg";
+
+      case "HAHA":
+      case "Haha":
+      case "haha":
+        return "assets/icons/ic_circular_haha.svg";
+
+      case "WOW":
+      case "Wow":
+      case "wow":
+        return "assets/icons/ic_circular_wow.svg";
+
+      case "SAD":
+      case "Sad":
+      case "sad":
+        return "assets/icons/ic_circular_sad.svg";
+
+      case "ANGRY":
+      case "Angry":
+      case "angry":
+        return "assets/icons/ic_circular_angry.svg";
+
+      default:
+        return "assets/icons/ic_circular_like.svg";
+    }
   }
 }
 

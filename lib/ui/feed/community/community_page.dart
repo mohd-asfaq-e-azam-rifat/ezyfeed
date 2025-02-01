@@ -185,6 +185,7 @@ class FeedItemWidget extends StatelessWidget {
           item.backgroundColor != null
               ? Container(
                   width: double.maxFinite,
+                  margin: const EdgeInsets.only(bottom: 8.0),
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     gradient: _getBackgroundGradient(),
@@ -203,44 +204,34 @@ class FeedItemWidget extends StatelessWidget {
                   text: _linkifyText(context, item.feedText ?? ""),
                   textAlign: TextAlign.start,
                 ),
-          Row(
-            spacing: 32.0,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              item.likeCount != null && item.likeCount! > 0
-                  ? Text(
-                      "${item.likeCount}",
-                      style: textStyleFeedItemCommentCount,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  : Container(
-                      color: Colors.transparent,
-                      width: 100.0,
-                      height: 20.0,
-                    ),
-              if (item.commentCount != null && item.commentCount! > 0)
-                Row(
-                  spacing: 6.0,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icons/ic_comment.svg",
-                      width: 16.0,
-                      height: 16.0,
-                    ),
-                    Text(
-                      "${item.commentCount} ${item.commentCount! > 1 ? "Comments" : "Comment"}",
-                      style: textStyleFeedItemCommentCount,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-            ],
-          ),
+          if (item.likeCount != 0 && item.commentCount != 0)
+            Row(
+              spacing: 32.0,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _getReactionCount(item),
+                if (item.commentCount != null && item.commentCount! > 0)
+                  Row(
+                    spacing: 6.0,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/ic_comment.svg",
+                        width: 16.0,
+                        height: 16.0,
+                      ),
+                      Text(
+                        "${item.commentCount} ${item.commentCount! > 1 ? "Comments" : "Comment"}",
+                        style: textStyleFeedItemCommentCount,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Row(
@@ -347,5 +338,86 @@ class FeedItemWidget extends StatelessWidget {
     }
 
     return TextSpan(children: children);
+  }
+
+  Widget _getReactionCount(FeedItem item) {
+    final defaultWidget = Container(
+      color: Colors.transparent,
+      width: 100.0,
+      height: 20.0,
+    );
+
+    String title;
+    if (item.hasMyReaction == true) {
+      title = "You and ${item.likeCount! - 1} others";
+    } else {
+      title = "${item.likeCount}";
+    }
+
+    if (item.likeCount != null && item.likeCount! > 0) {
+      final defaultIconPath = "assets/icons/ic_circular_like.svg";
+      Widget reactionSet;
+
+      switch (item.reactions?.length) {
+        case null:
+          reactionSet = SvgPicture.asset(
+            defaultIconPath,
+            width: 20.0,
+            height: 20.0,
+          );
+          break;
+
+        case 1:
+          final reactionType = item.reactions?.first.reactionType;
+          reactionSet = SvgPicture.asset(
+            reactionType?.getReactionIcon() ?? defaultIconPath,
+            width: 20.0,
+            height: 20.0,
+          );
+          break;
+
+        default:
+          final firstReaction = item.reactions?.first.reactionType;
+          final secondReaction = item.reactions?[1].reactionType;
+
+          reactionSet = SizedBox(
+            width: 35.0,
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Positioned(
+                  left: 15,
+                  child: SvgPicture.asset(
+                    secondReaction?.getReactionIcon() ?? defaultIconPath,
+                    width: 20.0,
+                    height: 20.0,
+                  ),
+                ),
+                SvgPicture.asset(
+                  firstReaction?.getReactionIcon() ?? defaultIconPath,
+                  width: 20.0,
+                  height: 20.0,
+                ),
+              ],
+            ),
+          );
+          break;
+      }
+
+      return Row(
+        spacing: 6.0,
+        children: [
+          reactionSet,
+          Text(
+            title,
+            style: textStyleFeedItemCommentCount,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      );
+    } else {
+      return defaultWidget;
+    }
   }
 }

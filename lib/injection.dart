@@ -29,7 +29,7 @@ Future<void> configurePostDependencies() async {
   appInfo.versionName = packageInfoPlugin.version;
   appInfo.versionCode = packageInfoPlugin.buildNumber;
 
-  final userAgent = "Aladin"
+  final userAgent = "${appInfo.appName}"
       "/${appInfo.versionName ?? ""}"
       "/${appInfo.platform?.name ?? ""}"
       "/${appInfo.platformVersion ?? ""}"
