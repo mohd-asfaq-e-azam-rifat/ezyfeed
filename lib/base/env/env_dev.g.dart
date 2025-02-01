@@ -11,7 +11,7 @@ part of 'env_dev.dart';
 final class _EnvDev {
   static const String apiKey = '';
 
-  static const String baseUrl = 'https://iap.ezycourse.com/api/app';
+  static const String baseUrl = 'https://ezycourse.com/api/app';
 
   static const String encryptionKey = '1ZkMZc5CM1NB+/CwjgLjoQ==';
 

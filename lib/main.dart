@@ -1,15 +1,16 @@
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
 import 'package:ezyfeed/base/di/app_module.dart';
-import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/base/theme/light_theme.dart';
 import 'package:ezyfeed/injection.dart';
 import 'package:ezyfeed/routes/routes.dart';
+import 'package:ezyfeed/ui/feed/feed_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,15 +33,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +44,21 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<AppConfigBloc>(
           create: (_) => getIt<AppConfigBloc>(),
         ),
+        BlocProvider<FeedBloc>(
+          create: (_) => getIt<FeedBloc>(),
+        ),
       ],
       child: BlocConsumer<AppConfigBloc, AppConfigState>(
         listener: (context, state) {
           if (state.authState.isAuthenticated == true) {
-            appContext?.to(Routes.home, clearBackstack: true);
+            appContext?.goNamed(Routes.home);
           } else {
-            appContext?.to(Routes.login, clearBackstack: true);
+            appContext?.goNamed(Routes.login);
           }
         },
         builder: (context, state) {
-          return MaterialApp(
-            navigatorKey: AppConfigState.appKey,
-            initialRoute: Routes.initialRoute,
-            onGenerateRoute: onGenerateRoute,
+          return MaterialApp.router(
+            routerConfig: router,
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
           );

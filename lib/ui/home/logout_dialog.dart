@@ -1,6 +1,5 @@
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
 import 'package:ezyfeed/base/app_config/app_config_event.dart';
-import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/base/widget/loader/base_data_loader.dart';
 import 'package:ezyfeed/base/widget/toast/toast.dart';
@@ -11,6 +10,7 @@ import 'package:ezyfeed/ui/authentication/auth_event.dart';
 import 'package:ezyfeed/ui/authentication/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});
@@ -28,7 +28,7 @@ class LogoutDialog extends StatelessWidget {
           }
 
           if (state is LoggedOutSuccessfully) {
-            context.back();
+            context.pop();
             showToast(message: "Logged out successfully");
 
             final globalBloc = context.read<AppConfigBloc>();
@@ -106,7 +106,7 @@ class LogoutDialog extends StatelessWidget {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            context.back();
+                            context.pop();
                           },
                           child: Text(
                             "No",

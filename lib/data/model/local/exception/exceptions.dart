@@ -13,30 +13,3 @@ class AppException implements Exception {
         .isNotEmpty == true ? "$message" : "";
   }
 }
-
-class UnauthenticatedException implements Exception {
-  String? message;
-  String? url;
-
-  UnauthenticatedException([this.message, this.url]);
-
-  @override
-  String toString() {
-    return message
-        ?.trim()
-        .isNotEmpty == true ? "$message" : "";
-  }
-}
-
-class ComingSoonFeatureException implements Exception {
-  String? message;
-
-  ComingSoonFeatureException([this.message]);
-
-  @override
-  String toString() {
-    return message
-        ?.trim()
-        .isNotEmpty == true ? "$message" : "";
-  }
-}
