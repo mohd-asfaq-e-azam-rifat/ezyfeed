@@ -29,6 +29,14 @@ const colorFeedItemMoreIcon = Color(0xFF232A37);
 const colorWriteForFeedBorder = Color(0x33004852);
 const colorCreatePostFormBorder = Color(0xFFE1E1E1);
 const colorCreatePostCommentIcon = Color(0xFF1B1B35);
+const colorNoReaction = Color(0xFF1B1B35);
+const colorReactionLike = Color(0xFF6662FF);
+const colorReactionLove = Color(0xFFF04438);
+const colorReactionCare = Color(0xFFF69B30);
+const colorReactionHaha = Color(0xFFF69B30);
+const colorReactionWow = Color(0xFFF69B30);
+const colorReactionSad = Color(0xFFF69B30);
+const colorReactionAngry = Color(0xFFE04300);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
@@ -303,11 +311,11 @@ abstract class ApiValue {
   static const feed = "feed";
 }
 
-abstract class LocalKeys {
+abstract class AppKey {
   static const flavor = "flavor";
 }
 
-abstract class LocalValues {
+abstract class AppValue {
   static const dev = "dev";
   static const prod = "prod";
 }
@@ -317,6 +325,16 @@ abstract class Regex {
       r'^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$';
   static const passwordRegex = r"(^[a-zA-Z0-9]{4,}$)";
   static const linkRegex = r'((https?|ftp):\/\/[^\s/$.?#].[^\s]*)';
+}
+
+abstract class UserReaction {
+  static const like = "LIKE";
+  static const love = "LOVE";
+  static const care = "CARE";
+  static const haha = "HAHA";
+  static const wow = "WOW";
+  static const sad = "SAD";
+  static const angry = "ANGRY";
 }
 
 // Pagination

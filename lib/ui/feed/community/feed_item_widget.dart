@@ -9,6 +9,7 @@ import 'package:ezyfeed/injection.dart';
 import 'package:ezyfeed/ui/extensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FeedItemWidget extends StatelessWidget {
@@ -145,11 +146,7 @@ class FeedItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  color: Colors.transparent,
-                  width: 100.0,
-                  height: 20.0,
-                ),
+                _getReactionButton(item),
                 Row(
                   spacing: 4.0,
                   mainAxisSize: MainAxisSize.min,
@@ -174,6 +171,49 @@ class FeedItemWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _getReactionButton(FeedItem item) {
+    Widget reactionButton;
+    final noReactionPlaceholder = Reaction<String>(
+      value: null,
+      icon: ReactionContentWidget(
+        iconPath: "assets/icons/ic_like_outlined.svg",
+        title: "Like",
+        foregroundColor: colorNoReaction,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+
+    final onClickReaction = item.myReaction?.reactionType
+            ?.toReactionKey()
+            .prepareReactionWidget() ??
+        UserReaction.like.prepareReactionWidget();
+
+    reactionButton = ReactionButton<String>(
+      onReactionChanged: (Reaction<String>? reaction) {
+        debugPrint('Selected value: ${reaction?.value}');
+
+        // TODO: Add debounce at first
+        // TODO: Call API to clear reaction
+        // TODO: Call API to react for the post
+      },
+      reactions: <Reaction<String>>[
+        UserReaction.like.prepareReactionWidget(),
+        UserReaction.love.prepareReactionWidget(),
+        UserReaction.care.prepareReactionWidget(),
+        UserReaction.haha.prepareReactionWidget(),
+        UserReaction.wow.prepareReactionWidget(),
+        UserReaction.sad.prepareReactionWidget(),
+        UserReaction.angry.prepareReactionWidget(),
+      ],
+      selectedReaction: onClickReaction,
+      itemSize: const Size.square(32.0),
+      placeholder: noReactionPlaceholder,
+      isChecked: item.hasMyReaction,
+    );
+
+    return reactionButton;
   }
 
   LinearGradient _getBackgroundGradient() {
@@ -268,7 +308,7 @@ class FeedItemWidget extends StatelessWidget {
         case null:
           if (item.hasMyReaction == true) {
             reactionSet = SvgPicture.asset(
-              item.myReaction?.reactionType?.getReactionIcon() ??
+              item.myReaction?.reactionType?.getReactionPreviewIconPath() ??
                   defaultIconPath,
               width: 20.0,
               height: 20.0,
@@ -285,7 +325,7 @@ class FeedItemWidget extends StatelessWidget {
         case 1:
           final reactionType = item.reactions?.first.reactionType;
           reactionSet = SvgPicture.asset(
-            reactionType?.getReactionIcon() ?? defaultIconPath,
+            reactionType?.getReactionPreviewIconPath() ?? defaultIconPath,
             width: 20.0,
             height: 20.0,
           );
@@ -314,13 +354,15 @@ class FeedItemWidget extends StatelessWidget {
                 Positioned(
                   left: 15,
                   child: SvgPicture.asset(
-                    secondReaction?.getReactionIcon() ?? defaultIconPath,
+                    secondReaction?.getReactionPreviewIconPath() ??
+                        defaultIconPath,
                     width: 20.0,
                     height: 20.0,
                   ),
                 ),
                 SvgPicture.asset(
-                  firstReaction?.getReactionIcon() ?? defaultIconPath,
+                  firstReaction?.getReactionPreviewIconPath() ??
+                      defaultIconPath,
                   width: 20.0,
                   height: 20.0,
                 ),
@@ -345,5 +387,53 @@ class FeedItemWidget extends StatelessWidget {
     } else {
       return defaultWidget;
     }
+  }
+}
+
+class ReactionContentWidget extends StatelessWidget {
+  final String iconPath;
+  final String title;
+  final Color foregroundColor;
+  final FontWeight fontWeight;
+  final double fontSize;
+
+  const ReactionContentWidget({
+    super.key,
+    required this.iconPath,
+    required this.title,
+    required this.foregroundColor,
+    this.fontWeight = FontWeight.w700,
+    this.fontSize = 14.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 64.0,
+      height: 20.0,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            iconPath,
+            width: 20.0,
+            height: 20.0,
+          ),
+          const SizedBox(width: 6.0),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontFamily: fontFamilyFigtree,
+                color: foregroundColor,
+                fontWeight: fontWeight,
+                fontSize: fontSize,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

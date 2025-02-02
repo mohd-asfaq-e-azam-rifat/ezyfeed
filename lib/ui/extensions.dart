@@ -5,7 +5,10 @@ import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/helper/date_time/date_time_helper.dart';
 import 'package:ezyfeed/data/model/local/pagination_data/pagination_data.dart';
 import 'package:ezyfeed/injection.dart';
+import 'package:ezyfeed/ui/feed/community/feed_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 extension ContextX on BuildContext {
   void hideKeyboard() {
@@ -95,39 +98,39 @@ extension StringX on String {
     return null;
   }
 
-  String getReactionIcon() {
+  String getReactionPreviewIconPath() {
     switch (this) {
-      case "LIKE":
+      case UserReaction.like:
       case "Like":
       case "like":
         return "assets/icons/ic_circular_like.svg";
 
-      case "LOVE":
+      case UserReaction.love:
       case "Love":
       case "love":
         return "assets/icons/ic_circular_love.svg";
 
-      case "CARE":
+      case UserReaction.care:
       case "Care":
       case "care":
         return "assets/icons/ic_circular_care.svg";
 
-      case "HAHA":
+      case UserReaction.haha:
       case "Haha":
       case "haha":
         return "assets/icons/ic_circular_haha.svg";
 
-      case "WOW":
+      case UserReaction.wow:
       case "Wow":
       case "wow":
         return "assets/icons/ic_circular_wow.svg";
 
-      case "SAD":
+      case UserReaction.sad:
       case "Sad":
       case "sad":
         return "assets/icons/ic_circular_sad.svg";
 
-      case "ANGRY":
+      case UserReaction.angry:
       case "Angry":
       case "angry":
         return "assets/icons/ic_circular_angry.svg";
@@ -135,6 +138,158 @@ extension StringX on String {
       default:
         return "assets/icons/ic_circular_like.svg";
     }
+  }
+
+  String getReactionIconPath() {
+    switch (this) {
+      case UserReaction.like:
+      case "Like":
+      case "like":
+        return "assets/icons/ic_like_filled.svg";
+
+      default:
+        return getReactionPreviewIconPath();
+    }
+  }
+
+  Color getReactionColor() {
+    switch (this) {
+      case UserReaction.like:
+      case "Like":
+      case "like":
+        return colorReactionLike;
+
+      case UserReaction.love:
+      case "Love":
+      case "love":
+        return colorReactionLove;
+
+      case UserReaction.care:
+      case "Care":
+      case "care":
+        return colorReactionCare;
+
+      case UserReaction.haha:
+      case "Haha":
+      case "haha":
+        return colorReactionHaha;
+
+      case UserReaction.wow:
+      case "Wow":
+      case "wow":
+        return colorReactionWow;
+
+      case UserReaction.sad:
+      case "Sad":
+      case "sad":
+        return colorReactionSad;
+
+      case UserReaction.angry:
+      case "Angry":
+      case "angry":
+        return colorReactionAngry;
+
+      default:
+        return colorReactionLike;
+    }
+  }
+
+  String getReactionTitle() {
+    switch (this) {
+      case UserReaction.like:
+      case "Like":
+      case "like":
+        return "Like";
+
+      case UserReaction.love:
+      case "Love":
+      case "love":
+        return "Love";
+
+      case UserReaction.care:
+      case "Care":
+      case "care":
+        return "Care";
+
+      case UserReaction.haha:
+      case "Haha":
+      case "haha":
+        return "Haha";
+
+      case UserReaction.wow:
+      case "Wow":
+      case "wow":
+        return "Wow";
+
+      case UserReaction.sad:
+      case "Sad":
+      case "sad":
+        return "Sad";
+
+      case UserReaction.angry:
+      case "Angry":
+      case "angry":
+        return "Angry";
+
+      default:
+        return "Like";
+    }
+  }
+
+  String toReactionKey() {
+    switch (this) {
+      case UserReaction.like:
+      case "Like":
+      case "like":
+        return UserReaction.like;
+
+      case UserReaction.love:
+      case "Love":
+      case "love":
+        return UserReaction.love;
+
+      case UserReaction.care:
+      case "Care":
+      case "care":
+        return UserReaction.care;
+
+      case UserReaction.haha:
+      case "Haha":
+      case "haha":
+        return UserReaction.haha;
+
+      case UserReaction.wow:
+      case "Wow":
+      case "wow":
+        return UserReaction.wow;
+
+      case UserReaction.sad:
+      case "Sad":
+      case "sad":
+        return UserReaction.sad;
+
+      case UserReaction.angry:
+      case "Angry":
+      case "angry":
+        return UserReaction.angry;
+
+      default:
+        return UserReaction.like;
+    }
+  }
+
+  Reaction<String> prepareReactionWidget() {
+    return Reaction<String>(
+      value: this,
+      previewIcon: SvgPicture.asset(
+        getReactionPreviewIconPath(),
+      ),
+      icon: ReactionContentWidget(
+        iconPath: getReactionIconPath(),
+        title: getReactionTitle(),
+        foregroundColor: getReactionColor(),
+      ),
+    );
   }
 }
 

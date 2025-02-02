@@ -1,15 +1,14 @@
 import 'dart:io';
 
+import 'package:android_id/android_id.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
 import 'package:ezyfeed/base/env/env.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/helper/network/interceptors.dart';
 import 'package:ezyfeed/data/model/local/app_info/app_info.dart';
 import 'package:ezyfeed/injection.dart';
-import 'package:android_id/android_id.dart';
-import 'package:collection/collection.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -119,7 +118,7 @@ AppInfo get appInfo {
 }
 
 String get appFlavor {
-  return String.fromEnvironment(LocalKeys.flavor);
+  return String.fromEnvironment(AppKey.flavor);
 }
 
 bool get isDevFlavor {
@@ -128,5 +127,5 @@ bool get isDevFlavor {
 }
 
 bool get isProdFlavor {
-  return appFlavor == LocalValues.prod;
+  return appFlavor == AppValue.prod;
 }
