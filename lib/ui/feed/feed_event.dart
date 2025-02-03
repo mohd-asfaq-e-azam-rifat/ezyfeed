@@ -29,3 +29,13 @@ class ReactionRequested extends FeedEvent {
     required this.reaction,
   });
 }
+
+class CommentsRequested extends FeedEvent {
+  final int feedId;
+  final bool shouldShowLoading;
+
+  CommentsRequested({
+    this.shouldShowLoading = false,
+    required this.feedId,
+  });
+}

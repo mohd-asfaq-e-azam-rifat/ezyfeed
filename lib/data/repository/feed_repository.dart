@@ -1,4 +1,5 @@
 import 'package:ezyfeed/data/model/local/exception/exceptions.dart';
+import 'package:ezyfeed/data/model/remote/response/comment/comment.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
 import 'package:ezyfeed/data/model/remote/response/reaction_collection/reaction_collection.dart';
 import 'package:ezyfeed/data/service/local/feed_local_service.dart';
@@ -79,5 +80,17 @@ class FeedRepository {
       feedId: feedId,
       reaction: reaction,
     );
+  }
+
+  Future<List<Comment>?> getComments({
+    required int feedId,
+  }) async {
+    return _remoteService.getComments(feedId: feedId);
+  }
+
+  Future<List<Comment>?> getReplies({
+    required int commentId,
+  }) async {
+    return _remoteService.getReplies(commentId: commentId);
   }
 }

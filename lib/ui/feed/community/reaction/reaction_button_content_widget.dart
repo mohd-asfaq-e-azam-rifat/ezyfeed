@@ -1,4 +1,4 @@
-part of 'feed_item_widget.dart';
+part of '../feed_item_widget.dart';
 
 class _ReactionButtonContentWidget extends StatelessWidget {
   final String iconPath;

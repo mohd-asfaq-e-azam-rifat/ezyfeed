@@ -66,4 +66,28 @@ class DateTimeHelper {
       return DateFormat("dd MMM, yyyy").format(date);
     }
   }
+
+  String toTimeAgoShort(DateTime date) {
+    final Duration difference = DateTime.now().difference(date);
+
+    if (difference.inSeconds < 60) {
+      return "${difference.inSeconds}s";
+    } else if (difference.inMinutes < 60) {
+      return "${difference.inMinutes}m";
+    } else if (difference.inHours < 24) {
+      return "${difference.inHours}h";
+    } else if (difference.inDays < 7) {
+      int days = difference.inDays;
+      return "${days}d";
+    } else if (difference.inDays < 30) {
+      int weeks = (difference.inDays / 7).floor();
+      return "${weeks}w";
+    } else if (difference.inDays < 365) {
+      int months = (difference.inDays / 30).floor();
+      return "${months}m";
+    } else {
+      int years = (difference.inDays / 365).floor();
+      return "${years}y";
+    }
+  }
 }

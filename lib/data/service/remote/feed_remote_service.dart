@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
+import 'package:ezyfeed/data/model/remote/response/comment/comment.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
 import 'package:ezyfeed/data/model/remote/response/reaction_collection/reaction_collection.dart';
 import 'package:injectable/injectable.dart';
@@ -75,6 +76,38 @@ class FeedRemoteService {
 
     return response?.data != null
         ? ReactionCollection.fromJson(response?.data!)
+        : null;
+  }
+
+  Future<List<Comment>?> getComments({
+    required int feedId,
+  }) async {
+    Response? response;
+
+    response = await _client.getRequest(
+      endPoint: urlToGetComments.appendPathIntoUrl(feedId.toString()),
+    );
+
+    return response?.data != null
+        ? (response?.data as List<dynamic>?)
+            ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+            .toList()
+        : null;
+  }
+
+  Future<List<Comment>?> getReplies({
+    required int commentId,
+  }) async {
+    Response? response;
+
+    response = await _client.getRequest(
+      endPoint: urlToGetReplies.appendPathIntoUrl(commentId.toString()),
+    );
+
+    return response?.data != null
+        ? (response?.data as List<dynamic>?)
+            ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+            .toList()
         : null;
   }
 }

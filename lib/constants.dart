@@ -13,6 +13,8 @@ const colorText6 = Color(0xFF6662FF);
 const colorText7 = Color(0xFF333741);
 const colorText8 = Colors.black;
 const colorText9 = Color(0xFF181534);
+const colorText10 = Color(0xFF182230);
+const colorText11 = Color(0xFF101828);
 const colorBorder1 = Color(0xFFD0D5DD);
 const colorBottomBarBackground = Color(0xFFF2F4F7);
 const colorBottomBarSelected = Color(0xFF004852);
@@ -37,6 +39,7 @@ const colorReactionHaha = Color(0xFFF69B30);
 const colorReactionWow = Color(0xFFF69B30);
 const colorReactionSad = Color(0xFFF69B30);
 const colorReactionAngry = Color(0xFFE04300);
+const colorCommentBackground = Color(0xFFF0F2F5);
 
 const colorDisabled1 = Color(0xFFE0E0E0);
 const colorDisabled2 = Color(0xFFAAA9A9);
@@ -272,6 +275,34 @@ const textStyleCreatePostAppBarAction = TextStyle(
   height: 1.2,
 );
 
+const textStyleCommentTitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText8,
+  fontWeight: FontWeight.w600,
+  fontSize: 16.0,
+);
+
+const textStyleCommentSubtitle = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText10,
+  fontWeight: FontWeight.w400,
+  fontSize: 16.0,
+);
+
+const textStyleCommentAction = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText11,
+  fontWeight: FontWeight.w400,
+  fontSize: 14.0,
+);
+
+const textStyleCommentLikeCount = TextStyle(
+  fontFamily: fontFamilyFigtree,
+  color: colorText10,
+  fontWeight: FontWeight.w600,
+  fontSize: 16.0,
+);
+
 abstract class CustomHttpHeader {
   static const serviceName = "x-service-name";
   static const uuid = "x-request-uuid";
@@ -349,3 +380,5 @@ const urlLogOut = "/student/auth/logout";
 const urlToCreatePost = "/teacher/community/createFeedWithUpload";
 const urlToGetFeed = "/teacher/community/getFeed";
 const urlToReactOnFeedPost = "/teacher/community/createLike";
+const urlToGetComments = "/student/comment/getComment";
+const urlToGetReplies = "/student/comment/getReply";

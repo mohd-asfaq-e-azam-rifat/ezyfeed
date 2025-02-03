@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ezyfeed/base/helper/debounce.dart';
 import 'package:ezyfeed/base/navigation/navigation.dart';
+import 'package:ezyfeed/base/state/basic/basic_state.dart';
+import 'package:ezyfeed/base/widget/loader/base_data_loader.dart';
 import 'package:ezyfeed/base/widget/toast/toast.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:ezyfeed/data/helper/date_time/date_time_helper.dart';
+import 'package:ezyfeed/data/model/remote/response/comment/comment.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
 import 'package:ezyfeed/injection.dart';
 import 'package:ezyfeed/ui/extensions.dart';
@@ -17,13 +20,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-part 'comment_button.dart';
-part 'comment_count_widget.dart';
-part 'reaction_button.dart';
-part 'reaction_button_content_widget.dart';
-part 'reaction_count_widget.dart';
-part 'text_content_widget.dart';
-part 'user_profile_widget.dart';
+part 'comment/comment_bottom_sheet.dart';
+part 'comment/comment_button.dart';
+part 'comment/comment_count_widget.dart';
+part 'content/text_content_widget.dart';
+part 'content/user_profile_widget.dart';
+part 'reaction/reaction_button.dart';
+part 'reaction/reaction_button_content_widget.dart';
+part 'reaction/reaction_count_widget.dart';
 
 class FeedItemWidget extends StatelessWidget {
   final FeedItem item;

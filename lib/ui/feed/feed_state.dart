@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
+import 'package:ezyfeed/data/model/remote/response/comment/comment.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
 import 'package:ezyfeed/data/model/remote/response/reaction_collection/reaction_collection.dart';
 
@@ -112,5 +113,40 @@ class CreatePostState extends FeedState {
         uiState,
         message,
         feedItem,
+      ];
+}
+
+class GetCommentState extends FeedState {
+  late final DateTime updatedAt;
+  final List<Comment> comments;
+
+  GetCommentState({
+    super.uiState = UiState.initial,
+    super.message,
+    this.comments = const [],
+  }) {
+    updatedAt = DateTime.now();
+  }
+
+  @override
+  GetCommentState copyWith({
+    UiState? uiState,
+    String? message,
+    List<Comment>? comments,
+    bool? isLastPage,
+  }) {
+    return GetCommentState(
+      uiState: uiState ?? this.uiState,
+      message: message ?? this.message,
+      comments: comments ?? this.comments,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        updatedAt,
+        uiState,
+        message,
+        comments,
       ];
 }

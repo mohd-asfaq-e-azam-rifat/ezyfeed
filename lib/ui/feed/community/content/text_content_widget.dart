@@ -1,4 +1,4 @@
-part of 'feed_item_widget.dart';
+part of '../feed_item_widget.dart';
 
 class _TextContentWidget extends StatelessWidget {
   final FeedItem item;

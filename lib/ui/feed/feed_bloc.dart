@@ -1,5 +1,6 @@
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/data/extensions.dart';
+import 'package:ezyfeed/data/model/remote/response/comment/comment.dart';
 import 'package:ezyfeed/data/model/remote/response/like/like.dart';
 import 'package:ezyfeed/data/repository/feed_repository.dart';
 import 'package:ezyfeed/ui/extensions.dart';
@@ -16,6 +17,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<FeedItemsRequested>(_onFeedItemsRequested);
     on<PostCreationRequested>(_onPostCreationRequested);
     on<ReactionRequested>(_onReactionRequested);
+    on<CommentsRequested>(_onCommentsRequested);
   }
 
   Future<void> _onFeedItemsRequested(
@@ -131,14 +133,14 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           },
         );
 
-        if(indexOfCurrentItem != -1) {
+        if (indexOfCurrentItem != -1) {
           final oldItem = feedItems[indexOfCurrentItem];
           final oldReaction = oldItem.myReaction?.reactionType?.toReactionKey();
           final currentReaction = event.reaction;
           Like? reactionToBeSet;
 
           // New reaction case
-          if(oldReaction == null) {
+          if (oldReaction == null) {
             reactionToBeSet = Like(
               feedId: event.feedId,
               userId: oldItem.user?.id,
@@ -146,7 +148,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
             );
           } else {
             // Remove reaction case
-            if(oldReaction == currentReaction) {
+            if (oldReaction == currentReaction) {
               reactionToBeSet = Like(
                 feedId: event.feedId,
               );
@@ -175,6 +177,88 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
             ),
           );
         }
+      }
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          uiState: UiState.error,
+          message: e.getErrorMessage(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onCommentsRequested(
+    CommentsRequested event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      if (event.shouldShowLoading == true) {
+        emit(
+          GetCommentState(
+            uiState: UiState.loading,
+          ),
+        );
+      }
+
+      final comments = await _feedRepository.getComments(
+        feedId: event.feedId,
+      );
+
+      if (comments == null) {
+        emit(
+          state.copyWith(
+            uiState: UiState.error,
+            message: "Could not fetch comments",
+          ),
+        );
+
+        return;
+      }
+
+      List<Future<List<Comment>?>> replyFetchingFutures = [];
+
+      for (Comment comment in comments) {
+        if (comment.hasReplies == true && comment.id != null) {
+          // If comment has replies, add the fetching future to the list
+          replyFetchingFutures.add(
+            _feedRepository.getReplies(commentId: comment.id!),
+          );
+        } else {
+          // If no replies, no need to fetch
+          replyFetchingFutures.add(
+            Future.value([]),
+          );
+        }
+      }
+
+      // Fetch all replies in parallel
+      List<List<Comment>?> allReplies = await Future.wait(replyFetchingFutures);
+
+      List<Comment> finalList = [];
+      for (int i = 0; i < comments.length; i++) {
+        final comment = comments[i];
+        finalList.add(comment);
+
+        if (comment.hasReplies == true) {
+          finalList.addAll(allReplies[i] ?? []);
+        }
+      }
+
+      if (finalList.isEmpty == true) {
+        emit(
+          state.copyWith(
+            uiState: UiState.empty,
+            message: "No comments to display.",
+          ),
+        );
+      } else {
+        emit(
+          (state as GetCommentState).copyWith(
+            uiState: UiState.successful,
+            comments: finalList,
+          ),
+        );
       }
     } on Exception catch (e) {
       emit(
