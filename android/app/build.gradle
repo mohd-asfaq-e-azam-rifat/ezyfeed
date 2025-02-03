@@ -63,7 +63,7 @@ android {
             def flavor = variant.flavorName ?: ""
             def buildType = variant.buildType.name
             def version = variant.versionName
-            def newName = "ezyfeed_${flavor}_${buildType}_v${version}.apk"
+            def newName = "ezyfeed_${buildType}_v${version}.apk"
             output.outputFileName = newName
         }
     }
