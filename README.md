@@ -1,16 +1,65 @@
-# ezyfeed
+# Ezyfeed
 
 Ezyfeed is a community feed application using Flutter.
 
+## Overview
+
+- Fetch posts from the provided API and display them in a feed format.
+- Include features user authentication, creating new posts, reacting to posts, commenting, replying.
+- Uses **FVM** to manage Flutter versions for easier SDK transition.
+- Follows the **BLoC** (Business Logic Component) pattern for state management.
+- Implements **MVVM** (Model-View-ViewModel) architecture for clean separation of concerns.
+- Dependency injection using **Get_it** and **Injectable**.
+- **Dio** has been used as network tool for making API requests.
+- **Freezed** has been used to generate dynamic data models.
+- Production-level **GitFlow** for feature development and version control.
+
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+Make sure to have the following installed:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- FVM (Optional): [FVM: Flutter Version Management](https://fvm.app/documentation/getting-started)
+- Flutter SDK: [Flutter Installation Guide](https://flutter.dev/docs/get-started/install)
+- Dart SDK: [Dart Installation Guide](https://dart.dev/get-dart)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Running the Project
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mohd-asfaq-e-azam-rifat/ezyfeed.git
+   ```
+2. Clean the workspace to ensure a fresh start:
+   ```bash
+   flutter clean
+   ```
+3. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+4. Generate code for injectable:
+   ```bash
+   flutter dart run build_runner build -d
+   ```
+5. Run the app:
+   ```bash
+   flutter run
+   ```
+
+## Workflow
+
+Ezyfeed follows the **GitFlow** branching model:
+
+- **master**: Contains production-ready code.
+- **development**: All feature branches are merged here before merging into `master`.
+- **feature/xyz**: Used for developing individual features before merging into `development`.
+
+## Contributing
+
+Contributions are welcome! Feel free to submit a pull request or open an issue if you have
+suggestions for improvement.
+
+---
+
+Made with ❤️ using Flutter
