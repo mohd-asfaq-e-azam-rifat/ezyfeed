@@ -6,12 +6,14 @@ part of 'reaction_type.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReactionType _$ReactionTypeFromJson(Map<String, dynamic> json) => ReactionType()
-  ..reactionType = json['reaction_type'] as String?
-  ..feedId = (json['feed_id'] as num?)?.toInt();
+_$ReactionTypeImpl _$$ReactionTypeImplFromJson(Map<String, dynamic> json) =>
+    _$ReactionTypeImpl(
+      feedId: (json['feed_id'] as num?)?.toInt(),
+      reactionType: json['reaction_type'] as String?,
+    );
 
-Map<String, dynamic> _$ReactionTypeToJson(ReactionType instance) =>
+Map<String, dynamic> _$$ReactionTypeImplToJson(_$ReactionTypeImpl instance) =>
     <String, dynamic>{
-      'reaction_type': instance.reactionType,
       'feed_id': instance.feedId,
+      'reaction_type': instance.reactionType,
     };

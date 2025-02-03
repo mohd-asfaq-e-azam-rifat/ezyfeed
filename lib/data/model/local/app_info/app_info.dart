@@ -1,72 +1,32 @@
 import 'package:flutter/foundation.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'app_info.freezed.dart';
 part 'app_info.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class AppInfo {
-  @JsonKey(defaultValue: null)
-  late String? appName;
+@unfreezed
+class AppInfo with _$AppInfo {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+  factory AppInfo({
+    String? appName,
+    String? packageName,
+    AppFlavor? appFlavor,
+    BuildType? buildType,
+    String? baseUrl,
+    String? deviceModel,
+    String? deviceId,
+    String? manufacturer,
+    String? userAgent,
+    String? versionName,
+    String? versionCode,
+    TargetPlatform? platform,
+    String? platformVersion,
+  }) = _AppInfo;
 
-  @JsonKey(defaultValue: null)
-  late String? packageName;
+  const AppInfo._();
 
-  @JsonKey(defaultValue: null)
-  late AppFlavor? appFlavor;
-
-  @JsonKey(defaultValue: null)
-  late BuildType? buildType;
-
-  @JsonKey(defaultValue: null)
-  late String? baseUrl;
-
-  @JsonKey(defaultValue: null)
-  late String? deviceModel;
-
-  @JsonKey(defaultValue: null)
-  late String? deviceId;
-
-  @JsonKey(defaultValue: null)
-  late String? manufacturer;
-
-  @JsonKey(defaultValue: null)
-  late String? userAgent;
-
-  @JsonKey(defaultValue: null)
-  late String? versionName;
-
-  @JsonKey(defaultValue: null)
-  late String? versionCode;
-
-  @JsonKey(defaultValue: null)
-  late TargetPlatform? platform;
-
-  @JsonKey(defaultValue: null)
-  late String? platformVersion;
-
-  AppInfo({
-    this.appName,
-    this.packageName,
-    this.versionName,
-    this.versionCode,
-    this.appFlavor,
-    this.baseUrl,
-    this.platform,
-    this.deviceModel,
-    this.deviceId,
-    this.manufacturer,
-    this.platformVersion,
-    this.userAgent,
-    this.buildType,
-  });
-
-  factory AppInfo.fromJson(Map<String, dynamic> json) {
-    return _$AppInfoFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() {
-    return _$AppInfoToJson(this);
-  }
+  factory AppInfo.fromJson(Map<String, Object?> json) =>
+      _$AppInfoFromJson(json);
 
   bool isDebugBuild() {
     return buildType == BuildType.debug;

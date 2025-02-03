@@ -1,91 +1,60 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'api_response.freezed.dart';
 part 'api_response.g.dart';
 
-@JsonSerializable(
-  fieldRename: FieldRename.snake,
-  genericArgumentFactories: true,
-)
-class ApiResponse<T> {
-  // common
-  @JsonKey(defaultValue: null)
-  late String? code;
+@Freezed(genericArgumentFactories: true)
+class ApiResponse<T> with _$ApiResponse<T> {
+  const factory ApiResponse({
+    // Common
+    String? code,
+    @JsonKey(name: "msg") String? message,
 
-  @JsonKey(defaultValue: null, name: "msg")
-  late String? message;
+    // Data
+    T? data,
 
-  // data
-  @JsonKey(defaultValue: null)
-  late T? data;
+    // Auth
+    String? token,
+    String? type,
 
-  // auth
-  @JsonKey(defaultValue: null)
-  late String? token;
+    // Custom error
+    Error? errors,
 
-  @JsonKey(defaultValue: null)
-  late String? type;
-
-  // custom error
-  @JsonKey(defaultValue: null)
-  late Error? errors;
-
-  // server error
-  @JsonKey(defaultValue: null)
-  late int? status;
-
-  @JsonKey(defaultValue: null)
-  late String? timestamp;
-
-  @JsonKey(defaultValue: null)
-  late String? error;
-
-  @JsonKey(defaultValue: null)
-  late String? path;
-
-  @JsonKey(defaultValue: null)
-  late String? expiredIn;
-
-  ApiResponse();
+    // Server error
+    int? status,
+    String? timestamp,
+    String? error,
+    String? path,
+    @JsonKey(name: "expired_in") String? expiredIn,
+  }) = _ApiResponse;
 
   factory ApiResponse.fromJson(
     Map<String, dynamic> json,
-    T Function(Object? json) fromJsonT,) {
-    return _$ApiResponseFromJson(json, fromJsonT);
-  }
-
-  Map<String, dynamic> toJson(
-    Object? Function(T value) toJsonT,) {
-    return _$ApiResponseToJson(this, toJsonT);
-  }
+    T Function(Object? json) fromJsonT,
+  ) =>
+      _$ApiResponseFromJson(json, fromJsonT);
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class ErrorItem {
-  @JsonKey(defaultValue: null)
-  late String? message;
+@freezed
+class ErrorItem with _$ErrorItem {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+  const factory ErrorItem({
+    String? message,
+    String? pointer,
+  }) = _ErrorItem;
 
-  @JsonKey(defaultValue: null)
-  late String? pointer;
-
-  ErrorItem();
-
-  factory ErrorItem.fromJson(Map<String, dynamic> json) =>
+  factory ErrorItem.fromJson(Map<String, Object?> json) =>
       _$ErrorItemFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ErrorItemToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class Error {
-  @JsonKey(defaultValue: null)
-  late String? description;
+@freezed
+class Error with _$Error {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+  const factory Error({
+    String? description,
+    List<ErrorItem>? details,
+  }) = _Error;
 
-  @JsonKey(defaultValue: null)
-  late List<ErrorItem>? details;
-
-  Error();
-
-  factory Error.fromJson(Map<String, dynamic> json) => _$ErrorFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ErrorToJson(this);
+  factory Error.fromJson(Map<String, Object?> json) => _$ErrorFromJson(json);
 }

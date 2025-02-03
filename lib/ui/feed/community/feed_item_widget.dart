@@ -193,7 +193,6 @@ class FeedItemWidget extends StatelessWidget {
     reactionButton = ReactionButton<String>(
       onReactionChanged: (Reaction<String>? reaction) {
         debugPrint('Selected value: ${reaction?.value}');
-
         // TODO: Add debounce at first
         // TODO: Call API to clear reaction
         // TODO: Call API to react for the post

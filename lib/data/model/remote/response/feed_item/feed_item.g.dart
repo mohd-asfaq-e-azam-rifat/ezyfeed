@@ -6,28 +6,31 @@ part of 'feed_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedItem _$FeedItemFromJson(Map<String, dynamic> json) => FeedItem()
-  ..id = (json['id'] as num?)?.toInt()
-  ..feedText = json['feed_txt'] as String?
-  ..activityType = json['activity_type'] as String?
-  ..fileType = $enumDecodeNullable(_$FileTypeEnumMap, json['file_type'])
-  ..likeCount = (json['like_count'] as num?)?.toInt()
-  ..commentCount = (json['comment_count'] as num?)?.toInt()
-  ..createdAt = json['created_at'] as String?
-  ..updatedAt = json['updated_at'] as String?
-  ..isBackground = (json['is_background'] as num?)?.toInt()
-  ..backgroundColor = json['bg_color'] as String?
-  ..user = json['user'] == null
-      ? null
-      : User.fromJson(json['user'] as Map<String, dynamic>)
-  ..reactions = (json['likeType'] as List<dynamic>?)
-      ?.map((e) => ReactionType.fromJson(e as Map<String, dynamic>))
-      .toList()
-  ..myReaction = json['like'] == null
-      ? null
-      : Like.fromJson(json['like'] as Map<String, dynamic>);
+_$FeedItemImpl _$$FeedItemImplFromJson(Map<String, dynamic> json) =>
+    _$FeedItemImpl(
+      id: (json['id'] as num?)?.toInt(),
+      feedText: json['feed_txt'] as String?,
+      activityType: json['activity_type'] as String?,
+      fileType: $enumDecodeNullable(_$FileTypeEnumMap, json['file_type']),
+      likeCount: (json['like_count'] as num?)?.toInt(),
+      commentCount: (json['comment_count'] as num?)?.toInt(),
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      isBackground: (json['is_background'] as num?)?.toInt(),
+      backgroundColor: json['bg_color'] as String?,
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
+      reactions: (json['likeType'] as List<dynamic>?)
+          ?.map((e) => ReactionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      myReaction: json['like'] == null
+          ? null
+          : Like.fromJson(json['like'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$FeedItemToJson(FeedItem instance) => <String, dynamic>{
+Map<String, dynamic> _$$FeedItemImplToJson(_$FeedItemImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'feed_txt': instance.feedText,
       'activity_type': instance.activityType,

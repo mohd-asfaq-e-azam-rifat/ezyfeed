@@ -6,23 +6,25 @@ part of 'app_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AppInfo _$AppInfoFromJson(Map<String, dynamic> json) => AppInfo(
+_$AppInfoImpl _$$AppInfoImplFromJson(Map<String, dynamic> json) =>
+    _$AppInfoImpl(
       appName: json['app_name'] as String?,
       packageName: json['package_name'] as String?,
-      versionName: json['version_name'] as String?,
-      versionCode: json['version_code'] as String?,
       appFlavor: $enumDecodeNullable(_$AppFlavorEnumMap, json['app_flavor']),
+      buildType: $enumDecodeNullable(_$BuildTypeEnumMap, json['build_type']),
       baseUrl: json['base_url'] as String?,
-      platform: $enumDecodeNullable(_$TargetPlatformEnumMap, json['platform']),
       deviceModel: json['device_model'] as String?,
       deviceId: json['device_id'] as String?,
       manufacturer: json['manufacturer'] as String?,
-      platformVersion: json['platform_version'] as String?,
       userAgent: json['user_agent'] as String?,
-      buildType: $enumDecodeNullable(_$BuildTypeEnumMap, json['build_type']),
+      versionName: json['version_name'] as String?,
+      versionCode: json['version_code'] as String?,
+      platform: $enumDecodeNullable(_$TargetPlatformEnumMap, json['platform']),
+      platformVersion: json['platform_version'] as String?,
     );
 
-Map<String, dynamic> _$AppInfoToJson(AppInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$$AppInfoImplToJson(_$AppInfoImpl instance) =>
+    <String, dynamic>{
       'app_name': instance.appName,
       'package_name': instance.packageName,
       'app_flavor': _$AppFlavorEnumMap[instance.appFlavor],
@@ -43,6 +45,11 @@ const _$AppFlavorEnumMap = {
   AppFlavor.production: 'prod',
 };
 
+const _$BuildTypeEnumMap = {
+  BuildType.debug: 'debug',
+  BuildType.release: 'release',
+};
+
 const _$TargetPlatformEnumMap = {
   TargetPlatform.android: 'android',
   TargetPlatform.fuchsia: 'fuchsia',
@@ -50,9 +57,4 @@ const _$TargetPlatformEnumMap = {
   TargetPlatform.linux: 'linux',
   TargetPlatform.macOS: 'macOS',
   TargetPlatform.windows: 'windows',
-};
-
-const _$BuildTypeEnumMap = {
-  BuildType.debug: 'debug',
-  BuildType.release: 'release',
 };

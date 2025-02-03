@@ -1,25 +1,17 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'pagination_data.freezed.dart';
 part 'pagination_data.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class PaginationData {
-  @JsonKey(defaultValue: null)
-  late int? lastId;
+@freezed
+class PaginationData with _$PaginationData {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+  const factory PaginationData({
+    int? lastId,
+    bool? isLastPage,
+  }) = _PaginationData;
 
-  @JsonKey(defaultValue: null)
-  late bool? isLastPage;
-
-  PaginationData({
-    this.lastId,
-    this.isLastPage,
-  });
-
-  factory PaginationData.fromJson(Map<String, dynamic> json) {
-    return _$PaginationDataFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() {
-    return _$PaginationDataToJson(this);
-  }
+  factory PaginationData.fromJson(Map<String, Object?> json) =>
+      _$PaginationDataFromJson(json);
 }

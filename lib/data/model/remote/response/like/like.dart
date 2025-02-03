@@ -1,31 +1,20 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'like.freezed.dart';
 part 'like.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class Like {
-  @JsonKey(defaultValue: null)
-  late int? id;
+@freezed
+class Like with _$Like {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+  const factory Like({
+    int? id,
+    int? feedId,
+    int? userId,
+    String? reactionType,
+    String? createdAt,
+    String? updatedAt,
+  }) = _Like;
 
-  @JsonKey(defaultValue: null)
-  late int? feedId;
-
-  @JsonKey(defaultValue: null)
-  late int? userId;
-
-  @JsonKey(defaultValue: null)
-  late String? reactionType;
-
-  @JsonKey(defaultValue: null)
-  late String? createdAt;
-
-  @JsonKey(defaultValue: null)
-  late String? updatedAt;
-
-  Like();
-
-  factory Like.fromJson(Map<String, dynamic> json) =>
-      _$LikeFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LikeToJson(this);
+  factory Like.fromJson(Map<String, Object?> json) => _$LikeFromJson(json);
 }

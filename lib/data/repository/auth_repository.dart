@@ -42,8 +42,7 @@ class AuthRepository {
   }
 
   Future<void> clearLocalSession() async {
-    await _localService.clearAuthToken();
-    await _localService.clearLastLoginTimestamp();
+    await _localService.clearAllCaches();
   }
 
   bool isLoggedIn() {

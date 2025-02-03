@@ -44,4 +44,8 @@ class AuthLocalService {
   Future<void> clearLastLoginTimestamp() {
     return _box.remove(_keyLastLoginTimestamp);
   }
+
+  Future<void> clearAllCaches() {
+    return _box.erase();
+  }
 }
