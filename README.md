@@ -9,9 +9,11 @@ Ezyfeed is a community feed application using Flutter.
 - Uses **FVM** to manage Flutter versions for easier SDK transition.
 - Follows the **BLoC** (Business Logic Component) pattern for state management.
 - Implements **MVVM** (Model-View-ViewModel) architecture for clean separation of concerns.
-- Dependency injection using **Get_it** and **Injectable**.
-- **Dio** has been used as network tool for making API requests.
-- **Freezed** has been used to generate dynamic data models.
+- Dependency injection using **get_it** and **injectable**.
+- Navigates using **go_router**.
+- Uses **freezed**, **json_serializable** with **build_runner** to generate data models.
+- Makes API requests using **dio**, a great network tool.
+- Persists using **get_storage**, a fast, extra light and synchronous key-value in memory.
 - Production-level **GitFlow** for feature development and version control.
 
 ## Getting Started
