@@ -300,6 +300,8 @@ abstract class ApiKey {
   static const backgroundColor = "bg_color";
   static const status = "status";
   static const more = "more";
+  static const feedId = "feed_id";
+  static const reactionType = "reaction_type";
 }
 
 abstract class ApiValue {
@@ -346,3 +348,4 @@ const urlLogin = "/student/auth/login";
 const urlLogOut = "/student/auth/logout";
 const urlToCreatePost = "/teacher/community/createFeedWithUpload";
 const urlToGetFeed = "/teacher/community/getFeed";
+const urlToReactOnFeedPost = "/teacher/community/createLike";

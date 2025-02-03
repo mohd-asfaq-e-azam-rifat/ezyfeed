@@ -5,10 +5,7 @@ import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/helper/date_time/date_time_helper.dart';
 import 'package:ezyfeed/data/model/local/pagination_data/pagination_data.dart';
 import 'package:ezyfeed/injection.dart';
-import 'package:ezyfeed/ui/feed/community/feed_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 extension ContextX on BuildContext {
   void hideKeyboard() {
@@ -276,20 +273,6 @@ extension StringX on String {
       default:
         return UserReaction.like;
     }
-  }
-
-  Reaction<String> prepareReactionWidget() {
-    return Reaction<String>(
-      value: this,
-      previewIcon: SvgPicture.asset(
-        getReactionPreviewIconPath(),
-      ),
-      icon: ReactionContentWidget(
-        iconPath: getReactionIconPath(),
-        title: getReactionTitle(),
-        foregroundColor: getReactionColor(),
-      ),
-    );
   }
 }
 

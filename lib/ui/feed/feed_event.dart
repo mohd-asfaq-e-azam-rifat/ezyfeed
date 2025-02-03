@@ -1,4 +1,4 @@
-abstract class FeedEvent {}
+sealed class FeedEvent {}
 
 class FeedItemsRequested extends FeedEvent {
   final int? lastFeedId;
@@ -17,5 +17,15 @@ class PostCreationRequested extends FeedEvent {
   PostCreationRequested({
     required this.text,
     required this.backgroundColor,
+  });
+}
+
+class ReactionRequested extends FeedEvent {
+  final int feedId;
+  final String reaction;
+
+  ReactionRequested({
+    required this.feedId,
+    required this.reaction,
   });
 }

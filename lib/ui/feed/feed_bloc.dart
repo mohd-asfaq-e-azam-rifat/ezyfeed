@@ -1,6 +1,8 @@
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/data/extensions.dart';
+import 'package:ezyfeed/data/model/remote/response/like/like.dart';
 import 'package:ezyfeed/data/repository/feed_repository.dart';
+import 'package:ezyfeed/ui/extensions.dart';
 import 'package:ezyfeed/ui/feed/feed_event.dart';
 import 'package:ezyfeed/ui/feed/feed_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +15,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   FeedBloc(this._feedRepository) : super(const FeedState()) {
     on<FeedItemsRequested>(_onFeedItemsRequested);
     on<PostCreationRequested>(_onPostCreationRequested);
+    on<ReactionRequested>(_onReactionRequested);
   }
 
   Future<void> _onFeedItemsRequested(
@@ -98,6 +101,80 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
             message: "No new feed item found",
           ),
         );
+      }
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          uiState: UiState.error,
+          message: e.getErrorMessage(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onReactionRequested(
+    ReactionRequested event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      final result = await _feedRepository.reactOnFeedItem(
+        feedId: event.feedId,
+        reaction: event.reaction,
+      );
+
+      if (state is GetFeedState) {
+        final feedItems = (state as GetFeedState).feedItems;
+
+        final indexOfCurrentItem = feedItems.indexWhere(
+          (element) {
+            return element.id == event.feedId;
+          },
+        );
+
+        if(indexOfCurrentItem != -1) {
+          final oldItem = feedItems[indexOfCurrentItem];
+          final oldReaction = oldItem.myReaction?.reactionType?.toReactionKey();
+          final currentReaction = event.reaction;
+          Like? reactionToBeSet;
+
+          // New reaction case
+          if(oldReaction == null) {
+            reactionToBeSet = Like(
+              feedId: event.feedId,
+              userId: oldItem.user?.id,
+              reactionType: currentReaction,
+            );
+          } else {
+            // Remove reaction case
+            if(oldReaction == currentReaction) {
+              reactionToBeSet = Like(
+                feedId: event.feedId,
+              );
+            } else {
+              // Update reaction case
+              reactionToBeSet = Like(
+                feedId: event.feedId,
+                userId: oldItem.user?.id,
+                reactionType: currentReaction,
+              );
+            }
+          }
+
+          final updatedItem = oldItem.copyWith(
+            reactions: result?.reactions,
+            likeCount: result?.totalReactions,
+            myReaction: reactionToBeSet,
+          );
+
+          feedItems[indexOfCurrentItem] = updatedItem;
+          await _feedRepository.updateCachedFeedPost(updatedItem);
+
+          emit(
+            (state as GetFeedState).copyWith(
+              feedItems: feedItems,
+            ),
+          );
+        }
       }
     } on Exception catch (e) {
       emit(

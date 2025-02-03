@@ -112,12 +112,12 @@ class _SignInWidgetState extends State<SignInWidget> {
   @override
   void initState() {
     // Email
-    _emailController = TextEditingController(text: "mannywill@gmail.com");
+    _emailController = TextEditingController();
     _emailController.addListener(_onEmailChanged);
     _emailDebounceHelper = getIt<DebounceHelper>();
 
     // Password
-    _passwordController = TextEditingController(text: "7654321");
+    _passwordController = TextEditingController();
     _passwordController.addListener(_onPasswordChanged);
     _passwordDebounceHelper = getIt<DebounceHelper>();
 

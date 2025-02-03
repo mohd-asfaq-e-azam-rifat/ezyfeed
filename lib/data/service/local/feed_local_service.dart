@@ -46,4 +46,12 @@ class FeedLocalService {
   Future<void> clearCachedFeedPosts() {
     return _box.remove(_keyFeedPosts);
   }
+
+  Future<void> updateCachedFeedPost(FeedItem item) {
+    final cachedItems = _box.read<Map<String, dynamic>>(_keyFeedPosts) ?? {};
+    cachedItems[item.id.toString()] = item.toJson();
+
+    // Store updated cache
+    return _box.write(_keyFeedPosts, cachedItems);
+  }
 }

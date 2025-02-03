@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
+import 'package:ezyfeed/data/model/remote/response/reaction_collection/reaction_collection.dart';
 
 class FeedState extends Equatable {
   final UiState uiState;
@@ -15,7 +16,7 @@ class FeedState extends Equatable {
     UiState? uiState,
     String? message,
   }) {
-    return FeedState(
+    return CreatePostState(
       uiState: uiState ?? this.uiState,
       message: message ?? this.message,
     );
@@ -29,15 +30,18 @@ class FeedState extends Equatable {
 }
 
 class GetFeedState extends FeedState {
+  late final DateTime updatedAt;
   final List<FeedItem> feedItems;
   final bool isLastPage;
 
-  const GetFeedState({
+  GetFeedState({
     super.uiState = UiState.initial,
     super.message,
     this.feedItems = const [],
     this.isLastPage = false,
-  });
+  }) {
+    updatedAt = DateTime.now();
+  }
 
   @override
   GetFeedState copyWith({
@@ -59,6 +63,7 @@ class GetFeedState extends FeedState {
     String? message,
     List<FeedItem>? feedItems,
     bool? isLastPage,
+    ReactionCollection? reactionCollection,
   }) {
     return GetFeedState(
       uiState: uiState ?? this.uiState,
@@ -72,6 +77,7 @@ class GetFeedState extends FeedState {
 
   @override
   List<Object?> get props => [
+        updatedAt,
         uiState,
         message,
         feedItems,

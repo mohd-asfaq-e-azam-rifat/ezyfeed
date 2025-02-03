@@ -1,5 +1,6 @@
 import 'package:ezyfeed/data/model/local/exception/exceptions.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
+import 'package:ezyfeed/data/model/remote/response/reaction_collection/reaction_collection.dart';
 import 'package:ezyfeed/data/service/local/feed_local_service.dart';
 import 'package:ezyfeed/data/service/remote/feed_remote_service.dart';
 import 'package:injectable/injectable.dart';
@@ -52,6 +53,10 @@ class FeedRepository {
     }
   }
 
+  Future<void> updateCachedFeedPost(FeedItem item) {
+    return _localService.updateCachedFeedPost(item);
+  }
+
   Future<void> clearCachedFeedPosts() {
     return _localService.clearCachedFeedPosts();
   }
@@ -63,6 +68,16 @@ class FeedRepository {
     return _remoteService.createPost(
       text: text,
       backgroundColor: backgroundColor,
+    );
+  }
+
+  Future<ReactionCollection?> reactOnFeedItem({
+    required int feedId,
+    required String reaction,
+  }) async {
+    return _remoteService.reactOnFeedItem(
+      feedId: feedId,
+      reaction: reaction,
     );
   }
 }

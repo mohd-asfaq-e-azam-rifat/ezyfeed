@@ -1,4 +1,4 @@
-abstract class AppConfigEvent {}
+sealed class AppConfigEvent {}
 
 class AppInitialDataRequested extends AppConfigEvent {}
 

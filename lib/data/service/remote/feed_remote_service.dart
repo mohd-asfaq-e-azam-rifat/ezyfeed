@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:ezyfeed/constants.dart';
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:ezyfeed/data/model/remote/response/feed_item/feed_item.dart';
+import 'package:ezyfeed/data/model/remote/response/reaction_collection/reaction_collection.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -56,5 +57,24 @@ class FeedRemoteService {
     );
 
     return response?.data != null ? FeedItem.fromJson(response?.data!) : null;
+  }
+
+  Future<ReactionCollection?> reactOnFeedItem({
+    required int feedId,
+    required String reaction,
+  }) async {
+    Response? response;
+
+    response = await _client.postRequest(
+      endPoint: urlToReactOnFeedPost,
+      data: {
+        ApiKey.feedId: feedId,
+        ApiKey.reactionType: reaction,
+      },
+    );
+
+    return response?.data != null
+        ? ReactionCollection.fromJson(response?.data!)
+        : null;
   }
 }

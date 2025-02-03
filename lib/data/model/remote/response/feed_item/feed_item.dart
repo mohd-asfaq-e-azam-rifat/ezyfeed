@@ -32,7 +32,7 @@ class FeedItem with _$FeedItem {
       _$FeedItemFromJson(json);
 
   bool get hasMyReaction {
-    return myReaction != null;
+    return myReaction?.reactionType != null;
   }
 }
 
