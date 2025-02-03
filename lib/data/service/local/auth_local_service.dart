@@ -1,5 +1,3 @@
-import 'dart:convert' as json_converter;
-
 import 'package:ezyfeed/data/extensions.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';

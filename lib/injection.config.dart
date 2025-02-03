@@ -45,7 +45,6 @@ Future<_i174.GetIt> init(
     environmentFilter,
   );
   final appModule = _$AppModule();
-  gh.factory<_i282.FeedLocalService>(() => _i282.FeedLocalService());
   gh.factory<_i935.CommonRemoteService>(() => _i935.CommonRemoteService());
   gh.factory<_i116.EncryptionHelper>(() => _i116.EncryptionHelper());
   gh.factory<_i308.BaseInterceptor>(() => _i308.BaseInterceptor());
@@ -68,6 +67,8 @@ Future<_i174.GetIt> init(
       () => _i1058.CommonLocalService(gh<_i792.GetStorage>()));
   gh.factory<_i245.AuthLocalService>(
       () => _i245.AuthLocalService(gh<_i792.GetStorage>()));
+  gh.factory<_i282.FeedLocalService>(
+      () => _i282.FeedLocalService(gh<_i792.GetStorage>()));
   gh.factory<_i317.FeedRemoteService>(
       () => _i317.FeedRemoteService(gh<_i361.Dio>()));
   gh.factory<_i702.AuthRemoteService>(

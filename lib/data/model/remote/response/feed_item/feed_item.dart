@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'feed_item.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class FeedItem {
   @JsonKey(defaultValue: null)
   late int? id;

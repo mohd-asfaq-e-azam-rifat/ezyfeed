@@ -32,23 +32,26 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         lastFeedId: event.lastFeedId,
       );
 
-      if (result != null) {
+      final feedItems = result?.$1;
+      final isLastPage = result?.$2;
+
+      if (feedItems != null) {
         if (event.lastFeedId != null &&
             state is GetFeedState &&
             (state as GetFeedState).feedItems.isNotEmpty == true) {
           emit(
             (state as GetFeedState).addWith(
               uiState: UiState.successful,
-              feedItems: result,
-              isLastPage: result.length < 15,
+              feedItems: feedItems,
+              isLastPage: isLastPage,
             ),
           );
         } else {
           emit(
             (state as GetFeedState).copyWith(
               uiState: UiState.successful,
-              feedItems: result,
-              isLastPage: result.length < 15,
+              feedItems: feedItems,
+              isLastPage: isLastPage,
             ),
           );
         }

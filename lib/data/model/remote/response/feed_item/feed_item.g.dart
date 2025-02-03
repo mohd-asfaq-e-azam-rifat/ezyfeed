@@ -38,9 +38,9 @@ Map<String, dynamic> _$FeedItemToJson(FeedItem instance) => <String, dynamic>{
       'updated_at': instance.updatedAt,
       'is_background': instance.isBackground,
       'bg_color': instance.backgroundColor,
-      'user': instance.user,
-      'likeType': instance.reactions,
-      'like': instance.myReaction,
+      'user': instance.user?.toJson(),
+      'likeType': instance.reactions?.map((e) => e.toJson()).toList(),
+      'like': instance.myReaction?.toJson(),
     };
 
 const _$FileTypeEnumMap = {

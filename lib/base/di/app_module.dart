@@ -92,8 +92,8 @@ abstract class AppModule {
     return Dio(
       BaseOptions(
         baseUrl: Env.baseUrl,
-        receiveTimeout: const Duration(seconds: 25),
-        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 5),
+        connectTimeout: const Duration(seconds: 3),
         sendTimeout: const Duration(seconds: 5),
       ),
     )..interceptors.addAll(

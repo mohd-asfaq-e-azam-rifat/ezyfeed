@@ -9,11 +9,11 @@ part of 'pagination_data.dart';
 PaginationData _$PaginationDataFromJson(Map<String, dynamic> json) =>
     PaginationData(
       lastId: (json['last_id'] as num?)?.toInt(),
-      isLastPage: json['package_name'] as bool?,
+      isLastPage: json['is_last_page'] as bool?,
     );
 
 Map<String, dynamic> _$PaginationDataToJson(PaginationData instance) =>
     <String, dynamic>{
       'last_id': instance.lastId,
-      'package_name': instance.isLastPage,
+      'is_last_page': instance.isLastPage,
     };
