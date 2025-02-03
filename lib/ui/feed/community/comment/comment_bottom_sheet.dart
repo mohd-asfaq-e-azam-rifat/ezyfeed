@@ -27,92 +27,200 @@ class _CommentBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _getBloc(),
-      child: BlocConsumer<FeedBloc, FeedState>(
-        listener: (context, state) {
-          if (state.uiState.isError == true) {
-            if (state.message?.trim().isNotEmpty == true) {
-              showToast(message: state.message!.trim());
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: BlocConsumer<FeedBloc, FeedState>(
+          listener: (context, state) {
+            if (state.uiState.isError == true) {
+              if (state.message?.trim().isNotEmpty == true) {
+                showToast(message: state.message!.trim());
+              }
             }
-          }
-        },
-        builder: (context, state) {
-          Widget variableWidget = const SizedBox.shrink();
+          },
+          builder: (context, state) {
+            Widget variableWidget = const SizedBox.shrink();
 
-          switch (state.uiState) {
-            case UiState.loading:
-              variableWidget = Expanded(
-                child: Center(
-                  child: BaseDataLoader(),
-                ),
-              );
-              break;
-
-            case UiState.empty:
-              variableWidget = Expanded(
-                child: Center(
-                  child: Text(
-                    state.message ?? "",
-                    style: textStyleCreatePostAppBarTitle,
+            switch (state.uiState) {
+              case UiState.loading:
+                variableWidget = Expanded(
+                  child: Center(
+                    child: BaseDataLoader(),
                   ),
-                ),
-              );
-              break;
+                );
+                break;
 
-            case UiState.successful:
-              final comments = (state as GetCommentState).comments;
+              case UiState.empty:
+                variableWidget = Expanded(
+                  child: Center(
+                    child: Text(
+                      state.message ?? "",
+                      style: textStyleCreatePostAppBarTitle,
+                    ),
+                  ),
+                );
+                break;
 
-              variableWidget = Expanded(
-                child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final comment = comments[index];
-                    EdgeInsets margin;
-                    if (index == comments.length - 1) {
-                      margin = const EdgeInsets.only(bottom: 32.0);
-                    } else {
-                      margin = const EdgeInsets.all(0.0);
-                    }
+              case UiState.successful:
+                final comments = (state as GetCommentState).comments;
 
-                    return Padding(
-                      padding: margin,
-                      child: comment.isReply == true
+                variableWidget = Expanded(
+                  child: ListView.separated(
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final comment = comments[index];
+                      return comment.isReply == true
                           ? _ReplyItemWidget(comment: comment)
-                          : _CommentItemWidget(comment: comment),
-                    );
-                  },
-                  itemCount: comments.length,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 16.0);
-                  },
+                          : _CommentItemWidget(comment: comment);
+                    },
+                    itemCount: comments.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: 16.0);
+                    },
+                  ),
+                );
+                break;
+
+              default:
+                variableWidget = const SizedBox.shrink();
+                break;
+            }
+
+            return FractionallySizedBox(
+              heightFactor: 0.88,
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: 24.0,
+                  right: 24.0,
+                  top: 24.0,
                 ),
-              );
-              break;
-
-            default:
-              variableWidget = const SizedBox.shrink();
-              break;
-          }
-
-          return FractionallySizedBox(
-            heightFactor: 0.88,
-            child: Container(
-              padding: const EdgeInsets.only(
-                left: 24.0,
-                right: 24.0,
-                top: 24.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 16.0,
+                  children: [
+                    if (item.likeCount != null && item.likeCount! > 0)
+                      _ReactionCountWidget(item: item),
+                    variableWidget,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: _CommentWriterWidget(
+                        feedItem: item,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                spacing: 16.0,
-                children: [
-                  if (item.likeCount != null && item.likeCount! > 0)
-                    _ReactionCountWidget(item: item),
-                  variableWidget,
-                ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _CommentWriterWidget extends StatefulWidget {
+  final FeedItem feedItem;
+
+  const _CommentWriterWidget({
+    super.key,
+    required this.feedItem,
+  });
+
+  @override
+  State<_CommentWriterWidget> createState() => _CommentWriterWidgetState();
+}
+
+class _CommentWriterWidgetState extends State<_CommentWriterWidget> {
+  late TextEditingController _commentController;
+
+  @override
+  void initState() {
+    _commentController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: colorCommentBackground,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(98.0),
+                bottomLeft: Radius.circular(98.0),
               ),
             ),
-          );
-        },
-      ),
+            width: double.maxFinite,
+            child: Row(
+              spacing: 12.0,
+              children: [
+                ClipOval(
+                  child: Image.asset(
+                    "assets/icons/ic_user_avatar.webp",
+                    fit: BoxFit.cover,
+                    width: 44.0,
+                    height: 44.0,
+                  ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    style: textStyleFormText.copyWith(
+                      fontSize: 16.0,
+                      color: colorText9,
+                      height: 1.5,
+                    ),
+                    controller: _commentController,
+                    onTapOutside: (event) {
+                      context.hideKeyboard();
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: "Write a Comment",
+                      contentPadding: const EdgeInsets.all(12.0),
+                      hintStyle: textStyleFormText.copyWith(
+                        fontSize: 16.0,
+                        color: colorText9.withValues(alpha: 0.3),
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: colorBottomBarSelected,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(98.0),
+              bottomRight: Radius.circular(98.0),
+            ),
+          ),
+          child: SvgPicture.asset(
+            "assets/icons/ic_send.svg",
+            fit: BoxFit.contain,
+            width: 24.0,
+            height: 24.0,
+          ),
+        ),
+      ],
     );
   }
 }
