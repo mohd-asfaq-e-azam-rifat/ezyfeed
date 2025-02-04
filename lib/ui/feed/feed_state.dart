@@ -119,11 +119,13 @@ class CreatePostState extends FeedState {
 class GetCommentState extends FeedState {
   late final DateTime updatedAt;
   final List<Comment> comments;
+  final bool shouldUpdate;
 
   GetCommentState({
     super.uiState = UiState.initial,
     super.message,
     this.comments = const [],
+    this.shouldUpdate = false,
   }) {
     updatedAt = DateTime.now();
   }
@@ -133,12 +135,13 @@ class GetCommentState extends FeedState {
     UiState? uiState,
     String? message,
     List<Comment>? comments,
-    bool? isLastPage,
+    bool? shouldUpdate,
   }) {
     return GetCommentState(
       uiState: uiState ?? this.uiState,
       message: message ?? this.message,
       comments: comments ?? this.comments,
+      shouldUpdate: shouldUpdate ?? this.shouldUpdate,
     );
   }
 
@@ -148,5 +151,6 @@ class GetCommentState extends FeedState {
         uiState,
         message,
         comments,
+        shouldUpdate,
       ];
 }

@@ -93,4 +93,14 @@ class FeedRepository {
   }) async {
     return _remoteService.getReplies(commentId: commentId);
   }
+
+  Future<Comment?> createComment({
+    required int feedId,
+    required String text,
+  }) async {
+    return _remoteService.createComment(
+      feedId: feedId,
+      text: text,
+    );
+  }
 }

@@ -38,6 +38,24 @@ class _CommentBottomSheet extends StatelessWidget {
                 showToast(message: state.message!.trim());
               }
             }
+
+            if (state is GetCommentState &&
+                state.shouldUpdate == true &&
+                state.uiState.isSuccessful == true) {
+              if (state.message?.trim().isNotEmpty == true) {
+                showToast(message: state.message!.trim());
+              }
+
+              final bloc = context.read<FeedBloc>();
+              if (item.id != null) {
+                bloc.add(
+                  CommentsRequested(
+                    feedId: item.id!,
+                    shouldShowLoading: true,
+                  ),
+                );
+              }
+            }
           },
           builder: (context, state) {
             Widget variableWidget = const SizedBox.shrink();
@@ -146,6 +164,13 @@ class _CommentWriterWidgetState extends State<_CommentWriterWidget> {
     super.dispose();
   }
 
+  bool _validateForm() {
+    final comment = _commentController.text.trim();
+    final isValid = comment.isNotEmpty;
+
+    return isValid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -204,21 +229,42 @@ class _CommentWriterWidgetState extends State<_CommentWriterWidget> {
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: colorBottomBarSelected,
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(98.0),
-              bottomRight: Radius.circular(98.0),
-            ),
-          ),
-          child: SvgPicture.asset(
-            "assets/icons/ic_send.svg",
-            fit: BoxFit.contain,
-            width: 24.0,
-            height: 24.0,
-          ),
+        BlocBuilder<FeedBloc, FeedState>(
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                context.hideKeyboard();
+
+                if (_validateForm() == true) {
+                  context.read<FeedBloc>().add(
+                        CommentCreationRequested(
+                          feedId: widget.feedItem.id!,
+                          text: _commentController.text.trim(),
+                        ),
+                      );
+                  _commentController.clear();
+                } else {
+                  showToast(message: "Please add a valid comment.");
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: colorBottomBarSelected,
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(98.0),
+                    bottomRight: Radius.circular(98.0),
+                  ),
+                ),
+                child: SvgPicture.asset(
+                  "assets/icons/ic_send.svg",
+                  fit: BoxFit.contain,
+                  width: 24.0,
+                  height: 24.0,
+                ),
+              ),
+            );
+          },
         ),
       ],
     );

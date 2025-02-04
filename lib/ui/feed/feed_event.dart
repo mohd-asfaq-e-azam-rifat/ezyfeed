@@ -39,3 +39,13 @@ class CommentsRequested extends FeedEvent {
     required this.feedId,
   });
 }
+
+class CommentCreationRequested extends FeedEvent {
+  final int feedId;
+  final String text;
+
+  CommentCreationRequested({
+    required this.feedId,
+    required this.text,
+  });
+}

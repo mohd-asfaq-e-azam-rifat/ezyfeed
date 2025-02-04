@@ -333,6 +333,7 @@ abstract class ApiKey {
   static const more = "more";
   static const feedId = "feed_id";
   static const reactionType = "reaction_type";
+  static const commentText = "comment_txt";
 }
 
 abstract class ApiValue {
@@ -382,3 +383,4 @@ const urlToGetFeed = "/teacher/community/getFeed";
 const urlToReactOnFeedPost = "/teacher/community/createLike";
 const urlToGetComments = "/student/comment/getComment";
 const urlToGetReplies = "/student/comment/getReply";
+const urlToCreateComment = "/student/comment/createComment";

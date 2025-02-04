@@ -110,4 +110,21 @@ class FeedRemoteService {
             .toList()
         : null;
   }
+
+  Future<Comment?> createComment({
+    required int feedId,
+    required String text,
+  }) async {
+    Response? response;
+
+    response = await _client.postRequest(
+      endPoint: urlToCreateComment,
+      data: {
+        ApiKey.feedId: feedId,
+        ApiKey.commentText: text,
+      },
+    );
+
+    return response?.data != null ? Comment.fromJson(response?.data!) : null;
+  }
 }

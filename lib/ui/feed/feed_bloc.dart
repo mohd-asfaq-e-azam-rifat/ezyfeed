@@ -18,6 +18,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<PostCreationRequested>(_onPostCreationRequested);
     on<ReactionRequested>(_onReactionRequested);
     on<CommentsRequested>(_onCommentsRequested);
+    on<CommentCreationRequested>(_onCommentCreationRequested);
   }
 
   Future<void> _onFeedItemsRequested(
@@ -257,6 +258,42 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           (state as GetCommentState).copyWith(
             uiState: UiState.successful,
             comments: finalList,
+          ),
+        );
+      }
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          uiState: UiState.error,
+          message: e.getErrorMessage(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onCommentCreationRequested(
+    CommentCreationRequested event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      final result = await _feedRepository.createComment(
+        feedId: event.feedId,
+        text: event.text,
+      );
+
+      if (result != null) {
+        emit(
+          (state as GetCommentState).copyWith(
+            uiState: UiState.successful,
+            message: "Comment added successfully",
+            shouldUpdate: true,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            uiState: UiState.error,
+            message: "No new feed item found",
           ),
         );
       }
