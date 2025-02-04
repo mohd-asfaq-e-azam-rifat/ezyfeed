@@ -1,8 +1,4 @@
 import 'package:ezyfeed/data/model/local/exception/exceptions.dart';
-import 'package:ezyfeed/data/repository/auth_repository.dart';
-import 'package:ezyfeed/data/repository/common_repository.dart';
-import 'package:ezyfeed/injection.dart';
-import 'package:ezyfeed/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,101 +19,6 @@ extension NavigationContextX on BuildContext {
       isScrollControlled: isScrollControlled,
       useSafeArea: useSafeArea,
     );
-  }
-
-  void back<T extends Object?>({T? result}) {
-    Navigator.pop<T>(this, result);
-  }
-
-  Future<T?> to<T extends Object?>(
-    String routeName, {
-    Object? arguments,
-    bool clearBackstack = false,
-    bool requiresAuth = false,
-  }) async {
-    Future<R?> innerTo<R extends Object?>(
-      String routeName, {
-      Object? arguments,
-      bool clearBackstack = false,
-    }) {
-      if (clearBackstack == true) {
-        return Navigator.pushNamedAndRemoveUntil<R>(
-          this,
-          routeName,
-          (route) => false,
-          arguments: arguments,
-        );
-      } else {
-        return Navigator.pushNamed<R>(
-          this,
-          routeName,
-          arguments: arguments,
-        );
-      }
-    }
-
-    if (ModalRoute.of(this)?.settings.name == routeName) {
-      return null;
-    } else if (routeName.routeExists() == true) {
-      if (requiresAuth == true &&
-          getIt<AuthRepository>().isLoggedIn() == false) {
-        await getIt<CommonRepository>().storeDestinationAfterLogin(routeName);
-        return Future.error(
-          UnauthenticatedException("Login to continue", routeName),
-        );
-      } else {
-        return innerTo<T>(
-          routeName,
-          arguments: arguments,
-          clearBackstack: clearBackstack,
-        );
-      }
-    } else {
-      return Future.error(
-        ComingSoonFeatureException("Invalid URL found"),
-      );
-    }
-  }
-
-  Future<T?> replace<T extends Object?, TO extends Object?>(
-    String routeName, {
-    TO? result,
-    Object? arguments,
-  }) {
-    return Navigator.pushReplacementNamed<T, TO>(
-      this,
-      routeName,
-      arguments: arguments,
-      result: result,
-    );
-  }
-}
-
-extension NavigationStringX on String {
-  bool routeExists() {
-    return routes.contains(this);
-  }
-
-  Future<T?> to<T extends Object?>(
-    BuildContext context, {
-    Object? arguments,
-    bool clearBackstack = false,
-    bool requiresAuth = false,
-  }) async {
-    return context.to<T>(
-      this,
-      arguments: arguments,
-      clearBackstack: clearBackstack,
-      requiresAuth: requiresAuth,
-    );
-  }
-
-  Future<T?> replace<T extends Object?, TO extends Object?>(
-    BuildContext context, {
-    TO? result,
-    Object? arguments,
-  }) {
-    return context.replace<T, TO>(this, result: result, arguments: arguments);
   }
 }
 

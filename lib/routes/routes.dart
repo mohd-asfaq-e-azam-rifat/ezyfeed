@@ -1,69 +1,52 @@
 import 'dart:core';
+
+import 'package:ezyfeed/base/app_config/app_config_state.dart';
 import 'package:ezyfeed/ui/authentication/login/login_page.dart';
+import 'package:ezyfeed/ui/feed/create_post/create_post_page.dart';
 import 'package:ezyfeed/ui/home/home_page.dart';
 import 'package:ezyfeed/ui/splash_screen/splash_screen.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Routes {
-  static String initialRoute = Routes.root;
-
-  static const root = "ezyfeedapp://";
-  static const login = "ezyfeedapp://login";
-  static const home = "ezyfeedapp://home";
+  static const root = "root";
+  static const login = "login";
+  static const home = "home";
+  static const createPost = "create-post";
 }
 
-List<String> get routes {
-  return [
-    Routes.root,
-    Routes.login,
-    Routes.home,
-  ];
+class RoutePaths {
+  static const root = "/";
+  static const login = "/login";
+  static const home = "/home";
+  static const createPost = "create-post";
 }
 
-Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-  PageRoute<T> buildRoute<T>({
-    required WidgetBuilder builder,
-    bool isFullScreenDialog = false,
-    bool isCancelable = false,
-    bool isCupertino = false,
-  }) {
-    if (isCupertino == true) {
-      return CupertinoPageRoute<T>(
-        builder: builder,
-        fullscreenDialog: isFullScreenDialog,
-        barrierDismissible: isCancelable,
-      );
-    } else {
-      return MaterialPageRoute<T>(
-        builder: builder,
-        fullscreenDialog: isFullScreenDialog,
-        barrierDismissible: isCancelable,
-      );
-    }
-  }
-
-  if (settings.name == null) {
-    return null;
-  }
-
-  switch (settings.name!) {
-    case Routes.root:
-      return buildRoute(
-        builder: (_) => const SplashScreen(),
-      );
-
-    case Routes.login:
-      return buildRoute(
-        builder: (_) => const LoginPage(),
-      );
-
-    case Routes.home:
-      return buildRoute(
-        builder: (_) => const HomePage(),
-      );
-
-    default:
-      return null;
-  }
-}
+// GoRouter configuration
+final router = GoRouter(
+  navigatorKey: AppConfigState.appKey,
+  initialLocation: RoutePaths.root,
+  routes: [
+    GoRoute(
+      name: Routes.root,
+      path: RoutePaths.root,
+      builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      name: Routes.login,
+      path: RoutePaths.login,
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      name: Routes.home,
+      path: RoutePaths.home,
+      builder: (context, state) => const HomePage(),
+      routes: <RouteBase>[
+        GoRoute(
+          name: Routes.createPost,
+          path: RoutePaths.createPost,
+          builder: (context, state) => const CreatePostPage(),
+        ),
+      ],
+    ),
+  ],
+);

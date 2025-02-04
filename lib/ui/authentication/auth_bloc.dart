@@ -11,22 +11,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
 
   AuthBloc(this._authRepository) : super(const AuthState()) {
-    on<LoginViaGoogleRequested>(_onLoginViaGoogleRequested);
+    on<LoginRequested>(_onLoginRequested);
     on<LogOutRequested>(_onLogOutRequested);
   }
 
-  Future<void> _onLoginViaGoogleRequested(
-    LoginViaGoogleRequested event,
+  Future<void> _onLoginRequested(
+    LoginRequested event,
     Emitter<AuthState> emit,
   ) async {
     try {
       emit(state.copyWith(uiState: UiState.loading));
-      final result = await _authRepository.requestForGoogleAuth();
-      emit(
-        state.copyWith(
-          uiState: result?.token != null ? UiState.successful : UiState.error,
-        ),
+
+      final result = await _authRepository.logIn(
+        email: event.email,
+        password: event.password,
       );
+
+      if (result?.type != null && result?.token != null) {
+        emit(LoggedInSuccessfully());
+      } else {
+        emit(
+          state.copyWith(
+            uiState: UiState.error,
+            message: "Token malfunction found",
+          ),
+        );
+      }
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -43,13 +53,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       emit(state.copyWith(uiState: UiState.loading));
-      await _authRepository.logOut();
 
-      emit(
-        state.copyWith(
-          uiState: UiState.successful,
-        ),
-      );
+      await _authRepository.logOut();
+      emit(LoggedOutSuccessfully());
     } on Exception catch (e) {
       emit(
         state.copyWith(

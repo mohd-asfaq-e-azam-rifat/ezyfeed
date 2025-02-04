@@ -8,6 +8,7 @@ class BaseFilledButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color textColor;
   final Color backgroundColor;
+  final Color progressColor;
   final bool isLoading;
   final double? buttonWidth;
   final double? buttonHeight;
@@ -19,6 +20,7 @@ class BaseFilledButton extends StatelessWidget {
     required this.onPressed,
     this.textColor = Colors.white,
     this.backgroundColor = colorPrimary,
+    this.progressColor = colorAccent,
     this.isLoading = false,
     this.buttonWidth,
     this.buttonHeight,
@@ -35,14 +37,14 @@ class BaseFilledButton extends StatelessWidget {
             height: buttonHeight,
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 width: 20.0,
                 height: 20.0,
                 child: BaseDataLoader(
-                  customColor: Colors.white,
+                  customColor: progressColor,
                   strokeWidth: 2.5,
                 ),
               ),
@@ -59,31 +61,30 @@ class BaseFilledButton extends StatelessWidget {
                     }
                   : null,
               style: buttonStyle?.copyWith(
-                foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
+                foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.disabled)) {
                       return colorDisabled2;
                     } else {
                       return textColor;
                     }
                   },
                 ),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.disabled)) {
                       return colorDisabled1;
                     } else {
                       return backgroundColor;
                     }
                   },
                 ),
-                textStyle: MaterialStateProperty.all<TextStyle?>(
+                textStyle: WidgetStateProperty.all<TextStyle?>(
                   TextStyle(
-                    fontFamily: fontFamilyRoboto,
-                    fontWeight: FontWeight.w700,
+                    fontFamily: fontFamilyFigtree,
+                    fontWeight: FontWeight.w600,
                     fontSize: fontSize,
                     height: 1.172,
-                    letterSpacing: 0.12,
                   ),
                 ),
               ),

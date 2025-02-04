@@ -16,16 +16,6 @@ final getIt = GetIt.instance;
 Future<void> configurePreDependencies() async {
    await init(getIt);
 
-  // Pass all uncaught errors from the framework to Crashlytics
-  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
-  // Pass all uncaught asynchronous errors
-  // that aren't handled by the Flutter framework to Crashlytics
-  /*PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };*/
-
   if (appInfo.isDebugBuild() == true) {
     Bloc.observer = DebugBlocObserver();
   }
@@ -39,7 +29,7 @@ Future<void> configurePostDependencies() async {
   appInfo.versionName = packageInfoPlugin.version;
   appInfo.versionCode = packageInfoPlugin.buildNumber;
 
-  final userAgent = "Aladin"
+  final userAgent = "${appInfo.appName}"
       "/${appInfo.versionName ?? ""}"
       "/${appInfo.platform?.name ?? ""}"
       "/${appInfo.platformVersion ?? ""}"

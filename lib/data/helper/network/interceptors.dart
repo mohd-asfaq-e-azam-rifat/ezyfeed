@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:ezyfeed/base/di/app_module.dart';
 import 'package:ezyfeed/constants.dart';
-import 'package:ezyfeed/data/provider/local/auth_local_provider.dart';
-import 'package:ezyfeed/data/provider/local/common_local_provider.dart';
+import 'package:ezyfeed/data/service/local/auth_local_service.dart';
+import 'package:ezyfeed/data/service/local/common_local_service.dart';
 import 'package:ezyfeed/injection.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
@@ -13,14 +13,14 @@ import 'package:uuid/uuid.dart';
 @injectable
 @singleton
 class BaseInterceptor extends Interceptor {
-  late CommonLocalProvider _globalProvider;
-  late AuthLocalProvider _authProvider;
+  late CommonLocalService _globalProvider;
+  late AuthLocalService _authProvider;
   late Uuid _uuid;
 
   BaseInterceptor() {
     _uuid = const Uuid();
-    _globalProvider = getIt<CommonLocalProvider>();
-    _authProvider = getIt<AuthLocalProvider>();
+    _globalProvider = getIt<CommonLocalService>();
+    _authProvider = getIt<AuthLocalService>();
   }
 
   @override
@@ -40,7 +40,7 @@ class BaseInterceptor extends Interceptor {
         HttpHeaders.userAgentHeader: appInfo.userAgent ?? "",
         HttpHeaders.acceptLanguageHeader: language,
         if (requiresAuth == true && accessToken != null)
-          CustomHttpHeader.token: accessToken,
+          CustomHttpHeader.authorization: accessToken,
       },
     );
     super.onRequest(options, handler);

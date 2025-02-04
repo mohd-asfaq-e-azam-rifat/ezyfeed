@@ -4,7 +4,6 @@ import 'package:ezyfeed/base/app_config/app_config_event.dart';
 import 'package:ezyfeed/base/app_config/app_config_state.dart';
 import 'package:ezyfeed/base/helper/async.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
-import 'package:ezyfeed/data/model/local/user/user.dart';
 import 'package:ezyfeed/data/repository/auth_repository.dart';
 import 'package:ezyfeed/data/repository/common_repository.dart';
 import 'package:ezyfeed/injection.dart';
@@ -26,7 +25,6 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
           ),
         ) {
     on<UserAuthStateUpdated>(_onUserAuthStateUpdated);
-    on<AppConfigDataRequested>(_onAppConfigDataRequested);
     on<AppInitialDataRequested>(_onAppInitialDataRequested);
   }
 
@@ -46,40 +44,16 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
       await _commonRepository.storeThemeMode(state.themeMode);
     }
 
-    await delayWithAction(
-      milliseconds: 2000,
-      action: () {
-        print("2 Seconds has been completed.");
-      },
-    );
+    await delay(milliseconds: 1500);
 
     emit(
       state.copyWith(
         uiState: UiState.successful,
         themeMode: themeMode,
         locale: savedLocale,
-        authState: _authRepository.getUserAuthState(),
+        authState: getUserAuthState(),
       ),
     );
-  }
-
-  Future<void> _onAppConfigDataRequested(
-    AppConfigEvent event,
-    Emitter<AppConfigState> emit,
-  ) async {
-    final savedLocale = _commonRepository.getLanguage();
-    if (savedLocale == null) {
-      await _commonRepository.storeLanguage(state.locale);
-    } else {
-      emit(state.copyWith(locale: savedLocale));
-    }
-
-    final themeMode = _commonRepository.getThemeMode();
-    if (themeMode == null) {
-      await _commonRepository.storeThemeMode(state.themeMode);
-    } else {
-      emit(state.copyWith(themeMode: themeMode));
-    }
   }
 
   Future<void> _onUserAuthStateUpdated(
@@ -88,12 +62,12 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
   ) async {
     emit(
       state.copyWith(
-        authState: _authRepository.getUserAuthState(),
+        authState: getUserAuthState(),
       ),
     );
   }
 
-  User? getCurrentUser() {
-    return _authRepository.getCurrentUser();
+  UserAuthState getUserAuthState() {
+    return _authRepository.getUserAuthState();
   }
 }

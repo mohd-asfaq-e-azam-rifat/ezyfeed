@@ -1,5 +1,8 @@
 import 'package:ezyfeed/constants.dart';
+import 'package:ezyfeed/ui/feed/community/community_page.dart';
+import 'package:ezyfeed/ui/home/logout_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   final int pageIndex;
@@ -14,6 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const _indexCommunity = 0;
+  static const _indexLogout = 1;
+
   late int _pageIndex;
 
   @override
@@ -24,50 +30,114 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarTheme = Theme.of(context).appBarTheme;
+
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text("Python Developer Community"),
-        titleTextStyle: textStyleAppBarTitle,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 16.0,
+            children: [
+              SvgPicture.asset(
+                "assets/icons/ic_menu.svg",
+                fit: BoxFit.contain,
+                width: 32.0,
+                height: 32.0,
+              ),
+              Column(
+                spacing: 4.0,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Python Developer Community",
+                    style: textStyleHomeAppBarTitle,
+                  ),
+                  Text(
+                    "#General",
+                    style: textStyleHomeAppBarSubtitle,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        toolbarHeight: 112.0,
+        backgroundColor: colorAppBarBackground,
+        systemOverlayStyle: appBarTheme.systemOverlayStyle?.copyWith(
+          systemNavigationBarColor: colorBottomBarBackground,
+          systemNavigationBarIconBrightness: Brightness.dark,
+        ),
       ),
       body: <Widget>[
-        Container(color: Colors.redAccent),
-        Container(color: Colors.greenAccent),
-        Container(color: Colors.yellowAccent),
+        CommunityPage(),
       ][_pageIndex],
       bottomNavigationBar: NavigationBar(
+        elevation: 12.0,
         onDestinationSelected: (int index) {
-          setState(() {
-            _pageIndex = index;
-          });
+          _onNavigationBarItemTapped(context, index);
         },
-        indicatorColor: Colors.amber,
         selectedIndex: _pageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+        destinations: <Widget>[
+          BottomBarItemWidget(
+            iconPath: "assets/icons/ic_community.svg",
+            label: "Community",
+            isSelected: _pageIndex == _indexCommunity,
           ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.messenger_sharp),
-            ),
-            label: 'Messages',
+          BottomBarItemWidget(
+            iconPath: "assets/icons/ic_logout.svg",
+            label: "Logout",
+            isSelected: _pageIndex == _indexLogout,
           ),
         ],
       ),
     );
   }
 
-  void _onNavigationBarItemTapped(int index) {
+  void _onNavigationBarItemTapped(BuildContext context, int index) {
+    if (index == _indexLogout) {
+      showDialog(
+        context: context,
+        builder: (context) => LogoutDialog(),
+        barrierColor: colorBackgroundDim,
+      );
+
+      return;
+    }
+
     setState(() {
       _pageIndex = index;
     });
+  }
+}
+
+class BottomBarItemWidget extends StatelessWidget {
+  final String iconPath;
+  final String label;
+  final bool isSelected;
+
+  const BottomBarItemWidget({
+    super.key,
+    required this.iconPath,
+    required this.label,
+    required this.isSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationDestination(
+      icon: SvgPicture.asset(
+        iconPath,
+        fit: BoxFit.contain,
+        width: 24.0,
+        height: 24.0,
+        colorFilter: ColorFilter.mode(
+          isSelected ? colorBottomBarSelected : colorBottomBarNotSelected,
+          BlendMode.srcIn,
+        ),
+      ),
+      label: label,
+    );
   }
 }

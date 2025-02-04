@@ -1,66 +1,52 @@
-import 'package:ezyfeed/base/app_config/app_config_bloc.dart';
-import 'package:ezyfeed/base/app_config/app_config_event.dart';
-import 'package:ezyfeed/base/app_config/app_config_state.dart';
-import 'package:ezyfeed/base/navigation/navigation.dart';
 import 'package:ezyfeed/base/state/basic/basic_state.dart';
-import 'package:ezyfeed/data/model/local/user/user.dart';
 import 'package:ezyfeed/data/model/remote/response/base/api_response.dart';
-import 'package:ezyfeed/data/provider/local/auth_local_provider.dart';
-import 'package:ezyfeed/data/provider/remote/auth_remote_provider.dart';
-import 'package:ezyfeed/routes/routes.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ezyfeed/data/service/local/auth_local_service.dart';
+import 'package:ezyfeed/data/service/remote/auth_remote_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 @lazySingleton
 class AuthRepository {
-  final AuthLocalProvider _localProvider;
-  final AuthRemoteProvider _remoteProvider;
+  final AuthLocalService _localService;
+  final AuthRemoteService _remoteService;
 
   AuthRepository(
-    this._localProvider,
-    this._remoteProvider,
+    this._localService,
+    this._remoteService,
   );
 
-  Future<ApiResponse<void>?> requestForGoogleAuth() async {
-    return null;
+  Future<ApiResponse<void>?> logIn({
+    required String email,
+    required String password,
+  }) async {
+    final response = await _remoteService.logIn(
+      email: email,
+      password: password,
+    );
+
+    if (response?.type != null && response?.token != null) {
+      _localService.setAuthToken("${response!.type!} ${response.token!}");
+      _localService.setLastLoginTimestamp(DateTime.now());
+    }
+
+    return response;
   }
 
-  Future<void> logOut() async {
-    // TODO: [auth] fix logging out from remote
-    //final response = await _remoteProvider.logOut();
+  Future<ApiResponse<void>?> logOut() async {
+    final response = await _remoteService.logOut();
 
     // clear local state
     await clearLocalSession();
 
-    // log out from 3rd parties
-
-    // update app states and navigation
-    final context = AppConfigState.appKey.currentContext;
-    context?.read<AppConfigBloc>().add(UserAuthStateUpdated());
-    context?.to(Routes.root, clearBackstack: true);
-  }
-
-  Future<void> setCurrentUser(User user) {
-    return _localProvider.setCurrentUser(user);
-  }
-
-  User? getCurrentUser() {
-    return _localProvider.getCurrentUser();
-  }
-
-  String? getEmployeeId() {
-    return getCurrentUser()?.employeeId;
+    return response;
   }
 
   Future<void> clearLocalSession() async {
-    await _localProvider.clearAuthToken();
-    await _localProvider.clearCurrentUser();
-    await _localProvider.clearLastLoginTimestamp();
+    await _localService.clearAllCaches();
   }
 
   bool isLoggedIn() {
-    return _localProvider.getAuthToken() != null;
+    return _localService.getAuthToken() != null;
   }
 
   UserAuthState getUserAuthState() {

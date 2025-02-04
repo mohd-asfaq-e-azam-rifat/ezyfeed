@@ -8,32 +8,27 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:device_info_plus/device_info_plus.dart' as _i833;
 import 'package:dio/dio.dart' as _i361;
 import 'package:ezyfeed/base/app_config/app_config_bloc.dart' as _i1067;
 import 'package:ezyfeed/base/di/app_module.dart' as _i824;
-import 'package:ezyfeed/base/helper/debouncer.dart' as _i59;
+import 'package:ezyfeed/base/helper/debounce.dart' as _i908;
+import 'package:ezyfeed/data/helper/date_time/date_time_helper.dart' as _i857;
 import 'package:ezyfeed/data/helper/encryption/encryption_helper.dart' as _i116;
 import 'package:ezyfeed/data/helper/network/interceptors.dart' as _i308;
 import 'package:ezyfeed/data/model/local/app_info/app_info.dart' as _i513;
-import 'package:ezyfeed/data/provider/local/auth_local_provider.dart' as _i559;
-import 'package:ezyfeed/data/provider/local/common_local_provider.dart'
-    as _i269;
-import 'package:ezyfeed/data/provider/local/employee_local_provider.dart'
-    as _i384;
-import 'package:ezyfeed/data/provider/local/leave_local_provider.dart'
-    as _i1055;
-import 'package:ezyfeed/data/provider/remote/auth_remote_provider.dart'
-    as _i979;
-import 'package:ezyfeed/data/provider/remote/common_remote_provider.dart'
-    as _i690;
-import 'package:ezyfeed/data/provider/remote/employee_remote_provider.dart'
-    as _i992;
-import 'package:ezyfeed/data/provider/remote/leave_remote_provider.dart'
-    as _i325;
 import 'package:ezyfeed/data/repository/auth_repository.dart' as _i244;
 import 'package:ezyfeed/data/repository/common_repository.dart' as _i934;
-import 'package:ezyfeed/data/repository/leave_repository.dart' as _i1045;
+import 'package:ezyfeed/data/repository/feed_repository.dart' as _i592;
+import 'package:ezyfeed/data/service/local/auth_local_service.dart' as _i245;
+import 'package:ezyfeed/data/service/local/common_local_service.dart' as _i1058;
+import 'package:ezyfeed/data/service/local/feed_local_service.dart' as _i282;
+import 'package:ezyfeed/data/service/remote/auth_remote_service.dart' as _i702;
+import 'package:ezyfeed/data/service/remote/common_remote_service.dart'
+    as _i935;
+import 'package:ezyfeed/data/service/remote/feed_remote_service.dart' as _i317;
 import 'package:ezyfeed/ui/authentication/auth_bloc.dart' as _i36;
+import 'package:ezyfeed/ui/feed/feed_bloc.dart' as _i797;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:get_storage/get_storage.dart' as _i792;
 import 'package:injectable/injectable.dart' as _i526;
@@ -50,12 +45,16 @@ Future<_i174.GetIt> init(
     environmentFilter,
   );
   final appModule = _$AppModule();
-  gh.factory<_i1055.LeaveLocalProvider>(() => _i1055.LeaveLocalProvider());
-  gh.factory<_i690.CommonRemoteProvider>(() => _i690.CommonRemoteProvider());
+  gh.factory<_i935.CommonRemoteService>(() => _i935.CommonRemoteService());
   gh.factory<_i116.EncryptionHelper>(() => _i116.EncryptionHelper());
   gh.factory<_i308.BaseInterceptor>(() => _i308.BaseInterceptor());
+  gh.factory<_i857.DateTimeHelper>(() => _i857.DateTimeHelper());
   await gh.factoryAsync<_i792.GetStorage>(
     () => appModule.getStorage,
+    preResolve: true,
+  );
+  await gh.factoryAsync<_i833.AndroidDeviceInfo>(
+    () => appModule.androidInfo,
     preResolve: true,
   );
   await gh.factoryAsync<_i513.AppInfo>(
@@ -63,32 +62,31 @@ Future<_i174.GetIt> init(
     preResolve: true,
   );
   gh.factory<_i361.Dio>(() => appModule.dioClient);
-  gh.factory<_i59.Debouncer>(() => _i59.Debouncer());
-  gh.factory<_i269.CommonLocalProvider>(
-      () => _i269.CommonLocalProvider(gh<_i792.GetStorage>()));
-  gh.factory<_i559.AuthLocalProvider>(
-      () => _i559.AuthLocalProvider(gh<_i792.GetStorage>()));
-  gh.factory<_i384.EmployeeLocalProvider>(
-      () => _i384.EmployeeLocalProvider(gh<_i792.GetStorage>()));
-  gh.factory<_i992.EmployeeRemoteProvider>(
-      () => _i992.EmployeeRemoteProvider(gh<_i361.Dio>()));
-  gh.factory<_i325.LeaveRemoteProvider>(
-      () => _i325.LeaveRemoteProvider(gh<_i361.Dio>()));
-  gh.factory<_i979.AuthRemoteProvider>(
-      () => _i979.AuthRemoteProvider(gh<_i361.Dio>()));
-  gh.factory<_i1045.LeaveRepository>(() => _i1045.LeaveRepository(
-        gh<_i1055.LeaveLocalProvider>(),
-        gh<_i325.LeaveRemoteProvider>(),
+  gh.factory<_i908.DebounceHelper>(() => _i908.DebounceHelper());
+  gh.factory<_i1058.CommonLocalService>(
+      () => _i1058.CommonLocalService(gh<_i792.GetStorage>()));
+  gh.factory<_i245.AuthLocalService>(
+      () => _i245.AuthLocalService(gh<_i792.GetStorage>()));
+  gh.factory<_i282.FeedLocalService>(
+      () => _i282.FeedLocalService(gh<_i792.GetStorage>()));
+  gh.factory<_i317.FeedRemoteService>(
+      () => _i317.FeedRemoteService(gh<_i361.Dio>()));
+  gh.factory<_i702.AuthRemoteService>(
+      () => _i702.AuthRemoteService(gh<_i361.Dio>()));
+  gh.factory<_i244.AuthRepository>(() => _i244.AuthRepository(
+        gh<_i245.AuthLocalService>(),
+        gh<_i702.AuthRemoteService>(),
       ));
   gh.factory<_i934.CommonRepository>(() => _i934.CommonRepository(
-        gh<_i269.CommonLocalProvider>(),
-        gh<_i690.CommonRemoteProvider>(),
+        gh<_i1058.CommonLocalService>(),
+        gh<_i935.CommonRemoteService>(),
       ));
-  gh.factory<_i244.AuthRepository>(() => _i244.AuthRepository(
-        gh<_i559.AuthLocalProvider>(),
-        gh<_i979.AuthRemoteProvider>(),
+  gh.factory<_i592.FeedRepository>(() => _i592.FeedRepository(
+        gh<_i282.FeedLocalService>(),
+        gh<_i317.FeedRemoteService>(),
       ));
   gh.factory<_i36.AuthBloc>(() => _i36.AuthBloc(gh<_i244.AuthRepository>()));
+  gh.factory<_i797.FeedBloc>(() => _i797.FeedBloc(gh<_i592.FeedRepository>()));
   gh.factory<_i1067.AppConfigBloc>(() => _i1067.AppConfigBloc(
         gh<_i934.CommonRepository>(),
         gh<_i244.AuthRepository>(),
